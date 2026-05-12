@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
+import { put } from "@vercel/blob";
 
 const IMAGE_TYPES = new Set([
   "image/jpeg",
@@ -33,6 +34,28 @@ function extForImage(orig: string): string {
   if ([".jpg", ".jpeg", ".png", ".webp", ".gif"].includes(fromName))
     return fromName;
   return ".jpg";
+}
+
+/** Vercel Blob when `BLOB_READ_WRITE_TOKEN` is set; else `public/uploads` (local). */
+async function persistUpload(
+  filename: string,
+  buffer: Buffer,
+  contentType: string,
+): Promise<string> {
+  const token = process.env.BLOB_READ_WRITE_TOKEN?.trim();
+  if (token) {
+    const blob = await put(`jeulumi/${filename}`, buffer, {
+      access: "public",
+      addRandomSuffix: false,
+      contentType: contentType || "application/octet-stream",
+      token,
+    });
+    return blob.url;
+  }
+  const uploadDir = path.join(process.cwd(), "public", "uploads");
+  await fs.mkdir(uploadDir, { recursive: true });
+  await fs.writeFile(path.join(uploadDir, filename), buffer);
+  return `/uploads/${filename}`;
 }
 
 export async function POST(req: Request) {
@@ -80,20 +103,20 @@ export async function POST(req: Request) {
       ? extForVideo(orig, file.type)
       : extForImage(orig);
     const filename = `${randomUUID()}${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    await fs.mkdir(uploadDir, { recursive: true });
-    await fs.writeFile(path.join(uploadDir, filename), buffer);
-
-    return NextResponse.json({ url: `/uploads/${filename}` });
+    const url = await persistUpload(filename, buffer, file.type);
+    return NextResponse.json({ url });
   } catch (e) {
     const msg =
       e instanceof Error ? e.message : "Upload could not be completed";
     const readOnly = /EROFS|EPERM|EACCES|read-only/i.test(msg);
+    const noBlob = !process.env.BLOB_READ_WRITE_TOKEN?.trim();
     return NextResponse.json(
       {
-        error: readOnly
-          ? "Cannot save files on this server (read-only disk). Use “Paste URL” with an image link, or run the site locally for uploads."
-          : msg,
+        error: readOnly && noBlob
+          ? "This host cannot write files to disk. In Vercel: create a Blob store, copy the Read/Write token, and add env var BLOB_READ_WRITE_TOKEN to this project (then redeploy). Or use “Paste URL”, or run the site locally."
+          : readOnly
+            ? "Could not save file. Check BLOB_READ_WRITE_TOKEN or use “Paste URL” / local dev."
+            : msg,
       },
       { status: 500 },
     );
