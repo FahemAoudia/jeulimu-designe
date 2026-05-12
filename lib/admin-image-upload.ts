@@ -7,9 +7,31 @@ export async function postAdminUpload(file: File): Promise<string> {
     body: fd,
     credentials: "include",
   });
-  const j = (await res.json()) as { error?: string; url?: string };
-  if (!res.ok) throw new Error(j.error ?? "Upload failed");
-  if (!j.url) throw new Error("Upload failed");
+  const raw = await res.text();
+  let j: { error?: string; url?: string } = {};
+  if (raw.trim()) {
+    try {
+      j = JSON.parse(raw) as { error?: string; url?: string };
+    } catch {
+      /* non-JSON body (e.g. proxy HTML) */
+    }
+  }
+  if (!res.ok) {
+    throw new Error(
+      j.error ??
+        (raw.trim()
+          ? `Upload failed (${res.status})`
+          : `Upload failed (${res.status}): empty response — try a smaller image (under 4 MB) or use “Paste URL”.`),
+    );
+  }
+  if (!j.url) {
+    throw new Error(
+      j.error ??
+        (raw.trim()
+          ? "Upload failed: invalid response"
+          : "Upload failed: empty response from server"),
+    );
+  }
   return j.url;
 }
 

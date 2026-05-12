@@ -331,7 +331,7 @@ export function AdminDashboard() {
               <div className="mt-4">
                 <AdminImageUpload
                   label="Upload promo image"
-                  helper="JPEG / PNG / WebP / GIF up to 5 MB. Shown full width above Events."
+                  helper="JPEG / PNG / WebP / GIF up to 4 MB. Shown full width above Events."
                   value={content.eventsPromoImage}
                   onChange={(url) =>
                     setContent((c) => ({ ...c, eventsPromoImage: url }))

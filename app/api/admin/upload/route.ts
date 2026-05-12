@@ -11,7 +11,8 @@ const IMAGE_TYPES = new Set([
 ]);
 const VIDEO_TYPES = new Set(["video/mp4", "video/webm", "video/quicktime"]);
 
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+/** Stay under typical serverless body limits (~4.5 MB on Vercel) to avoid empty/HTML error responses. */
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 const MAX_VIDEO_BYTES = 80 * 1024 * 1024;
 
 function hasAdminCookie(header: string | null) {
@@ -35,48 +36,66 @@ function extForImage(orig: string): string {
 }
 
 export async function POST(req: Request) {
-  if (!hasAdminCookie(req.headers.get("cookie"))) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  let formData: FormData;
   try {
-    formData = await req.formData();
-  } catch {
-    return NextResponse.json({ error: "Invalid form" }, { status: 400 });
-  }
+    if (!hasAdminCookie(req.headers.get("cookie"))) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const file = formData.get("file");
-  if (!file || !(file instanceof File)) {
-    return NextResponse.json({ error: "No file" }, { status: 400 });
-  }
+    let formData: FormData;
+    try {
+      formData = await req.formData();
+    } catch {
+      return NextResponse.json({ error: "Invalid form" }, { status: 400 });
+    }
 
-  const isImage = IMAGE_TYPES.has(file.type);
-  const isVideo = VIDEO_TYPES.has(file.type);
-  if (!isImage && !isVideo) {
+    const file = formData.get("file");
+    if (!file || !(file instanceof File)) {
+      return NextResponse.json({ error: "No file" }, { status: 400 });
+    }
+
+    const isImage = IMAGE_TYPES.has(file.type);
+    const isVideo = VIDEO_TYPES.has(file.type);
+    if (!isImage && !isVideo) {
+      return NextResponse.json(
+        { error: "Use JPG, PNG, WebP, GIF, MP4, WebM, or MOV" },
+        { status: 400 },
+      );
+    }
+
+    const maxBytes = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+    if (file.size > maxBytes) {
+      return NextResponse.json(
+        {
+          error: isVideo
+            ? "Video max 80 MB"
+            : "Image max 4 MB (smaller files avoid upload errors on some hosts)",
+        },
+        { status: 400 },
+      );
+    }
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const orig = file.name || (isVideo ? "clip.mp4" : "photo.jpg");
+    const ext = isVideo
+      ? extForVideo(orig, file.type)
+      : extForImage(orig);
+    const filename = `${randomUUID()}${ext}`;
+    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    await fs.mkdir(uploadDir, { recursive: true });
+    await fs.writeFile(path.join(uploadDir, filename), buffer);
+
+    return NextResponse.json({ url: `/uploads/${filename}` });
+  } catch (e) {
+    const msg =
+      e instanceof Error ? e.message : "Upload could not be completed";
+    const readOnly = /EROFS|EPERM|EACCES|read-only/i.test(msg);
     return NextResponse.json(
-      { error: "Use JPG, PNG, WebP, GIF, MP4, WebM, or MOV" },
-      { status: 400 },
+      {
+        error: readOnly
+          ? "Cannot save files on this server (read-only disk). Use “Paste URL” with an image link, or run the site locally for uploads."
+          : msg,
+      },
+      { status: 500 },
     );
   }
-
-  const maxBytes = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
-  if (file.size > maxBytes) {
-    return NextResponse.json(
-      { error: isVideo ? "Video max 80 MB" : "Image max 5 MB" },
-      { status: 400 },
-    );
-  }
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const orig = file.name || (isVideo ? "clip.mp4" : "photo.jpg");
-  const ext = isVideo
-    ? extForVideo(orig, file.type)
-    : extForImage(orig);
-  const filename = `${randomUUID()}${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  await fs.mkdir(uploadDir, { recursive: true });
-  await fs.writeFile(path.join(uploadDir, filename), buffer);
-
-  return NextResponse.json({ url: `/uploads/${filename}` });
 }
