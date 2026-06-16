@@ -1,31 +1,26 @@
-import { Navbar } from "@/components/Navbar";
-import { Hero } from "@/components/Hero";
-import { SkipToContent } from "@/components/SkipToContent";
-import { ReservationBar } from "@/components/ReservationBar";
-import { ExperienceSection } from "@/components/ExperienceSection";
-import { HowItWorksSection } from "@/components/HowItWorksSection";
-import { HomeMidGrid } from "@/components/HomeMidGrid";
-import { EventsSection } from "@/components/EventsSection";
-import { ContactSection } from "@/components/ContactSection";
-import { BookBand } from "@/components/BookBand";
-import { Footer } from "@/components/Footer";
+import { PublicShell } from "@/components/v2/PublicShell";
+import {
+  GlanceSection,
+  HeroV2,
+  WhatIsSection,
+  HowWorksSection,
+  GameModesSection,
+  ExperiencesSection,
+  ReviewsSection,
+  FinalCtaSection,
+} from "@/components/v2/HomeSections";
 
 export default function Home() {
   return (
-    <>
-      <SkipToContent />
-      <Navbar />
-      <ReservationBar />
-      <main id="main" className="ju-public-main min-h-screen overflow-x-hidden">
-        <Hero />
-        <ExperienceSection />
-        <HowItWorksSection />
-        <HomeMidGrid />
-        <EventsSection />
-        <ContactSection />
-        <BookBand />
-        <Footer />
-      </main>
-    </>
+    <PublicShell>
+      <HeroV2 />
+      <GlanceSection />
+      <WhatIsSection />
+      <HowWorksSection />
+      <GameModesSection />
+      <ExperiencesSection />
+      <ReviewsSection />
+      <FinalCtaSection />
+    </PublicShell>
   );
 }
