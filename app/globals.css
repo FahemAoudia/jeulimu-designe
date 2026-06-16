@@ -1038,4 +1038,121 @@ html[data-theme="light"] .glow-magenta-popular {
       0 0 40px rgba(255, 45, 149, 0.35),
       0 0 80px rgba(123, 44, 255, 0.12);
   }
+
+  .font-display {
+    font-family: var(--font-syne), var(--font-outfit), system-ui, sans-serif;
+  }
+}
+
+/* ─── LUMI GRID v3 — immersive LED-floor UI ─── */
+.ju-v3-shell {
+  background-color: #030308;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(123, 44, 255, 0.14), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(255, 45, 149, 0.06), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 0% 80%, rgba(0, 245, 255, 0.05), transparent 45%);
+}
+
+.ju-lumi-grid {
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, black 20%, transparent 75%);
+  animation: ju-grid-pulse 8s ease-in-out infinite;
+}
+
+@keyframes ju-grid-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+}
+
+.ju-nav-v3 {
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.ju-nav-v3[data-scrolled="true"] {
+  background: rgba(3, 3, 10, 0.88);
+  border-bottom: 1px solid rgba(0, 245, 255, 0.12);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(16px);
+}
+
+.ju-btn-primary {
+  background: linear-gradient(135deg, #ff2d95 0%, #c026d3 50%, #7b2cff 100%);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  box-shadow: 0 4px 24px rgba(255, 45, 149, 0.35);
+}
+
+.ju-btn-primary:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 8px 36px rgba(255, 45, 149, 0.5);
+  transform: translateY(-1px);
+}
+
+.ju-btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.35);
+  clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
+}
+
+.ju-btn-ghost:hover {
+  border-color: rgba(0, 245, 255, 0.45);
+  background: rgba(0, 245, 255, 0.06);
+  box-shadow: 0 0 24px rgba(0, 245, 255, 0.12);
+}
+
+.ju-bento::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 42%);
+  pointer-events: none;
+}
+
+.ju-stat-pill {
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+
+.ju-hero-outline {
+  -webkit-text-stroke: 1px rgba(0, 245, 255, 0.35);
+  color: transparent;
+}
+
+.ju-marquee-track {
+  animation: ju-marquee 35s linear infinite;
+}
+
+@keyframes ju-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ju-mode-stripe {
+  position: relative;
+}
+
+.ju-mode-stripe::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--stripe-color, #00f5ff);
+  box-shadow: 0 0 20px var(--stripe-color, #00f5ff);
+}
+
+.ju-footer-v3 {
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.35), rgba(255, 45, 149, 0.35), transparent) 1;
+}
+
+.ju-snap-x {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ju-snap-x > * {
+  scroll-snap-align: start;
 }

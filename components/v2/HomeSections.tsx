@@ -1,22 +1,30 @@
 "use client";
 
 import Image from "next/image";
+import { ArrowRight, Star } from "lucide-react";
 import {
-  Brain,
-  Star,
-  Trophy,
-  Users,
-  Zap,
-} from "lucide-react";
-import { NeonButton } from "@/components/NeonButton";
-import { Section, SectionHeading } from "@/components/v2/Section";
-import { IconCard, StatCard } from "@/components/v2/IconCard";
+  BentoCard,
+  DisplayTitle,
+  GhostBtn,
+  LumiGridBg,
+  PrimaryBtn,
+  SectionLabel,
+  StatPill,
+} from "@/components/v3/primitives";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { v2Home, t } from "@/lib/site-v2-content";
 import { pickLocalized } from "@/types/site-content";
 import { cn } from "@/lib/cn";
 
-const GLANCE_EMOJI = ["📐", "👥", "🎮", "🏆", "🔒", "🧑‍🏫", "🎯"];
+const GLANCE = [
+  { v: "16×24", l: { en: "LED Floor ft", fr: "pi plancher" } },
+  { v: "24", l: { en: "Max players", fr: "Joueurs max" } },
+  { v: "3", l: { en: "Game modes", fr: "Modes de jeu" } },
+  { v: "7+", l: { en: "Ages", fr: "Âges" } },
+  { v: "🔒", l: { en: "Private", fr: "Privé" } },
+];
+
+const MODE_COLORS = ["#00F5FF", "#FF2D95", "#7B2CFF"];
 
 export function HeroV2() {
   const { locale } = useLocaleContext();
@@ -25,64 +33,64 @@ export function HeroV2() {
   const bgImg = hero.backgroundImage?.trim() || "/hero-background.png";
   const bgVid = hero.backgroundVideo?.trim();
   const h = v2Home.hero;
+  const lines = t(h.headline, locale).split(". ").filter(Boolean);
 
   return (
-    <section className="relative min-h-[min(100dvh,900px)] w-full overflow-hidden">
+    <section className="relative min-h-[100dvh] overflow-hidden">
       <div className="absolute inset-0">
         {bgVid ? (
-          <video
-            className="absolute inset-0 h-full w-full object-cover brightness-[1.05] contrast-[1.08]"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={bgImg}
-          >
+          <video className="h-full w-full object-cover scale-105" autoPlay muted loop playsInline poster={bgImg}>
             <source src={bgVid} />
           </video>
         ) : (
-          <Image
-            src={bgImg}
-            alt=""
-            fill
-            priority
-            className="object-cover brightness-[1.05] contrast-[1.08]"
-            sizes="100vw"
-            unoptimized={/^https?:\/\//.test(bgImg)}
-          />
+          <Image src={bgImg} alt="" fill priority className="object-cover scale-105" sizes="100vw" unoptimized={/^https?:\/\//.test(bgImg)} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#02020F]/92 via-[#050A30]/75 to-[#02020F]/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#02020F] via-transparent to-[#050A30]/30" />
+        <div className="absolute inset-0 bg-[#030308]/75" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#7B2CFF]/25 via-transparent to-[#FF2D95]/20" />
+        <LumiGridBg />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[min(100dvh,900px)] max-w-[1280px] flex-col justify-end px-4 pb-16 pt-24 sm:px-6 lg:justify-center lg:pb-20 lg:pt-28 xl:px-12">
-        <div className="ju-on-dark max-w-3xl space-y-6">
-          <h1 className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white drop-shadow-lg sm:text-5xl lg:text-6xl xl:text-7xl">
-            {t(h.headline, locale)}
-          </h1>
-          <p className="text-lg font-medium text-white/90 sm:text-xl lg:text-2xl">
-            {t(h.sub, locale)}
-          </p>
-          <p className="max-w-xl text-base text-white/75 sm:text-lg">
-            {t(h.support, locale)}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {h.pills.map((pill, i) => (
-              <span
-                key={i}
-                className="rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/90 backdrop-blur-md sm:text-[11px]"
-              >
-                {t(pill, locale)}
-              </span>
-            ))}
+      <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 pt-28 sm:px-6 lg:justify-center lg:pb-16 lg:pt-24 lg:px-10">
+        <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="ju-on-dark lg:col-span-7">
+            <SectionLabel>{locale === "fr" ? "LaSalle, QC" : "LaSalle, QC"}</SectionLabel>
+            <h1 className="mt-4 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight text-white">
+              {lines[0] ?? t(h.headline, locale)}
+              {lines[1] ? (
+                <span className="block ju-hero-outline mt-1">{lines[1]}</span>
+              ) : null}
+            </h1>
+            <p className="mt-6 max-w-lg text-base text-white/60 sm:text-lg">{t(h.support, locale)}</p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <PrimaryBtn href="/booking">{t(v2Home.finalCta.cta, locale)}</PrimaryBtn>
+              <GhostBtn href="/groups-pricing">{t(h.ctaGroups, locale)}</GhostBtn>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3 pt-2">
-            <NeonButton href="/birthdays" variant="outline-white" className="!text-xs">
-              {t(h.ctaBirthdays, locale)}
-            </NeonButton>
-            <NeonButton href="/groups-pricing" className="!text-xs">
-              {t(h.ctaGroups, locale)}
-            </NeonButton>
+          <div className="hidden lg:col-span-5 lg:block">
+            <div className="ju-bento border border-cyan-400/20 bg-black/50 p-8 backdrop-blur-md">
+              <p className="font-display text-xs uppercase tracking-[0.25em] text-ju-cyanGlow">At a glance</p>
+              <ul className="mt-6 space-y-4">
+                {v2Home.glance.slice(0, 5).map((item, i) => (
+                  <li key={i} className="flex items-center justify-between border-b border-white/10 pb-3 text-sm">
+                    <span className="text-white/50">{t(item.title, locale)}</span>
+                    <span className="font-display font-bold text-white">{GLANCE[i]?.v ?? "—"}</span>
+                  </li>
+                ))}
+              </ul>
+              <GhostBtn href="/birthdays" className="mt-8 w-full !text-[10px]">
+                {t(h.ctaBirthdays, locale)}
+              </GhostBtn>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 border-y border-white/10 bg-black/60 backdrop-blur-md">
+        <div className="flex overflow-hidden">
+          <div className="ju-marquee-track flex gap-0">
+            {[...GLANCE, ...GLANCE, ...GLANCE].map((s, i) => (
+              <StatPill key={i} value={s.v} label={t(s.l, locale)} />
+            ))}
           </div>
         </div>
       </div>
@@ -91,108 +99,72 @@ export function HeroV2() {
 }
 
 export function GlanceSection() {
-  const { locale } = useLocaleContext();
-  return (
-    <Section className="!py-12 sm:!py-14">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7 lg:gap-4">
-        {v2Home.glance.map((item, i) => (
-          <StatCard
-            key={i}
-            emoji={GLANCE_EMOJI[i]}
-            title={t(item.title, locale)}
-            subtitle={t(item.sub, locale)}
-          />
-        ))}
-      </div>
-    </Section>
-  );
+  return null;
 }
 
 export function WhatIsSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
-  const img =
-    content.gallery?.[0]?.image?.trim() || content.hero.backgroundImage || "/hero-background.png";
+  const img = content.gallery?.[0]?.image?.trim() || content.hero.backgroundImage || "/hero-background.png";
   const w = v2Home.whatIs;
 
   return (
-    <Section dark id="experience">
-      <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 shadow-[0_24px_64px_rgba(0,0,0,0.45)]">
-          <Image
-            src={img}
-            alt=""
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            unoptimized={/^https?:\/\//.test(img)}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#02020F]/50 to-transparent" />
-        </div>
-        <div>
-          <h2 className="text-3xl font-black uppercase tracking-tight text-white sm:text-4xl">
-            {t(w.title, locale)}
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-ju-soft">{t(w.body, locale)}</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {w.features.map((f, i) => (
-              <IconCard
-                key={i}
-                icon={
-                  i === 0 ? Zap : i === 1 ? Users : i === 2 ? Trophy : i === 3 ? Brain : Users
-                }
-                title={t(f.title, locale)}
-                subtitle={t(f.sub, locale)}
-                className="!p-4"
-              />
-            ))}
+    <section id="experience" className="relative px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+      <LumiGridBg className="opacity-40" />
+      <div className="relative mx-auto max-w-[1400px]">
+        <div className="grid items-center gap-8 lg:grid-cols-12">
+          <div className="relative lg:col-span-7 lg:-ml-10">
+            <div className="relative aspect-[16/11] overflow-hidden border border-white/10 lg:aspect-auto lg:h-[520px]">
+              <Image src={img} alt="" fill className="object-cover" sizes="60vw" unoptimized={/^https?:\/\//.test(img)} />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#030308] via-transparent to-[#7B2CFF]/20" />
+            </div>
           </div>
-          <NeonButton href="/faq" variant="outline-white" className="mt-8 !text-xs">
-            {t(w.cta, locale)}
-          </NeonButton>
+          <div className="lg:col-span-5 lg:-ml-16 lg:mt-12">
+            <BentoCard accent="cyan" className="!p-8 lg:!p-10">
+              <SectionLabel>{locale === "fr" ? "L’expérience" : "The experience"}</SectionLabel>
+              <DisplayTitle className="mt-4 !text-3xl lg:!text-4xl">{t(w.title, locale)}</DisplayTitle>
+              <p className="mt-4 text-sm leading-relaxed text-white/55">{t(w.body, locale)}</p>
+              <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+                {w.features.map((f, i) => (
+                  <li key={i} className="text-[11px] font-bold uppercase tracking-wider text-white/70">
+                    <span className="text-ju-cyanGlow">▸</span> {t(f.title, locale)}
+                  </li>
+                ))}
+              </ul>
+              <GhostBtn href="/faq" className="mt-8 !text-[10px]">{t(w.cta, locale)}</GhostBtn>
+            </BentoCard>
+          </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
 export function HowWorksSection() {
   const { locale } = useLocaleContext();
   const h = v2Home.howWorks;
-  const colors = [
-    "from-cyan-500/20 to-cyan-500/5 border-cyan-500/30",
-    "from-blue-500/20 to-blue-500/5 border-blue-500/30",
-    "from-yellow-500/20 to-yellow-500/5 border-yellow-500/30",
-    "from-purple-500/20 to-purple-500/5 border-purple-500/30",
-    "from-pink-500/20 to-pink-500/5 border-pink-500/30",
-  ];
 
   return (
-    <Section id="how-it-works">
-      <SectionHeading title={t(h.title, locale)} subtitle={t(h.body, locale)} />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        {h.steps.map((step, i) => (
-          <div
-            key={i}
-            className={cn(
-              "rounded-2xl border bg-gradient-to-b p-5 backdrop-blur-sm",
-              colors[i],
-            )}
-          >
-            <span className="text-2xl" aria-hidden>
-              {i === 0 ? "🔷" : i === 1 ? "🎯" : i === 2 ? "⚡" : i === 3 ? "🧠" : "🏆"}
-            </span>
-            <p className="mt-3 text-sm font-bold uppercase text-white">{t(step.title, locale)}</p>
-            <p className="mt-1 text-xs text-ju-soft">{t(step.sub, locale)}</p>
-          </div>
-        ))}
+    <section id="how-it-works" className="border-y border-white/10 bg-black/40 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+      <div className="mx-auto max-w-[1400px]">
+        <SectionLabel>{locale === "fr" ? "Gameplay" : "Gameplay"}</SectionLabel>
+        <DisplayTitle className="mt-3">{t(h.title, locale)}</DisplayTitle>
+        <p className="mt-4 max-w-xl text-sm text-white/50">{t(h.body, locale)}</p>
+
+        <div className="mt-14 grid gap-6 md:grid-cols-5">
+          {h.steps.map((step, i) => (
+            <div key={i} className="relative pl-6 ju-mode-stripe" style={{ "--stripe-color": MODE_COLORS[i % 3] } as React.CSSProperties}>
+              <span className="font-display text-4xl font-bold text-white/15">{String(i + 1).padStart(2, "0")}</span>
+              <p className="mt-2 font-display text-sm font-bold uppercase tracking-wide text-white">{t(step.title, locale)}</p>
+              <p className="mt-2 text-xs text-white/45 leading-relaxed">{t(step.sub, locale)}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-12">
+          <GhostBtn href="#game-modes" className="!text-[10px]">{t(h.cta, locale)}</GhostBtn>
+        </div>
       </div>
-      <div className="mt-10 text-center">
-        <NeonButton href="#game-modes" variant="outline-white" className="!text-xs">
-          {t(h.cta, locale)}
-        </NeonButton>
-      </div>
-    </Section>
+    </section>
   );
 }
 
@@ -200,61 +172,53 @@ export function GameModesSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
   const gm = v2Home.gameModes;
-  const modes = content.gameModes?.length
-    ? content.gameModes.slice(0, 3)
-  : null;
+  const modes = content.gameModes?.length ? content.gameModes.slice(0, 3) : null;
 
   return (
-    <Section dark id="game-modes">
-      <SectionHeading title={t(gm.title, locale)} />
-      <div className="grid gap-6 md:grid-cols-3">
-        {modes
-          ? modes.map((m, i) => {
-              const v2 = gm.modes[i];
-              const img = m.image?.trim() || "/hero-background.png";
-              return (
-                <article
-                  key={m.id ?? i}
-                  className="group overflow-hidden rounded-3xl border border-white/10 bg-black/30"
-                >
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={img}
-                      alt=""
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                      sizes="400px"
-                      unoptimized={/^https?:\/\//.test(img)}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#02020F] to-transparent" />
-                  </div>
-                  <div className="p-6">
-                    <p className="text-xs font-bold uppercase tracking-wider text-ju-cyanGlow">
-                      {v2 ? t(v2.tag, locale) : ""}
-                    </p>
-                    <h3 className="mt-1 text-xl font-black uppercase text-white">
-                      {pickLocalized(m.name, locale)}
-                    </h3>
-                    <p className="mt-2 text-sm text-ju-soft">
-                      {v2 ? t(v2.desc, locale) : pickLocalized(m.description, locale)}
-                    </p>
-                    <NeonButton href="/faq" variant="outline-white" className="mt-4 !text-[10px]">
-                      {t(gm.cta, locale)}
-                    </NeonButton>
-                  </div>
-                </article>
-              );
-            })
-          : gm.modes.map((m) => (
-              <IconCard
+    <section id="game-modes" className="px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+      <div className="mx-auto max-w-[1400px]">
+        <SectionLabel>{t(gm.title, locale)}</SectionLabel>
+        <DisplayTitle className="mt-3">{locale === "fr" ? "Trois univers" : "Three worlds"}</DisplayTitle>
+
+        <div className="mt-12 space-y-6">
+          {(modes ?? []).map((m, i) => {
+            const v2 = gm.modes[i];
+            const img = m.image?.trim() || "/hero-background.png";
+            const color = MODE_COLORS[i];
+            return (
+              <article
                 key={m.id}
-                emoji={m.icon === "coop" ? "🤝" : m.icon === "trophy" ? "🏆" : "🧠"}
-                title={t(m.name, locale)}
-                subtitle={t(m.desc, locale)}
-              />
+                className={cn(
+                  "group grid overflow-hidden border border-white/10 bg-[#0a0a12]/60 lg:grid-cols-2",
+                  i % 2 === 1 && "[&>div:first-child]:lg:order-2",
+                )}
+                style={{ borderLeftColor: color, borderLeftWidth: 4 }}
+              >
+                <div className="relative aspect-[16/9] lg:aspect-auto lg:min-h-[280px]">
+                  <Image src={img} alt="" fill className="object-cover transition duration-700 group-hover:scale-105" sizes="50vw" unoptimized={/^https?:\/\//.test(img)} />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#030308]/80 to-transparent" />
+                </div>
+                <div className="flex flex-col justify-center p-8 lg:p-12">
+                  <p className="font-display text-[10px] uppercase tracking-[0.3em]" style={{ color }}>{v2 ? t(v2.tag, locale) : ""}</p>
+                  <h3 className="mt-2 font-display text-3xl font-bold uppercase text-white">{pickLocalized(m.name, locale)}</h3>
+                  <p className="mt-4 text-sm text-white/50">{v2 ? t(v2.desc, locale) : pickLocalized(m.description, locale)}</p>
+                  <GhostBtn href="/faq" className="mt-6 !text-[10px] inline-flex w-fit items-center gap-2">
+                    {t(gm.cta, locale)} <ArrowRight className="size-3.5" />
+                  </GhostBtn>
+                </div>
+              </article>
+            );
+          })}
+          {!modes?.length &&
+            gm.modes.map((m, i) => (
+              <BentoCard key={m.id} accent={i === 0 ? "cyan" : i === 1 ? "pink" : "purple"}>
+                <h3 className="font-display text-2xl font-bold uppercase text-white">{t(m.name, locale)}</h3>
+                <p className="mt-2 text-sm text-white/50">{t(m.desc, locale)}</p>
+              </BentoCard>
             ))}
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
@@ -263,58 +227,30 @@ export function ExperiencesSection() {
   const e = v2Home.experiences;
 
   return (
-    <Section>
-      <SectionHeading title={t(e.title, locale)} subtitle={t(e.body, locale)} />
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-3xl border border-[#FF2D95]/30 bg-gradient-to-br from-[#FF2D95]/10 to-ju-purple/10 p-8">
-          <h3 className="text-xl font-black uppercase text-white sm:text-2xl">
-            {t(e.birthday.title, locale)}
-          </h3>
-          <p className="mt-2 text-sm text-ju-soft">{t(e.birthday.sub, locale)}</p>
-          <NeonButton href="/birthdays" className="mt-6 !text-xs">
-            {t(e.birthday.cta, locale)}
-          </NeonButton>
-        </div>
-        <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-8">
-          <h3 className="text-xl font-black uppercase text-white sm:text-2xl">
-            {t(e.groups.title, locale)}
-          </h3>
-          <ul className="mt-4 space-y-2 text-sm text-ju-soft">
-            {e.groups.perfectFor.map((item, i) => (
-              <li key={i}>• {t(item, locale)}</li>
-            ))}
-          </ul>
-          <ul className="mt-4 flex flex-wrap gap-2">
-            {e.groups.pricing.map((item, i) => (
-              <li
-                key={i}
-                className="rounded-full border border-ju-electric/30 bg-ju-electric/10 px-3 py-1 text-[11px] font-bold uppercase text-ju-cyanGlow"
-              >
-                {t(item, locale)}
-              </li>
-            ))}
-          </ul>
-          <NeonButton href="/groups-pricing" variant="outline-white" className="mt-6 !text-xs">
-            {t(e.groups.cta, locale)}
-          </NeonButton>
+    <section className="border-t border-white/10 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+      <div className="mx-auto max-w-[1400px]">
+        <SectionLabel>{t(e.title, locale)}</SectionLabel>
+        <p className="mt-4 max-w-2xl text-sm text-white/50">{t(e.body, locale)}</p>
+
+        <div className="mt-12 grid gap-4 md:grid-cols-12 md:grid-rows-2 md:gap-4 md:h-[420px]">
+          <BentoCard href="/birthdays" accent="pink" className="md:col-span-7 md:row-span-2 flex flex-col justify-end !p-10">
+            <DisplayTitle className="!text-2xl lg:!text-3xl">{t(e.birthday.title, locale)}</DisplayTitle>
+            <p className="mt-2 text-sm text-white/50">{t(e.birthday.sub, locale)}</p>
+            <span className="mt-6 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#FF2D95]">
+              {t(e.birthday.cta, locale)} <ArrowRight className="size-3.5" />
+            </span>
+          </BentoCard>
+          <BentoCard href="/groups-pricing" accent="cyan" className="md:col-span-5 md:row-span-1 !p-6">
+            <h3 className="font-display text-lg font-bold uppercase text-white">{t(e.groups.title, locale)}</h3>
+            <p className="mt-2 text-xs text-white/45">{t(e.groups.cta, locale)}</p>
+          </BentoCard>
+          <BentoCard href="/mobile-events" accent="purple" className="md:col-span-5 md:row-span-1 !p-6">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-ju-yellow">{t(e.mobile.badge, locale)}</span>
+            <h3 className="mt-2 font-display text-lg font-bold uppercase text-white">{t(e.mobile.title, locale)}</h3>
+          </BentoCard>
         </div>
       </div>
-      <div className="mt-6 rounded-3xl border border-dashed border-white/20 bg-black/20 p-8 text-center">
-        <span className="rounded-full border border-ju-yellow/40 bg-ju-yellow/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-ju-yellow">
-          {t(e.mobile.badge, locale)}
-        </span>
-        <h3 className="mt-4 text-2xl font-black uppercase text-white">{t(e.mobile.title, locale)}</h3>
-        <p className="mt-2 text-sm text-ju-soft">{t(e.mobile.sub, locale)}</p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <NeonButton href="/mobile-events" variant="outline-white" className="!text-xs">
-            {t(e.mobile.ctaLearn, locale)}
-          </NeonButton>
-          <NeonButton href="/mobile-events#waitlist" className="!text-xs">
-            {t(e.mobile.ctaWaitlist, locale)}
-          </NeonButton>
-        </div>
-      </div>
-    </Section>
+    </section>
   );
 }
 
@@ -323,70 +259,39 @@ export function ReviewsSection() {
   const { content } = useSiteContext();
   const reviews = content.testimonialReviews ?? [];
   const r = v2Home.reviews;
+  const items =
+    reviews.length > 0
+      ? reviews
+      : [
+          { id: "1", quote: { en: "Kids had an amazing time!", fr: "Les enfants ont adoré !" }, name: { en: "Parent", fr: "Parent" }, meta: { en: "Google", fr: "Google" }, when: { en: "", fr: "" } },
+          { id: "2", quote: { en: "Best birthday party ever.", fr: "Meilleure fête d’anniversaire." }, name: { en: "Family", fr: "Famille" }, meta: { en: "Google", fr: "Google" }, when: { en: "", fr: "" } },
+        ];
 
   return (
-    <Section dark id="reviews">
-      <SectionHeading title={t(r.title, locale)} />
-      <div className="overflow-hidden">
-        <div className="flex animate-marquee gap-4">
-          {(reviews.length > 0 ? [...reviews, ...reviews] : [
-            {
-              id: "demo",
-              quote: { en: "Amazing experience!", fr: "Expérience incroyable !" },
-              name: { en: "Guest", fr: "Client" },
-              meta: { en: "Google", fr: "Google" },
-              when: { en: "Recent", fr: "Récent" },
-            },
-            {
-              id: "demo2",
-              quote: { en: "Kids loved it!", fr: "Les enfants ont adoré !" },
-              name: { en: "Family", fr: "Famille" },
-              meta: { en: "Google", fr: "Google" },
-              when: { en: "Recent", fr: "Récent" },
-            },
-          ]).map((rev, i) => (
-            <ReviewCard key={`${rev.id}-${i}`} review={rev} locale={locale} />
+    <section id="reviews" className="bg-black/50 px-4 py-20 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-[1400px]">
+        <SectionLabel>Google</SectionLabel>
+        <DisplayTitle className="mt-3 !text-3xl">{t(r.title, locale)}</DisplayTitle>
+        <div className="ju-snap-x mt-10 flex gap-4 overflow-x-auto pb-4">
+          {items.map((rev) => (
+            <article key={rev.id} className="w-[min(100%,340px)] shrink-0 border border-white/10 bg-[#0a0a12] p-6">
+              <div className="flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="size-3.5 fill-[#FF2D95] text-[#FF2D95]" />
+                ))}
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-white/75">
+                &ldquo;{pickLocalized(rev.quote, locale)}&rdquo;
+              </p>
+              <p className="mt-4 font-display text-xs font-bold uppercase tracking-wider text-ju-cyanGlow">
+                {pickLocalized(rev.name, locale)}
+              </p>
+            </article>
           ))}
         </div>
+        <GhostBtn href="https://www.google.com/maps" className="mt-8 !text-[10px]">{t(r.cta, locale)}</GhostBtn>
       </div>
-      <div className="mt-8 text-center">
-        <NeonButton
-          href="https://www.google.com/maps"
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="outline-white"
-          className="!text-xs"
-        >
-          {t(r.cta, locale)}
-        </NeonButton>
-      </div>
-    </Section>
-  );
-}
-
-function ReviewCard({
-  review,
-  locale,
-}: {
-  review: {
-    quote: { en: string; fr: string };
-    name: { en: string; fr: string };
-    meta?: { en: string; fr: string };
-  };
-  locale: "en" | "fr";
-}) {
-  return (
-    <article className="w-[min(100%,320px)] shrink-0 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm sm:w-[320px]">
-      <div className="flex gap-0.5">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star key={i} className="size-4 fill-[#FF2D95] text-[#FF2D95]" aria-hidden />
-        ))}
-      </div>
-      <p className="mt-3 text-sm leading-relaxed text-white/90">
-        “{pickLocalized(review.quote, locale)}”
-      </p>
-      <p className="mt-3 text-xs font-bold text-ju-cyanGlow">{pickLocalized(review.name, locale)}</p>
-    </article>
+    </section>
   );
 }
 
@@ -395,16 +300,15 @@ export function FinalCtaSection() {
   const f = v2Home.finalCta;
 
   return (
-    <Section className="!py-20">
-      <div className="rounded-3xl border border-[#FF2D95]/40 bg-gradient-to-r from-[#FF2D95]/15 via-ju-purple/15 to-ju-electric/10 px-8 py-16 text-center sm:px-12">
-        <h2 className="text-3xl font-black uppercase text-white sm:text-4xl lg:text-5xl">
-          {t(f.title, locale)}
-        </h2>
-        <p className="mt-3 text-lg text-ju-soft">{t(f.sub, locale)}</p>
-        <NeonButton href="/booking" className="mt-8 !px-10 !text-sm">
-          {t(f.cta, locale)}
-        </NeonButton>
+    <section className="px-4 py-16 sm:px-6 lg:px-10">
+      <div className="relative mx-auto max-w-[1400px] overflow-hidden border border-[#FF2D95]/30 bg-gradient-to-r from-[#FF2D95]/20 via-[#7B2CFF]/15 to-cyan-500/10 px-8 py-20 text-center sm:px-16">
+        <LumiGridBg className="opacity-50" />
+        <div className="relative">
+          <DisplayTitle className="!text-4xl sm:!text-5xl lg:!text-6xl">{t(f.title, locale)}</DisplayTitle>
+          <p className="mt-4 text-white/55">{t(f.sub, locale)}</p>
+          <PrimaryBtn href="/booking" className="mt-10 !px-12 !py-4 !text-xs">{t(f.cta, locale)}</PrimaryBtn>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

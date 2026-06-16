@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Outfit } from "next/font/google";
+import { Outfit, Syne } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "@/providers/AppProviders";
 import { FaqChatbot } from "@/components/FaqChatbot";
@@ -10,6 +10,13 @@ const outfit = Outfit({
   subsets: ["latin", "latin-ext"],
   variable: "--font-outfit",
   display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-syne",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -30,7 +37,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${outfit.variable} ju-body-root font-sans antialiased overflow-x-hidden text-[15px] sm:text-base`}
+        className={`${outfit.variable} ${syne.variable} ju-body-root font-sans antialiased overflow-x-hidden text-[15px] sm:text-base`}
       >
         <Script id="jl-theme-init" strategy="beforeInteractive">
           {themeInitScript}

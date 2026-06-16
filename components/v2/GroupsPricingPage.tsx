@@ -1,131 +1,78 @@
 "use client";
 
-import { NeonButton } from "@/components/NeonButton";
-import { Section, SectionHeading } from "@/components/v2/Section";
-import { IconCard } from "@/components/v2/IconCard";
-import { PricingCard } from "@/components/v2/PricingCard";
+import { Building2, GraduationCap, Heart, Users, Volleyball } from "lucide-react";
+import {
+  BentoCard,
+  DisplayTitle,
+  GhostBtn,
+  PrimaryBtn,
+  SectionLabel,
+} from "@/components/v3/primitives";
 import { useLocaleContext } from "@/providers/AppProviders";
 import { v2Groups, t } from "@/lib/site-v2-content";
-import {
-  Building2,
-  GraduationCap,
-  Heart,
-  Users,
-  Volleyball,
-} from "lucide-react";
 
-const AUDIENCE_ICONS = [Users, GraduationCap, Volleyball, Heart, Building2, Users];
+const ICONS = [Users, GraduationCap, Volleyball, Heart, Building2, Users];
 
 export function GroupsPricingPageContent() {
   const { locale } = useLocaleContext();
   const g = v2Groups;
 
   return (
-    <>
-      <Section className="!pt-8">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl font-black uppercase text-white sm:text-5xl">
-            {t(g.hero.title, locale)}
-          </h1>
-          <p className="mt-3 text-lg font-medium text-ju-cyanGlow">{t(g.hero.sub, locale)}</p>
-          <p className="mt-4 text-base text-ju-soft">{t(g.hero.body, locale)}</p>
+    <div className="ju-v3-shell">
+      <section className="px-4 pt-24 pb-16 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <SectionLabel>{locale === "fr" ? "Groupes" : "Groups"}</SectionLabel>
+          <DisplayTitle className="mt-4">{t(g.hero.title, locale)}</DisplayTitle>
+          <p className="mt-4 max-w-2xl text-lg text-ju-cyanGlow">{t(g.hero.sub, locale)}</p>
+          <p className="mt-4 max-w-3xl text-sm text-white/50">{t(g.hero.body, locale)}</p>
         </div>
-      </Section>
+      </section>
 
-      <Section dark>
-        <SectionHeading
-          title={locale === "fr" ? "Parfait pour" : "Perfect For"}
-          align="left"
-          className="!mb-8"
-        />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {g.audiences.map((a, i) => (
-            <IconCard
-              key={i}
-              icon={AUDIENCE_ICONS[i]}
-              title={t(a.title, locale)}
-              subtitle={t(a.desc, locale)}
-            />
-          ))}
+      <section className="border-y border-white/10 bg-black/40 px-4 py-16 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1400px] grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {g.audiences.map((a, i) => {
+            const Icon = ICONS[i];
+            return (
+              <BentoCard key={i} accent="cyan" className="!p-6">
+                <Icon className="size-5 text-ju-cyanGlow" />
+                <p className="mt-3 font-display font-bold uppercase text-white">{t(a.title, locale)}</p>
+                <p className="mt-2 text-xs text-white/45">{t(a.desc, locale)}</p>
+              </BentoCard>
+            );
+          })}
         </div>
-      </Section>
+      </section>
 
-      <Section>
-        <SectionHeading title={t(g.expect.title, locale)} align="left" className="!mb-8" />
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {g.expect.items.map((item, i) => (
-            <div
-              key={i}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-ju-soft"
-            >
-              ✔ {t(item, locale)}
-            </div>
-          ))}
+      <section id="pricing" className="px-4 py-20 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <DisplayTitle className="!text-3xl">{locale === "fr" ? "Tarifs" : "Pricing"}</DisplayTitle>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {g.pricing.map((p) => (
+              <div key={p.id} className="ju-bento border border-white/10 bg-[#0a0a12]/80 p-8 backdrop-blur-md">
+                <p className="font-display text-xs uppercase tracking-[0.25em] text-ju-cyanGlow">{t(p.title, locale)}</p>
+                <p className="mt-2 text-sm text-white/50">{t(p.players, locale)} · {t(p.duration, locale)}</p>
+                <p className="mt-6 font-display text-4xl font-bold text-white">
+                  {p.price}<span className="text-sm text-white/40">{t(p.unit, locale)}</span>
+                </p>
+                <PrimaryBtn href={p.href} className="mt-8 w-full !text-[10px]">{t(p.cta, locale)}</PrimaryBtn>
+              </div>
+            ))}
+          </div>
+          <BentoCard accent="pink" className="mt-8 !p-8">
+            <h3 className="font-display text-xl font-bold uppercase text-white">{t(g.addon.title, locale)}</h3>
+            <p className="mt-2 text-white/50">{g.addon.price} {t(g.addon.tax, locale)} · {t(g.addon.duration, locale)}</p>
+            <GhostBtn href={g.addon.href} className="mt-6 !text-[10px]">{t(g.addon.cta, locale)}</GhostBtn>
+          </BentoCard>
         </div>
-      </Section>
+      </section>
 
-      <Section dark>
-        <SectionHeading
-          title={t(g.bring.title, locale)}
-          align="left"
-          className="!mb-6"
-        />
-        <ul className="flex flex-wrap gap-3">
-          {g.bring.items.map((item, i) => (
-            <li
-              key={i}
-              className="rounded-full border border-ju-electric/30 bg-ju-electric/10 px-4 py-2 text-sm font-semibold text-ju-cyanGlow"
-            >
-              {t(item, locale)}
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section id="pricing">
-        <SectionHeading
-          title={locale === "fr" ? "Tarifs" : "Pricing"}
-          align="left"
-          className="!mb-8"
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          {g.pricing.map((p) => (
-            <PricingCard
-              key={p.id}
-              title={t(p.title, locale)}
-              players={t(p.players, locale)}
-              duration={t(p.duration, locale)}
-              price={p.price}
-              unit={t(p.unit, locale)}
-              cta={t(p.cta, locale)}
-              href={p.href}
-              featured={p.featured}
-            />
-          ))}
+      <section className="px-4 pb-20 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1400px] border border-white/10 bg-gradient-to-r from-cyan-500/10 to-purple-600/10 px-8 py-14 text-center">
+          <DisplayTitle className="!text-2xl">{t(g.contact.title, locale)}</DisplayTitle>
+          <p className="mt-2 text-white/50">{t(g.contact.sub, locale)}</p>
+          <PrimaryBtn href="mailto:contact@jeulumi.ca" className="mt-6">{t(g.contact.cta, locale)}</PrimaryBtn>
         </div>
-        <article className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
-          <h3 className="text-lg font-bold uppercase text-white">{t(g.addon.title, locale)}</h3>
-          <p className="mt-2 text-sm text-ju-soft">
-            {g.addon.price} {t(g.addon.tax, locale)} · {t(g.addon.duration, locale)}
-          </p>
-          <NeonButton href={g.addon.href} variant="outline-white" className="mt-4 !text-xs">
-            {t(g.addon.cta, locale)}
-          </NeonButton>
-        </article>
-      </Section>
-
-      <Section>
-        <div className="rounded-3xl border border-white/10 bg-gradient-to-r from-ju-purple/10 to-ju-electric/10 p-8 text-center sm:p-12">
-          <h2 className="text-2xl font-black uppercase text-white">{t(g.contact.title, locale)}</h2>
-          <p className="mt-2 text-ju-soft">{t(g.contact.sub, locale)}</p>
-          <NeonButton
-            href="mailto:contact@jeulumi.ca"
-            className="mt-6"
-          >
-            {t(g.contact.cta, locale)}
-          </NeonButton>
-        </div>
-      </Section>
-    </>
+      </section>
+    </div>
   );
 }

@@ -41,8 +41,9 @@ const config: Config = {
           deep: "#02020F",
         },
       },
-      fontFamily: {
+  fontFamily: {
         sans: ["var(--font-outfit)", "system-ui", "sans-serif"],
+        display: ["var(--font-syne)", "var(--font-outfit)", "system-ui", "sans-serif"],
       },
       boxShadow: {
         "neon-cyan":

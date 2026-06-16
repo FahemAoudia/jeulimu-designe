@@ -18,7 +18,7 @@ export function FaqAccordion({
         return (
           <div
             key={i}
-            className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm"
+            className="border border-white/10 bg-[#0a0a12]/90 backdrop-blur-sm"
           >
             <button
               type="button"
