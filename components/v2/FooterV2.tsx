@@ -25,7 +25,7 @@ export function FooterV2() {
   const c = content.contact;
 
   return (
-    <footer className="ju-footer-v3 relative bg-[#020205] px-4 py-12 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-16 lg:px-10 lg:pb-16">
+    <footer className="ju-footer-v3 relative bg-[#020205] px-4 py-12 sm:px-6 sm:py-16 lg:px-10">
       <LumiGridBg className="opacity-30" />
       <div className="relative mx-auto max-w-[1400px]">
         <div className="grid gap-12 lg:grid-cols-12">

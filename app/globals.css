@@ -1304,7 +1304,3 @@ html[data-theme="light"] .glow-magenta-popular {
     min-height: 2.75rem;
   }
 }
-
-.ju-mobile-chat-offset {
-  padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
-}

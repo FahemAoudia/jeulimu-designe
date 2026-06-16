@@ -105,7 +105,7 @@ export function FaqChatbot() {
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <div className="pointer-events-none fixed bottom-0 right-0 z-[70] p-3 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sm:p-5 sm:pb-5 lg:pb-5">
+    <div className="pointer-events-none fixed bottom-0 right-0 z-[90] p-4 sm:p-5">
       <div className="pointer-events-auto flex flex-col items-end gap-3">
         {open ? (
           <div
