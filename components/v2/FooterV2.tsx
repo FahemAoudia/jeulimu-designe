@@ -25,7 +25,7 @@ export function FooterV2() {
   const c = content.contact;
 
   return (
-    <footer className="ju-footer-v3 relative bg-[#020205] px-4 py-16 sm:px-6 lg:px-10">
+    <footer className="ju-footer-v3 relative bg-[#020205] px-4 py-12 pb-[calc(4.5rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-16 lg:px-10 lg:pb-16">
       <LumiGridBg className="opacity-30" />
       <div className="relative mx-auto max-w-[1400px]">
         <div className="grid gap-12 lg:grid-cols-12">
@@ -34,11 +34,11 @@ export function FooterV2() {
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/50">
               {pickLocalized(content.footerTagline, locale)}
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <PrimaryBtn href="/booking" className="!text-[10px]">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <PrimaryBtn href="/booking" className="w-full justify-center sm:w-auto !text-[10px]">
                 {t(v2Nav.bookNow, locale)}
               </PrimaryBtn>
-              <GhostBtn href={MAPS} className="!text-[10px]">
+              <GhostBtn href={MAPS} className="w-full justify-center sm:w-auto !text-[10px]">
                 {t(v2Footer.directions, locale)}
               </GhostBtn>
             </div>

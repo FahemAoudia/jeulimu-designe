@@ -32,6 +32,13 @@ export function NavbarV2() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   function toggleLang() {
     setLocale(locale === "fr" ? "en" : "fr");
     setOpen(false);
@@ -42,8 +49,8 @@ export function NavbarV2() {
       className="ju-nav-v3 fixed left-0 right-0 top-0 z-50"
       data-scrolled={scrolled ? "true" : "false"}
     >
-      <nav className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10">
-        <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
+      <nav className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-3 py-3 sm:px-6 sm:py-4 lg:px-10">
+        <Link href="/" className="min-w-0 shrink" onClick={() => setOpen(false)}>
           <SiteLogoMark variant="nav" />
         </Link>
 
@@ -64,15 +71,18 @@ export function NavbarV2() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
           <button
             type="button"
             onClick={toggleLang}
-            className="hidden h-10 min-w-[3rem] border border-white/15 bg-black/30 text-[10px] font-bold uppercase tracking-widest text-white/80 transition hover:border-cyan-400/40 hover:text-white sm:block"
+            className="flex h-9 min-w-[2.75rem] items-center justify-center border border-white/15 bg-black/30 text-[10px] font-bold uppercase tracking-widest text-white/80 sm:h-10 sm:min-w-[3rem] lg:hidden"
           >
             {locale === "fr" ? "FR" : "EN"}
           </button>
-          <PrimaryBtn href="/booking" className="!py-2.5 !px-5 !text-[10px] hidden sm:inline-flex">
+          <PrimaryBtn
+            href="/booking"
+            className="hidden sm:inline-flex !py-2.5 !px-5 !text-[10px]"
+          >
             {t(v2Nav.bookNow, locale)}
           </PrimaryBtn>
           <button

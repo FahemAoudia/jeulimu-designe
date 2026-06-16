@@ -13,7 +13,7 @@ export function FaqPageContent() {
   }));
 
   return (
-    <div className="ju-v3-shell px-4 py-24 sm:px-6 lg:px-10">
+    <div className="ju-v3-shell px-4 py-20 sm:px-6 sm:py-24 lg:px-10 lg:py-28">
       <div className="mx-auto max-w-[900px]">
         <SectionLabel>FAQ</SectionLabel>
         <DisplayTitle className="mt-4">{t(v2Faq.title, locale)}</DisplayTitle>

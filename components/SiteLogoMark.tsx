@@ -7,7 +7,7 @@ import { pickLocalized } from "@/types/site-content";
 import { cn } from "@/lib/cn";
 
 const NAV_IMG: Record<"sm" | "md" | "lg", string> = {
-  sm: "h-7 max-h-7 w-auto max-w-[min(46vw,150px)] sm:h-8 sm:max-h-8 sm:max-w-[min(40vw,195px)]",
+  sm: "h-6 max-h-6 w-auto max-w-[min(42vw,140px)] sm:h-8 sm:max-h-8 sm:max-w-[min(40vw,195px)]",
   md: "h-8 max-h-8 w-auto max-w-[min(52vw,190px)] sm:h-10 sm:max-h-10 sm:max-w-[min(44vw,235px)]",
   lg: "h-9 max-h-9 w-auto max-w-[min(58vw,230px)] sm:h-11 sm:max-h-11 sm:max-w-[min(48vw,275px)]",
 };

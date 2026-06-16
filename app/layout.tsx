@@ -25,6 +25,12 @@ export const metadata: Metadata = {
     "Interactive LED game floor in LaSalle, Quebec. Book your session — open by reservation only.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 const themeInitScript = `(function(){try{var t=localStorage.getItem("jl_theme");document.documentElement.setAttribute("data-theme",t==="light"||t==="dark"?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();`;
 
 export default async function RootLayout({

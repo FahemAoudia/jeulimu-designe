@@ -19,7 +19,10 @@ export default async function BookingPage({
   return (
     <div className="ju-v3-shell">
       <NavbarV2 />
-      <main id="main" className="ju-public-main ju-booking-page min-h-screen overflow-x-hidden pt-20">
+      <main
+        id="main"
+        className="ju-public-main ju-booking-page min-h-screen overflow-x-hidden pt-[4.25rem] pb-[calc(4.5rem+env(safe-area-inset-bottom))] sm:pt-24 lg:pb-0"
+      >
         <section className="px-4 pb-16 pt-8 sm:px-6 lg:px-10">
           <div className="mx-auto max-w-[1400px] text-center">
             <p className="font-display text-[11px] font-bold uppercase tracking-[0.35em] text-ju-cyanGlow">

@@ -38,7 +38,7 @@ export function HeroV2() {
   const lines = t(h.headline, locale).split(". ").filter(Boolean);
 
   return (
-    <section className="relative min-h-[100dvh] overflow-hidden">
+    <section className="relative min-h-0 overflow-hidden lg:min-h-[100dvh]">
       <div className="absolute inset-0">
         {bgVid ? (
           <video className="h-full w-full object-cover scale-105" autoPlay muted loop playsInline poster={bgImg}>
@@ -47,25 +47,30 @@ export function HeroV2() {
         ) : (
           <Image src={bgImg} alt="" fill priority className="object-cover scale-105" sizes="100vw" unoptimized={/^https?:\/\//.test(bgImg)} />
         )}
-        <div className="absolute inset-0 bg-[#030308]/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#030308]/95 via-[#030308]/55 to-[#030308]/25" />
+        <div className="absolute inset-0 bg-[#030308]/88 lg:bg-[#030308]/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#030308]/95 via-[#030308]/70 to-[#030308]/90 lg:bg-gradient-to-r lg:from-[#030308]/95 lg:via-[#030308]/55 lg:to-[#030308]/25" />
         <LumiGridBg />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 pt-28 sm:px-6 lg:justify-center lg:pb-16 lg:pt-24 lg:px-10">
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 pb-6 pt-[4.75rem] sm:px-6 sm:pb-8 sm:pt-24 lg:flex lg:min-h-[100dvh] lg:flex-col lg:justify-center lg:pb-16 lg:pt-24 lg:px-10">
+        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="ju-on-dark lg:col-span-7">
             <SectionLabel>{locale === "fr" ? "LaSalle, QC" : "LaSalle, QC"}</SectionLabel>
-            <h1 className="mt-4 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight text-white">
+            <h1 className="mt-3 font-display text-[clamp(1.75rem,7.5vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight text-white">
               {lines[0] ?? t(h.headline, locale)}
               {lines[1] ? (
-                <span className="block ju-hero-outline mt-1">{lines[1]}</span>
+                <span className="block ju-hero-outline mt-1 text-[clamp(1.65rem,7vw,5rem)]">{lines[1]}</span>
               ) : null}
             </h1>
-            <p className="mt-6 max-w-lg text-base text-white/60 sm:text-lg">{t(h.support, locale)}</p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <PrimaryBtn href="/booking">{t(v2Home.finalCta.cta, locale)}</PrimaryBtn>
-              <GhostBtn href="/groups-pricing">{t(h.ctaGroups, locale)}</GhostBtn>
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/65 sm:mt-6 sm:text-base lg:text-lg">{t(h.support, locale)}</p>
+
+            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
+              <PrimaryBtn href="/booking" className="w-full justify-center sm:w-auto">
+                {t(v2Home.finalCta.cta, locale)}
+              </PrimaryBtn>
+              <GhostBtn href="/groups-pricing" className="w-full justify-center sm:w-auto">
+                {t(h.ctaGroups, locale)}
+              </GhostBtn>
             </div>
           </div>
           <div className="hidden flex-col items-center gap-4 lg:col-span-5 lg:flex">
@@ -80,14 +85,19 @@ export function HeroV2() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-4 lg:hidden">
-          <LumiFloor3D className="w-full max-w-[400px]" showStage />
+        <div className="mt-8 w-full lg:hidden">
+          <LumiFloor3D className="w-full" showStage />
+          <p className="mt-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
+            {locale === "fr" ? "Dès" : "From"}{" "}
+            <span className="text-ju-cyanGlow">{formatPrice(CLIENT_PRICING.largeGroup.perPlayer)}</span>
+            {locale === "fr" ? " / participant" : " / player"}
+          </p>
         </div>
       </div>
 
-      <div className="relative z-10 border-y border-white/10 bg-black/60 backdrop-blur-md">
-        <div className="flex overflow-hidden">
-          <div className="ju-marquee-track flex gap-0">
+      <div className="relative z-10 border-y border-white/10 bg-black/70 backdrop-blur-md">
+        <div className="flex overflow-hidden py-1 sm:py-0">
+          <div className="ju-marquee-track flex gap-2 sm:gap-0">
             {[...GLANCE, ...GLANCE, ...GLANCE].map((s, i) => (
               <StatPill key={i} value={s.v} label={t(s.l, locale)} />
             ))}
@@ -109,7 +119,7 @@ export function WhatIsSection() {
   const w = v2Home.whatIs;
 
   return (
-    <section id="experience" className="relative px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+    <section id="experience" className="relative px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
       <LumiGridBg className="opacity-40" />
       <div className="relative mx-auto max-w-[1400px]">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
@@ -120,9 +130,9 @@ export function WhatIsSection() {
             </div>
           </div>
           <div>
-            <BentoCard accent="cyan" className="!p-8 lg:!p-10">
+            <BentoCard accent="cyan" className="!p-5 sm:!p-8 lg:!p-10">
               <SectionLabel>{locale === "fr" ? "L’expérience" : "The experience"}</SectionLabel>
-              <DisplayTitle className="mt-4 !text-3xl lg:!text-4xl">{t(w.title, locale)}</DisplayTitle>
+              <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">{t(w.title, locale)}</DisplayTitle>
               <p className="mt-4 text-sm leading-relaxed text-white/55">{t(w.body, locale)}</p>
               <ul className="mt-6 grid gap-2 sm:grid-cols-2">
                 {w.features.map((f, i) => (
@@ -145,13 +155,13 @@ export function HowWorksSection() {
   const h = v2Home.howWorks;
 
   return (
-    <section id="how-it-works" className="border-y border-white/10 bg-black/40 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+    <section id="how-it-works" className="border-y border-white/10 bg-black/40 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
       <div className="mx-auto max-w-[1400px]">
         <SectionLabel>{locale === "fr" ? "Gameplay" : "Gameplay"}</SectionLabel>
         <DisplayTitle className="mt-3">{t(h.title, locale)}</DisplayTitle>
         <p className="mt-4 max-w-xl text-sm text-white/50">{t(h.body, locale)}</p>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-5">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-5 lg:gap-6">
           {h.steps.map((step, i) => (
             <div key={i} className="relative pl-6 ju-mode-stripe" style={{ "--stripe-color": MODE_COLORS[i % 3] } as React.CSSProperties}>
               <span className="font-display text-4xl font-bold text-white/15">{String(i + 1).padStart(2, "0")}</span>
@@ -175,7 +185,7 @@ export function GameModesSection() {
   const modes = content.gameModes?.length ? content.gameModes.slice(0, 3) : null;
 
   return (
-    <section id="game-modes" className="px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+    <section id="game-modes" className="px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
       <div className="mx-auto max-w-[1400px]">
         <SectionLabel>{t(gm.title, locale)}</SectionLabel>
         <DisplayTitle className="mt-3">{locale === "fr" ? "Trois univers" : "Three worlds"}</DisplayTitle>
@@ -198,9 +208,9 @@ export function GameModesSection() {
                   <Image src={img} alt="" fill className="object-cover transition duration-700 group-hover:scale-105" sizes="50vw" unoptimized={/^https?:\/\//.test(img)} />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#030308]/80 to-transparent" />
                 </div>
-                <div className="flex flex-col justify-center p-8 lg:p-12">
+                <div className="flex flex-col justify-center p-5 sm:p-8 lg:p-12">
                   <p className="font-display text-[10px] uppercase tracking-[0.3em]" style={{ color }}>{v2 ? t(v2.tag, locale) : ""}</p>
-                  <h3 className="mt-2 font-display text-3xl font-bold uppercase text-white">{pickLocalized(m.name, locale)}</h3>
+                  <h3 className="mt-2 font-display text-2xl font-bold uppercase text-white sm:text-3xl">{pickLocalized(m.name, locale)}</h3>
                   <p className="mt-4 text-sm text-white/50">{v2 ? t(v2.desc, locale) : pickLocalized(m.description, locale)}</p>
                   <GhostBtn href="/faq" className="mt-6 !text-[10px] inline-flex w-fit items-center gap-2">
                     {t(gm.cta, locale)} <ArrowRight className="size-3.5" />
@@ -257,7 +267,7 @@ export function ExperiencesSection() {
   ];
 
   return (
-    <section className="border-t border-white/10 px-4 py-20 sm:px-6 lg:px-10 lg:py-24">
+    <section className="border-t border-white/10 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-24">
       <div className="mx-auto max-w-[1400px]">
         <SectionLabel>{t(e.title, locale)}</SectionLabel>
         <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">
@@ -310,7 +320,7 @@ export function ReviewsSection() {
         ];
 
   return (
-    <section id="reviews" className="bg-black/50 px-4 py-20 sm:px-6 lg:px-10">
+    <section id="reviews" className="bg-black/50 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
       <div className="mx-auto max-w-[1400px]">
         <SectionLabel>Google</SectionLabel>
         <DisplayTitle className="mt-3 !text-3xl">{t(r.title, locale)}</DisplayTitle>
@@ -342,13 +352,13 @@ export function FinalCtaSection() {
   const f = v2Home.finalCta;
 
   return (
-    <section className="px-4 py-16 sm:px-6 lg:px-10">
-      <div className="relative mx-auto max-w-[1400px] overflow-hidden border border-[#FF2D95]/30 bg-gradient-to-r from-[#FF2D95]/20 via-[#7B2CFF]/15 to-cyan-500/10 px-8 py-20 text-center sm:px-16">
+    <section className="px-4 py-10 sm:px-6 sm:py-16 lg:px-10">
+      <div className="relative mx-auto max-w-[1400px] overflow-hidden border border-[#FF2D95]/30 bg-gradient-to-r from-[#FF2D95]/20 via-[#7B2CFF]/15 to-cyan-500/10 px-5 py-12 text-center sm:px-12 sm:py-16 lg:px-16 lg:py-20">
         <LumiGridBg className="opacity-50" />
         <div className="relative">
-          <DisplayTitle className="!text-4xl sm:!text-5xl lg:!text-6xl">{t(f.title, locale)}</DisplayTitle>
-          <p className="mt-4 text-white/55">{t(f.sub, locale)}</p>
-          <PrimaryBtn href="/booking" className="mt-10 !px-12 !py-4 !text-xs">{t(f.cta, locale)}</PrimaryBtn>
+          <DisplayTitle className="!text-3xl sm:!text-4xl lg:!text-6xl">{t(f.title, locale)}</DisplayTitle>
+          <p className="mt-3 text-sm text-white/55 sm:mt-4">{t(f.sub, locale)}</p>
+          <PrimaryBtn href="/booking" className="mt-8 w-full justify-center sm:mt-10 sm:w-auto !px-10 !py-3.5 !text-xs">{t(f.cta, locale)}</PrimaryBtn>
         </div>
       </div>
     </section>
