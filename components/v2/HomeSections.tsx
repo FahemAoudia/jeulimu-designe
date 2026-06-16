@@ -14,6 +14,8 @@ import {
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { v2Home, t } from "@/lib/site-v2-content";
 import { pickLocalized } from "@/types/site-content";
+import { LumiFloor3D } from "@/components/v3/LumiFloor3D";
+import { CLIENT_PRICING, formatPrice } from "@/lib/client-pricing";
 import { cn } from "@/lib/cn";
 
 const GLANCE = [
@@ -66,21 +68,15 @@ export function HeroV2() {
               <GhostBtn href="/groups-pricing">{t(h.ctaGroups, locale)}</GhostBtn>
             </div>
           </div>
-          <div className="hidden lg:col-span-5 lg:block">
-            <div className="ju-bento border border-cyan-400/20 bg-black/50 p-8 backdrop-blur-md">
-              <p className="font-display text-xs uppercase tracking-[0.25em] text-ju-cyanGlow">At a glance</p>
-              <ul className="mt-6 space-y-4">
-                {v2Home.glance.slice(0, 5).map((item, i) => (
-                  <li key={i} className="flex items-center justify-between border-b border-white/10 pb-3 text-sm">
-                    <span className="text-white/50">{t(item.title, locale)}</span>
-                    <span className="font-display font-bold text-white">{GLANCE[i]?.v ?? "—"}</span>
-                  </li>
-                ))}
-              </ul>
-              <GhostBtn href="/birthdays" className="mt-8 w-full !text-[10px]">
-                {t(h.ctaBirthdays, locale)}
-              </GhostBtn>
-            </div>
+          <div className="relative hidden lg:col-span-5 lg:flex lg:flex-col lg:items-center lg:justify-center">
+            <LumiFloor3D className="right-0 top-8 lg:relative" />
+            <p className="mt-6 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-white/45">
+              {locale === "fr" ? "Dès" : "From"}{" "}
+              <span className="text-ju-cyanGlow">
+                {formatPrice(CLIENT_PRICING.largeGroup.perPlayer)}
+              </span>
+              {locale === "fr" ? " / participant" : " / player"}
+            </p>
           </div>
         </div>
       </div>
@@ -112,14 +108,14 @@ export function WhatIsSection() {
     <section id="experience" className="relative px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
       <LumiGridBg className="opacity-40" />
       <div className="relative mx-auto max-w-[1400px]">
-        <div className="grid items-center gap-8 lg:grid-cols-12">
-          <div className="relative lg:col-span-7 lg:-ml-10">
-            <div className="relative aspect-[16/11] overflow-hidden border border-white/10 lg:aspect-auto lg:h-[520px]">
-              <Image src={img} alt="" fill className="object-cover" sizes="60vw" unoptimized={/^https?:\/\//.test(img)} />
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#030308] via-transparent to-[#7B2CFF]/20" />
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
+          <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[460px]">
+            <div className="absolute inset-0 overflow-hidden border border-white/10">
+              <Image src={img} alt="" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={/^https?:\/\//.test(img)} />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#030308]/85 via-transparent to-[#7B2CFF]/15" />
             </div>
           </div>
-          <div className="lg:col-span-5 lg:-ml-16 lg:mt-12">
+          <div>
             <BentoCard accent="cyan" className="!p-8 lg:!p-10">
               <SectionLabel>{locale === "fr" ? "L’expérience" : "The experience"}</SectionLabel>
               <DisplayTitle className="mt-4 !text-3xl lg:!text-4xl">{t(w.title, locale)}</DisplayTitle>
@@ -226,28 +222,70 @@ export function ExperiencesSection() {
   const { locale } = useLocaleContext();
   const e = v2Home.experiences;
 
+  const cards = [
+    {
+      href: "/birthdays",
+      accent: "pink" as const,
+      label: locale === "fr" ? "Anniversaires" : "Birthdays",
+      title: t(e.birthday.title, locale),
+      sub: t(e.birthday.sub, locale),
+      cta: t(e.birthday.cta, locale),
+      badge: formatPrice(CLIENT_PRICING.birthday.package),
+    },
+    {
+      href: "/groups-pricing",
+      accent: "cyan" as const,
+      label: t(e.groups.title, locale),
+      title: locale === "fr" ? "Tarifs groupe" : "Group pricing",
+      sub: `${formatPrice(CLIENT_PRICING.smallGroup.perPlayer)} – ${formatPrice(CLIENT_PRICING.largeGroup.perPlayer)} / player`,
+      cta: t(e.groups.cta, locale),
+      badge: locale === "fr" ? "2–24 joueurs" : "2–24 players",
+    },
+    {
+      href: "/mobile-events",
+      accent: "purple" as const,
+      label: t(e.mobile.badge, locale),
+      title: t(e.mobile.title, locale),
+      sub: t(e.mobile.sub, locale),
+      cta: t(e.mobile.ctaLearn, locale),
+      badge: locale === "fr" ? "Bientôt" : "Soon",
+    },
+  ];
+
   return (
-    <section className="border-t border-white/10 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+    <section className="border-t border-white/10 px-4 py-20 sm:px-6 lg:px-10 lg:py-24">
       <div className="mx-auto max-w-[1400px]">
         <SectionLabel>{t(e.title, locale)}</SectionLabel>
-        <p className="mt-4 max-w-2xl text-sm text-white/50">{t(e.body, locale)}</p>
+        <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">
+          {locale === "fr" ? "Choisissez votre expérience" : "Pick your experience"}
+        </DisplayTitle>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/50">{t(e.body, locale)}</p>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-12 md:grid-rows-2 md:gap-4 md:h-[420px]">
-          <BentoCard href="/birthdays" accent="pink" className="md:col-span-7 md:row-span-2 flex flex-col justify-end !p-10">
-            <DisplayTitle className="!text-2xl lg:!text-3xl">{t(e.birthday.title, locale)}</DisplayTitle>
-            <p className="mt-2 text-sm text-white/50">{t(e.birthday.sub, locale)}</p>
-            <span className="mt-6 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#FF2D95]">
-              {t(e.birthday.cta, locale)} <ArrowRight className="size-3.5" />
-            </span>
-          </BentoCard>
-          <BentoCard href="/groups-pricing" accent="cyan" className="md:col-span-5 md:row-span-1 !p-6">
-            <h3 className="font-display text-lg font-bold uppercase text-white">{t(e.groups.title, locale)}</h3>
-            <p className="mt-2 text-xs text-white/45">{t(e.groups.cta, locale)}</p>
-          </BentoCard>
-          <BentoCard href="/mobile-events" accent="purple" className="md:col-span-5 md:row-span-1 !p-6">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-ju-yellow">{t(e.mobile.badge, locale)}</span>
-            <h3 className="mt-2 font-display text-lg font-bold uppercase text-white">{t(e.mobile.title, locale)}</h3>
-          </BentoCard>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          {cards.map((card) => (
+            <BentoCard
+              key={card.href}
+              href={card.href}
+              accent={card.accent}
+              className="ju-exp-card !min-h-[220px] !p-6 sm:!p-7"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
+                  {card.label}
+                </span>
+                <span className="shrink-0 rounded-sm border border-white/15 bg-black/40 px-2 py-1 text-[10px] font-bold text-ju-cyanGlow">
+                  {card.badge}
+                </span>
+              </div>
+              <h3 className="mt-4 font-display text-lg font-bold uppercase leading-snug text-white sm:text-xl line-clamp-3">
+                {card.title}
+              </h3>
+              <p className="mt-2 text-xs leading-relaxed text-white/45 line-clamp-2">{card.sub}</p>
+              <span className="mt-auto pt-5 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#FF2D95] group-hover:text-ju-cyanGlow">
+                {card.cta} <ArrowRight className="size-3.5 shrink-0" />
+              </span>
+            </BentoCard>
+          ))}
         </div>
       </div>
     </section>

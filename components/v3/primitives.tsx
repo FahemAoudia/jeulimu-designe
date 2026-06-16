@@ -114,7 +114,7 @@ export function BentoCard({
       {children}
     </div>
   );
-  if (href) return <Link href={href} className="block group">{inner}</Link>;
+  if (href) return <Link href={href} className="block group overflow-hidden">{inner}</Link>;
   return inner;
 }
 

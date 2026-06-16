@@ -124,7 +124,7 @@ export const v2Home = {
       ],
       pricing: [
         L("2–24 Participants", "2–24 participants"),
-        L("Starting at $21 / player", "Dès 21 $ / participant"),
+        L("Starting at $20.99 / player", "Dès 20,99 $ / participant"),
         L("60–75 minute sessions", "Séances 60–75 min"),
       ],
       cta: L("View Groups & Pricing", "Voir groupes & tarifs"),

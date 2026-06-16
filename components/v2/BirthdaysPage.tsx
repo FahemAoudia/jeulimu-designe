@@ -14,10 +14,12 @@ import { FaqAccordion } from "@/components/v2/FaqAccordion";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { v2Birthdays, t } from "@/lib/site-v2-content";
 
-const BASE = 249.99;
-const EXTRA = 20.99;
-const INCLUDED = 8;
-const MAX = 24;
+import { CLIENT_PRICING, formatPrice } from "@/lib/client-pricing";
+
+const BASE = CLIENT_PRICING.birthday.package;
+const EXTRA = CLIENT_PRICING.birthday.extraPerPlayer;
+const INCLUDED = CLIENT_PRICING.birthday.includedPlayers;
+const MAX = CLIENT_PRICING.birthday.maxPlayers;
 
 function Calculator({ locale }: { locale: "en" | "fr" }) {
   const [count, setCount] = useState(8);
@@ -93,7 +95,7 @@ export function BirthdaysPageContent() {
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-2">
           <BentoCard accent="purple" className="!p-8">
             <DisplayTitle className="!text-2xl">{t(b.package.title, locale)}</DisplayTitle>
-            <p className="mt-4 font-display text-5xl font-bold text-white">{b.package.price}</p>
+            <p className="mt-4 font-display text-5xl font-bold text-white">{formatPrice(CLIENT_PRICING.birthday.package)}</p>
             <p className="text-sm text-white/45">{t(b.package.tax, locale)}</p>
             <ul className="mt-6 space-y-2 text-sm text-white/60">
               {b.package.includes.map((line, i) => (

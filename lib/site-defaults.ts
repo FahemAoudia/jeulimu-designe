@@ -179,7 +179,7 @@ export const defaultSiteContent: SiteContent = {
       id: "small",
       title: L("Small Group", "Petit groupe"),
       players: L("2–3 Players", "2–3 joueurs"),
-      price: "$28",
+      price: "$27.99",
       priceNote: L("/player + taxes", "/personne + taxes"),
       extras: [
         L("60 Minutes", "60 minutes"),
@@ -190,14 +190,10 @@ export const defaultSiteContent: SiteContent = {
     },
     {
       id: "medium",
-      title: L("Medium Group", "Groupe moyen"),
+      title: L("Group Experience", "Expérience groupe"),
       players: L("4–15 Players", "4–15 joueurs"),
-      price: "$25",
+      price: "$24.99",
       priceNote: L("/player + taxes", "/personne + taxes"),
-      kidNote: L(
-        "Kids 7–12: $21/player (within groups of 4+)",
-        "Enfants 7–12 ans : 21 $/personne (groupes de 4+)",
-      ),
       extras: [
         L("60 Minutes", "60 minutes"),
         L("Staff-guided session", "Séance encadrée par l’équipe"),
@@ -210,7 +206,7 @@ export const defaultSiteContent: SiteContent = {
       id: "large",
       title: L("Large Group", "Grand groupe"),
       players: L("16–24 Players", "16–24 joueurs"),
-      price: "$21",
+      price: "$20.99",
       priceNote: L("/player + taxes", "/personne + taxes"),
       extras: [
         L("75 Minutes", "75 minutes"),
