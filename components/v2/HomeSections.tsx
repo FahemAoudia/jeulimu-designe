@@ -38,7 +38,7 @@ export function HeroV2() {
   const lines = t(h.headline, locale).split(". ").filter(Boolean);
 
   return (
-    <section className="relative min-h-0 overflow-hidden lg:min-h-[100dvh]">
+    <section className="relative min-h-[100dvh] overflow-hidden">
       <div className="absolute inset-0">
         {bgVid ? (
           <video className="h-full w-full object-cover scale-105" autoPlay muted loop playsInline poster={bgImg}>
@@ -52,25 +52,21 @@ export function HeroV2() {
         <LumiGridBg />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1400px] px-4 pb-6 pt-[4.75rem] sm:px-6 sm:pb-8 sm:pt-24 lg:flex lg:min-h-[100dvh] lg:flex-col lg:justify-center lg:pb-16 lg:pt-24 lg:px-10">
+      <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 pt-[4.75rem] sm:px-6 sm:pb-10 sm:pt-24 lg:justify-center lg:pb-16 lg:pt-24 lg:px-10">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="ju-on-dark lg:col-span-7">
             <SectionLabel>{locale === "fr" ? "LaSalle, QC" : "LaSalle, QC"}</SectionLabel>
-            <h1 className="mt-3 font-display text-[clamp(1.75rem,7.5vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight text-white">
+            <h1 className="mt-4 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight text-white">
               {lines[0] ?? t(h.headline, locale)}
               {lines[1] ? (
-                <span className="block ju-hero-outline mt-1 text-[clamp(1.65rem,7vw,5rem)]">{lines[1]}</span>
+                <span className="block ju-hero-outline mt-1">{lines[1]}</span>
               ) : null}
             </h1>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/65 sm:mt-6 sm:text-base lg:text-lg">{t(h.support, locale)}</p>
+            <p className="mt-6 max-w-lg text-base text-white/60 sm:text-lg">{t(h.support, locale)}</p>
 
-            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
-              <PrimaryBtn href="/booking" className="w-full justify-center sm:w-auto">
-                {t(v2Home.finalCta.cta, locale)}
-              </PrimaryBtn>
-              <GhostBtn href="/groups-pricing" className="w-full justify-center sm:w-auto">
-                {t(h.ctaGroups, locale)}
-              </GhostBtn>
+            <div className="mt-8 hidden flex-wrap gap-4 lg:flex">
+              <PrimaryBtn href="/booking">{t(v2Home.finalCta.cta, locale)}</PrimaryBtn>
+              <GhostBtn href="/groups-pricing">{t(h.ctaGroups, locale)}</GhostBtn>
             </div>
           </div>
           <div className="hidden flex-col items-center gap-4 lg:col-span-5 lg:flex">
@@ -85,8 +81,8 @@ export function HeroV2() {
           </div>
         </div>
 
-        <div className="mt-8 w-full lg:hidden">
-          <LumiFloor3D className="w-full" showStage />
+        <div className="mt-10 w-full lg:hidden">
+          <LumiFloor3D className="w-full max-w-[400px] mx-auto" showStage />
           <p className="mt-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
             {locale === "fr" ? "Dès" : "From"}{" "}
             <span className="text-ju-cyanGlow">{formatPrice(CLIENT_PRICING.largeGroup.perPlayer)}</span>
