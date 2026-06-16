@@ -1157,53 +1157,99 @@ html[data-theme="light"] .glow-magenta-popular {
   scroll-snap-align: start;
 }
 
-/* CSS-only 3D LED floor (lightweight) */
-.ju-floor-3d {
-  width: min(42vw, 320px);
-  height: min(32vw, 240px);
-  opacity: 0.85;
+/* Interactive 3D LED floor — CSS 3D + pointer (no WebGL) */
+.ju-floor-panel {
+  border: 1px solid rgba(0, 245, 255, 0.28);
+  background: linear-gradient(165deg, #0c0c14 0%, #050508 55%, #0a0818 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 24px 64px rgba(0, 0, 0, 0.55),
+    0 0 48px rgba(0, 245, 255, 0.08);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+}
+
+.ju-floor-panel-header {
+  border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+  background: rgba(0, 245, 255, 0.04);
+}
+
+.ju-floor-panel-body {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(123, 44, 255, 0.12), transparent 55%),
+    #030308;
+}
+
+.ju-floor-arena {
+  perspective: 1000px;
+  perspective-origin: 50% 42%;
 }
 
 .ju-floor-3d-stage {
-  width: 100%;
+  transform-style: preserve-3d;
   height: 100%;
-  perspective: 900px;
-  perspective-origin: 50% 40%;
+  width: 100%;
 }
 
 .ju-floor-3d-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
+  gap: 6px;
   width: 100%;
   height: 100%;
-  transform: rotateX(62deg) rotateZ(-18deg) translateZ(0);
   transform-style: preserve-3d;
+  transform: translateZ(0);
 }
 
 .ju-floor-tile {
-  border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 12px rgba(0, 245, 255, 0.15);
-  animation: ju-tile-pulse 4s ease-in-out infinite;
-  will-change: opacity, box-shadow;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 10px rgba(0, 245, 255, 0.12),
+    inset 0 0 12px rgba(255, 255, 255, 0.06);
+  animation: ju-tile-pulse 5s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.ju-floor-tile-hot {
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0 22px rgba(0, 245, 255, 0.65),
+    0 0 36px rgba(255, 45, 149, 0.35),
+    inset 0 0 16px rgba(255, 255, 255, 0.25);
+  animation: none;
+}
+
+.ju-floor-tile-warm {
+  box-shadow:
+    0 0 14px rgba(0, 245, 255, 0.35),
+    inset 0 0 8px rgba(255, 255, 255, 0.12);
+}
+
+.ju-floor-spotlight {
+  z-index: 1;
+}
+
+.ju-floor-3d-standalone {
+  width: min(42vw, 320px);
+  height: min(32vw, 240px);
 }
 
 @keyframes ju-tile-pulse {
   0%, 100% {
-    opacity: 0.45;
-    box-shadow: 0 0 8px rgba(0, 245, 255, 0.1);
+    filter: brightness(0.75);
   }
   50% {
-    opacity: 1;
-    box-shadow: 0 0 18px rgba(0, 245, 255, 0.35);
+    filter: brightness(1.15);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ju-floor-tile {
     animation: none;
-    opacity: 0.7;
+    filter: brightness(0.9);
+  }
+  .ju-floor-3d-stage {
+    transition: none !important;
   }
   .ju-marquee-track {
     animation: none;

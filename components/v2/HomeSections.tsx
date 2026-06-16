@@ -47,13 +47,13 @@ export function HeroV2() {
         ) : (
           <Image src={bgImg} alt="" fill priority className="object-cover scale-105" sizes="100vw" unoptimized={/^https?:\/\//.test(bgImg)} />
         )}
-        <div className="absolute inset-0 bg-[#030308]/75" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#7B2CFF]/25 via-transparent to-[#FF2D95]/20" />
+        <div className="absolute inset-0 bg-[#030308]/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#030308]/95 via-[#030308]/55 to-[#030308]/25" />
         <LumiGridBg />
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 pt-28 sm:px-6 lg:justify-center lg:pb-16 lg:pt-24 lg:px-10">
-        <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-8">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
           <div className="ju-on-dark lg:col-span-7">
             <SectionLabel>{locale === "fr" ? "LaSalle, QC" : "LaSalle, QC"}</SectionLabel>
             <h1 className="mt-4 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight text-white">
@@ -68,9 +68,9 @@ export function HeroV2() {
               <GhostBtn href="/groups-pricing">{t(h.ctaGroups, locale)}</GhostBtn>
             </div>
           </div>
-          <div className="relative hidden lg:col-span-5 lg:flex lg:flex-col lg:items-center lg:justify-center">
-            <LumiFloor3D className="right-0 top-8 lg:relative" />
-            <p className="mt-6 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-white/45">
+          <div className="hidden flex-col items-center gap-4 lg:col-span-5 lg:flex">
+            <LumiFloor3D className="w-full" showStage />
+            <p className="text-center text-[10px] font-bold uppercase tracking-[0.25em] text-white/45">
               {locale === "fr" ? "Dès" : "From"}{" "}
               <span className="text-ju-cyanGlow">
                 {formatPrice(CLIENT_PRICING.largeGroup.perPlayer)}
@@ -78,6 +78,10 @@ export function HeroV2() {
               {locale === "fr" ? " / participant" : " / player"}
             </p>
           </div>
+        </div>
+
+        <div className="mt-10 flex flex-col items-center gap-4 lg:hidden">
+          <LumiFloor3D className="w-full max-w-[400px]" showStage />
         </div>
       </div>
 
