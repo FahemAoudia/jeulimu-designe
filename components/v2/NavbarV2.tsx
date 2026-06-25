@@ -7,21 +7,24 @@ import { Menu, X } from "lucide-react";
 import { SiteLogoMark } from "@/components/SiteLogoMark";
 import { PrimaryBtn } from "@/components/v3/primitives";
 import { useLocaleContext } from "@/providers/AppProviders";
-import { v2Nav, t } from "@/lib/site-v2-content";
+import { t } from "@/lib/site-v2-content";
+import { useV2Content } from "@/hooks/useV2Content";
 import { cn } from "@/lib/cn";
-
-const NAV_LINKS = [
-  { href: "/birthdays", label: v2Nav.birthdays },
-  { href: "/groups-pricing", label: v2Nav.groupsPricing },
-  { href: "/mobile-events", label: v2Nav.mobileEvents },
-  { href: "/faq", label: v2Nav.faq },
-];
 
 export function NavbarV2() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const { locale, setLocale } = useLocaleContext();
+  const { v2 } = useV2Content();
+  const nav = v2.nav;
+
+  const NAV_LINKS = [
+    { href: "/birthdays", label: nav.birthdays },
+    { href: "/groups-pricing", label: nav.groupsPricing },
+    { href: "/mobile-events", label: nav.mobileEvents },
+    { href: "/faq", label: nav.faq },
+  ];
 
   useEffect(() => {
     function onScroll() {
@@ -83,7 +86,7 @@ export function NavbarV2() {
             href="/booking"
             className="hidden sm:inline-flex !py-2.5 !px-5 !text-[10px]"
           >
-            {t(v2Nav.bookNow, locale)}
+            {t(nav.bookNow, locale)}
           </PrimaryBtn>
           <button
             type="button"
@@ -120,7 +123,7 @@ export function NavbarV2() {
               {locale === "fr" ? "FR" : "EN"}
             </button>
             <PrimaryBtn href="/booking" className="flex-1 !py-3 !text-[10px]">
-              {t(v2Nav.bookNow, locale)}
+              {t(nav.bookNow, locale)}
             </PrimaryBtn>
           </div>
         </div>

@@ -12,17 +12,16 @@ import {
 } from "@/components/v3/primitives";
 import { FaqAccordion } from "@/components/v2/FaqAccordion";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
-import { v2Birthdays, t } from "@/lib/site-v2-content";
-
-import { CLIENT_PRICING, formatPrice } from "@/lib/client-pricing";
-
-const BASE = CLIENT_PRICING.birthday.package;
-const EXTRA = CLIENT_PRICING.birthday.extraPerPlayer;
-const INCLUDED = CLIENT_PRICING.birthday.includedPlayers;
-const MAX = CLIENT_PRICING.birthday.maxPlayers;
+import { t } from "@/lib/site-v2-content";
+import { formatPrice, useV2Content } from "@/hooks/useV2Content";
 
 function Calculator({ locale }: { locale: "en" | "fr" }) {
-  const [count, setCount] = useState(8);
+  const { pricing } = useV2Content();
+  const BASE = pricing.birthday.package;
+  const EXTRA = pricing.birthday.extraPerPlayer;
+  const INCLUDED = pricing.birthday.includedPlayers;
+  const MAX = pricing.birthday.maxPlayers;
+  const [count, setCount] = useState(INCLUDED);
   const extra = Math.max(0, Math.min(count - INCLUDED, MAX - INCLUDED));
   const total = BASE + extra * EXTRA;
 
@@ -50,7 +49,8 @@ function Calculator({ locale }: { locale: "en" | "fr" }) {
 export function BirthdaysPageContent() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
-  const b = v2Birthdays;
+  const { v2, pricing } = useV2Content();
+  const b = v2.birthdays;
   const heroImg = content.eventsPromoImage?.trim() || content.hero.backgroundImage || "/hero-background.png";
   const whyIcons = [Gamepad2, Zap, PartyPopper, Users, Trophy, Lock];
 
@@ -62,7 +62,7 @@ export function BirthdaysPageContent() {
           <div className="absolute inset-0 bg-gradient-to-b from-[#030308]/90 to-[#030308]" />
         </div>
         <div className="relative mx-auto max-w-[1400px] px-4 py-28 sm:px-6 lg:px-10">
-          <SectionLabel>{locale === "fr" ? "Anniversaires" : "Birthdays"}</SectionLabel>
+          <SectionLabel>{t(b.hero.sectionLabel, locale)}</SectionLabel>
           <DisplayTitle className="mt-4 max-w-2xl">{t(b.hero.title, locale)}</DisplayTitle>
           <p className="mt-4 text-lg text-ju-cyanGlow">{t(b.hero.sub, locale)}</p>
           <p className="mt-4 max-w-xl text-sm text-white/50">{t(b.hero.body, locale)}</p>
@@ -78,12 +78,12 @@ export function BirthdaysPageContent() {
           <DisplayTitle className="!text-3xl">{t(b.why.title, locale)}</DisplayTitle>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {b.why.items.map((item, i) => {
-              const Icon = whyIcons[i];
+              const Icon = whyIcons[i] ?? Gamepad2;
               return (
               <BentoCard key={i} accent="cyan" className="!p-5">
                 <Icon className="size-5 text-ju-cyanGlow" />
                 <p className="mt-3 font-display text-sm font-bold uppercase text-white">{t(item.title, locale)}</p>
-                <p className="mt-1 text-xs text-white/45">{t(item.sub, locale)}</p>
+                <p className="mt-1 text-xs text-white/45">{t(item.sub ?? { en: "", fr: "" }, locale)}</p>
               </BentoCard>
               );
             })}
@@ -95,7 +95,7 @@ export function BirthdaysPageContent() {
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-2">
           <BentoCard accent="purple" className="!p-8">
             <DisplayTitle className="!text-2xl">{t(b.package.title, locale)}</DisplayTitle>
-            <p className="mt-4 font-display text-5xl font-bold text-white">{formatPrice(CLIENT_PRICING.birthday.package)}</p>
+            <p className="mt-4 font-display text-5xl font-bold text-white">{formatPrice(pricing.birthday.package)}</p>
             <p className="text-sm text-white/45">{t(b.package.tax, locale)}</p>
             <ul className="mt-6 space-y-2 text-sm text-white/60">
               {b.package.includes.map((line, i) => (

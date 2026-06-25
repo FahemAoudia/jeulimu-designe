@@ -12,29 +12,22 @@ import {
   StatPill,
 } from "@/components/v3/primitives";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
-import { v2Home, t } from "@/lib/site-v2-content";
+import { t } from "@/lib/site-v2-content";
 import { pickLocalized } from "@/types/site-content";
 import { LumiFloor3D } from "@/components/v3/LumiFloor3D";
-import { CLIENT_PRICING, formatPrice } from "@/lib/client-pricing";
+import { formatPrice, useV2Content } from "@/hooks/useV2Content";
 import { cn } from "@/lib/cn";
-
-const GLANCE = [
-  { v: "16×24", l: { en: "LED Floor ft", fr: "pi plancher" } },
-  { v: "24", l: { en: "Max players", fr: "Joueurs max" } },
-  { v: "3", l: { en: "Game modes", fr: "Modes de jeu" } },
-  { v: "7+", l: { en: "Ages", fr: "Âges" } },
-  { v: "🔒", l: { en: "Private", fr: "Privé" } },
-];
 
 const MODE_COLORS = ["#00F5FF", "#FF2D95", "#7B2CFF"];
 
 export function HeroV2() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
+  const { v2, pricing, visibility } = useV2Content();
   const hero = content.hero;
   const bgImg = hero.backgroundImage?.trim() || "/hero-background.png";
   const bgVid = hero.backgroundVideo?.trim();
-  const h = v2Home.hero;
+  const h = v2.home.hero;
   const lines = t(h.headline, locale).split(". ").filter(Boolean);
 
   return (
@@ -55,7 +48,7 @@ export function HeroV2() {
       <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 pt-[4.75rem] sm:px-6 sm:pb-10 sm:pt-24 lg:justify-center lg:pb-16 lg:pt-24 lg:px-10">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="ju-on-dark lg:col-span-7">
-            <SectionLabel>{locale === "fr" ? "LaSalle, QC" : "LaSalle, QC"}</SectionLabel>
+            <SectionLabel>{t(h.locationLabel, locale)}</SectionLabel>
             <h1 className="mt-4 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight text-white">
               {lines[0] ?? t(h.headline, locale)}
               {lines[1] ? (
@@ -65,7 +58,7 @@ export function HeroV2() {
             <p className="mt-6 max-w-lg text-base text-white/60 sm:text-lg">{t(h.support, locale)}</p>
 
             <div className="mt-8 hidden flex-wrap gap-4 lg:flex">
-              <PrimaryBtn href="/booking">{t(v2Home.finalCta.cta, locale)}</PrimaryBtn>
+              <PrimaryBtn href="/booking">{t(v2.home.finalCta.cta, locale)}</PrimaryBtn>
               <GhostBtn href="/groups-pricing">{t(h.ctaGroups, locale)}</GhostBtn>
             </div>
           </div>
@@ -74,7 +67,7 @@ export function HeroV2() {
             <p className="text-center text-[10px] font-bold uppercase tracking-[0.25em] text-white/45">
               {locale === "fr" ? "Dès" : "From"}{" "}
               <span className="text-ju-cyanGlow">
-                {formatPrice(CLIENT_PRICING.largeGroup.perPlayer)}
+                {formatPrice(pricing.largeGroup.perPlayer)}
               </span>
               {locale === "fr" ? " / participant" : " / player"}
             </p>
@@ -85,21 +78,23 @@ export function HeroV2() {
           <LumiFloor3D className="w-full max-w-[400px] mx-auto" showStage />
           <p className="mt-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
             {locale === "fr" ? "Dès" : "From"}{" "}
-            <span className="text-ju-cyanGlow">{formatPrice(CLIENT_PRICING.largeGroup.perPlayer)}</span>
+            <span className="text-ju-cyanGlow">{formatPrice(pricing.largeGroup.perPlayer)}</span>
             {locale === "fr" ? " / participant" : " / player"}
           </p>
         </div>
       </div>
 
+      {visibility.marquee ? (
       <div className="relative z-10 border-y border-white/10 bg-black/70 backdrop-blur-md">
         <div className="flex overflow-hidden py-1 sm:py-0">
           <div className="ju-marquee-track flex gap-2 sm:gap-0">
-            {[...GLANCE, ...GLANCE, ...GLANCE].map((s, i) => (
+            {[...v2.home.marquee, ...v2.home.marquee, ...v2.home.marquee].map((s, i) => (
               <StatPill key={i} value={s.v} label={t(s.l, locale)} />
             ))}
           </div>
         </div>
       </div>
+      ) : null}
     </section>
   );
 }
@@ -112,7 +107,8 @@ export function WhatIsSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
   const img = content.gallery?.[0]?.image?.trim() || content.hero.backgroundImage || "/hero-background.png";
-  const w = v2Home.whatIs;
+  const { v2 } = useV2Content();
+  const w = v2.home.whatIs;
 
   return (
     <section id="experience" className="relative px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
@@ -127,7 +123,7 @@ export function WhatIsSection() {
           </div>
           <div>
             <BentoCard accent="cyan" className="!p-5 sm:!p-8 lg:!p-10">
-              <SectionLabel>{locale === "fr" ? "L’expérience" : "The experience"}</SectionLabel>
+              <SectionLabel>{t(w.sectionLabel, locale)}</SectionLabel>
               <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">{t(w.title, locale)}</DisplayTitle>
               <p className="mt-4 text-sm leading-relaxed text-white/55">{t(w.body, locale)}</p>
               <ul className="mt-6 grid gap-2 sm:grid-cols-2">
@@ -148,12 +144,13 @@ export function WhatIsSection() {
 
 export function HowWorksSection() {
   const { locale } = useLocaleContext();
-  const h = v2Home.howWorks;
+  const { v2 } = useV2Content();
+  const h = v2.home.howWorks;
 
   return (
     <section id="how-it-works" className="border-y border-white/10 bg-black/40 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
       <div className="mx-auto max-w-[1400px]">
-        <SectionLabel>{locale === "fr" ? "Gameplay" : "Gameplay"}</SectionLabel>
+        <SectionLabel>{t(h.sectionLabel, locale)}</SectionLabel>
         <DisplayTitle className="mt-3">{t(h.title, locale)}</DisplayTitle>
         <p className="mt-4 max-w-xl text-sm text-white/50">{t(h.body, locale)}</p>
 
@@ -162,7 +159,7 @@ export function HowWorksSection() {
             <div key={i} className="relative pl-6 ju-mode-stripe" style={{ "--stripe-color": MODE_COLORS[i % 3] } as React.CSSProperties}>
               <span className="font-display text-4xl font-bold text-white/15">{String(i + 1).padStart(2, "0")}</span>
               <p className="mt-2 font-display text-sm font-bold uppercase tracking-wide text-white">{t(step.title, locale)}</p>
-              <p className="mt-2 text-xs text-white/45 leading-relaxed">{t(step.sub, locale)}</p>
+              <p className="mt-2 text-xs text-white/45 leading-relaxed">{t(step.sub ?? { en: "", fr: "" }, locale)}</p>
             </div>
           ))}
         </div>
@@ -177,14 +174,15 @@ export function HowWorksSection() {
 export function GameModesSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
-  const gm = v2Home.gameModes;
+  const { v2 } = useV2Content();
+  const gm = v2.home.gameModes;
   const modes = content.gameModes?.length ? content.gameModes.slice(0, 3) : null;
 
   return (
     <section id="game-modes" className="px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
       <div className="mx-auto max-w-[1400px]">
         <SectionLabel>{t(gm.title, locale)}</SectionLabel>
-        <DisplayTitle className="mt-3">{locale === "fr" ? "Trois univers" : "Three worlds"}</DisplayTitle>
+        <DisplayTitle className="mt-3">{t(gm.subtitle, locale)}</DisplayTitle>
 
         <div className="mt-12 space-y-6">
           {(modes ?? []).map((m, i) => {
@@ -230,35 +228,36 @@ export function GameModesSection() {
 
 export function ExperiencesSection() {
   const { locale } = useLocaleContext();
-  const e = v2Home.experiences;
+  const { v2 } = useV2Content();
+  const e = v2.home.experiences;
 
   const cards = [
     {
       href: "/birthdays",
       accent: "pink" as const,
-      label: locale === "fr" ? "Anniversaires" : "Birthdays",
+      label: t(e.birthday.label, locale),
       title: t(e.birthday.title, locale),
       sub: t(e.birthday.sub, locale),
       cta: t(e.birthday.cta, locale),
-      badge: formatPrice(CLIENT_PRICING.birthday.package),
+      badge: formatPrice(pricing.birthday.package),
     },
     {
       href: "/groups-pricing",
       accent: "cyan" as const,
-      label: t(e.groups.title, locale),
-      title: locale === "fr" ? "Tarifs groupe" : "Group pricing",
-      sub: `${formatPrice(CLIENT_PRICING.smallGroup.perPlayer)} – ${formatPrice(CLIENT_PRICING.largeGroup.perPlayer)} / player`,
+      label: t(e.groups.label, locale),
+      title: t(e.groups.sub, locale),
+      sub: `${formatPrice(pricing.smallGroup.perPlayer)} – ${formatPrice(pricing.largeGroup.perPlayer)} / player`,
       cta: t(e.groups.cta, locale),
-      badge: locale === "fr" ? "2–24 joueurs" : "2–24 players",
+      badge: t(e.groups.badge, locale),
     },
     {
       href: "/mobile-events",
       accent: "purple" as const,
-      label: t(e.mobile.badge, locale),
+      label: t(e.mobile.label, locale),
       title: t(e.mobile.title, locale),
       sub: t(e.mobile.sub, locale),
       cta: t(e.mobile.ctaLearn, locale),
-      badge: locale === "fr" ? "Bientôt" : "Soon",
+      badge: t(e.mobile.badge, locale),
     },
   ];
 
@@ -267,7 +266,7 @@ export function ExperiencesSection() {
       <div className="mx-auto max-w-[1400px]">
         <SectionLabel>{t(e.title, locale)}</SectionLabel>
         <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">
-          {locale === "fr" ? "Choisissez votre expérience" : "Pick your experience"}
+          {t(e.subtitle, locale)}
         </DisplayTitle>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/50">{t(e.body, locale)}</p>
 
@@ -306,7 +305,8 @@ export function ReviewsSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
   const reviews = content.testimonialReviews ?? [];
-  const r = v2Home.reviews;
+  const { v2 } = useV2Content();
+  const r = v2.home.reviews;
   const items =
     reviews.length > 0
       ? reviews
@@ -318,7 +318,7 @@ export function ReviewsSection() {
   return (
     <section id="reviews" className="bg-black/50 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
       <div className="mx-auto max-w-[1400px]">
-        <SectionLabel>Google</SectionLabel>
+        <SectionLabel>{t(r.sectionLabel, locale)}</SectionLabel>
         <DisplayTitle className="mt-3 !text-3xl">{t(r.title, locale)}</DisplayTitle>
         <div className="ju-snap-x mt-10 flex gap-4 overflow-x-auto pb-4">
           {items.map((rev) => (
@@ -345,7 +345,8 @@ export function ReviewsSection() {
 
 export function FinalCtaSection() {
   const { locale } = useLocaleContext();
-  const f = v2Home.finalCta;
+  const { v2 } = useV2Content();
+  const f = v2.home.finalCta;
 
   return (
     <section className="px-4 py-10 sm:px-6 sm:py-16 lg:px-10">

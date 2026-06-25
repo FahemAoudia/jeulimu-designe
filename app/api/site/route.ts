@@ -22,7 +22,12 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json()) as SiteContent;
     await writeSiteContent(body);
-    revalidatePath("/");
+    revalidatePath("/", "layout");
+    revalidatePath("/birthdays");
+    revalidatePath("/groups-pricing");
+    revalidatePath("/mobile-events");
+    revalidatePath("/faq");
+    revalidatePath("/booking");
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error(e);

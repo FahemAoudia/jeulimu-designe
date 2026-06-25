@@ -10,6 +10,8 @@ import {
 } from "react";
 import type { SiteContent } from "@/types/site-content";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { SiteThemeStyle } from "@/components/SiteThemeStyle";
+import { defaultTheme } from "@/lib/v2-content-defaults";
 
 export type Locale = "en" | "fr";
 
@@ -83,6 +85,7 @@ export function AppProviders({
   return (
     <LangContext.Provider value={langValue}>
       <SiteContext.Provider value={siteValue}>
+        <SiteThemeStyle theme={content.theme ?? defaultTheme} />
         <ThemeProvider>{children}</ThemeProvider>
       </SiteContext.Provider>
     </LangContext.Provider>

@@ -80,6 +80,13 @@ export type SiteBranding = {
   showTagline: boolean;
 };
 
+import type {
+  SiteTheme,
+  V2Pricing,
+  V2SectionVisibility,
+  V2SiteContent,
+} from "@/types/v2-site-content";
+
 export type SiteContent = {
   hero: {
     titleStep: LocalizedString;
@@ -167,6 +174,14 @@ export type SiteContent = {
   eventsPromoImage: string;
   /** FAQ entries for the floating chat assistant (EN + FR). */
   faqItems: FaqItem[];
+  /** V2 public site copy (home, pages, nav, footer). */
+  v2: V2SiteContent;
+  /** Editable pricing used across v2 pages. */
+  pricingV2: V2Pricing;
+  /** Brand / UI colors (CSS variables). */
+  theme: SiteTheme;
+  /** Show/hide homepage v2 sections. */
+  sectionVisibilityV2: V2SectionVisibility;
 };
 
 export function pickLocalized<T extends LocalizedString>(

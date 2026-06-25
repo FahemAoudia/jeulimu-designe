@@ -5,16 +5,9 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { SiteLogoMark } from "@/components/SiteLogoMark";
 import { PrimaryBtn, GhostBtn } from "@/components/v3/primitives";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
-import { v2Footer, v2Nav, t } from "@/lib/site-v2-content";
+import { t } from "@/lib/site-v2-content";
 import { pickLocalized } from "@/types/site-content";
-
-const QUICK = [
-  { href: "/", label: { en: "Home", fr: "Accueil" } },
-  { href: "/birthdays", label: v2Nav.birthdays },
-  { href: "/groups-pricing", label: v2Nav.groupsPricing },
-  { href: "/mobile-events", label: v2Nav.mobileEvents },
-  { href: "/faq", label: v2Nav.faq },
-];
+import { useV2Content } from "@/hooks/useV2Content";
 
 const MAPS =
   "https://www.google.com/maps/dir/?api=1&destination=7427+Newman+Blvd,+LaSalle,+QC+H8N+1X3";
@@ -22,7 +15,18 @@ const MAPS =
 export function FooterV2() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
+  const { v2 } = useV2Content();
   const c = content.contact;
+  const footer = v2.footer;
+  const nav = v2.nav;
+
+  const QUICK = [
+    { href: "/", label: { en: "Home", fr: "Accueil" } },
+    { href: "/birthdays", label: nav.birthdays },
+    { href: "/groups-pricing", label: nav.groupsPricing },
+    { href: "/mobile-events", label: nav.mobileEvents },
+    { href: "/faq", label: nav.faq },
+  ];
 
   return (
     <footer className="ju-footer-v3 relative bg-[#020205] px-4 py-12 sm:px-6 sm:py-16 lg:px-10">
@@ -36,10 +40,10 @@ export function FooterV2() {
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <PrimaryBtn href="/booking" className="w-full justify-center sm:w-auto !text-[10px]">
-                {t(v2Nav.bookNow, locale)}
+                {t(nav.bookNow, locale)}
               </PrimaryBtn>
               <GhostBtn href={MAPS} className="w-full justify-center sm:w-auto !text-[10px]">
-                {t(v2Footer.directions, locale)}
+                {t(footer.directions, locale)}
               </GhostBtn>
             </div>
           </div>
@@ -47,7 +51,7 @@ export function FooterV2() {
           <div className="grid gap-8 sm:grid-cols-2 lg:col-span-7 lg:grid-cols-3">
             <div>
               <p className="font-display text-[10px] font-bold uppercase tracking-[0.3em] text-ju-cyanGlow">
-                {t(v2Footer.quickLinks, locale)}
+                {t(footer.quickLinks, locale)}
               </p>
               <ul className="mt-4 space-y-2 text-sm text-white/55">
                 {QUICK.map((l) => (
@@ -59,7 +63,7 @@ export function FooterV2() {
             </div>
             <div>
               <p className="font-display text-[10px] font-bold uppercase tracking-[0.3em] text-ju-cyanGlow">
-                {t(v2Footer.contact, locale)}
+                {t(footer.contact, locale)}
               </p>
               <ul className="mt-4 space-y-3 text-sm text-white/55">
                 <li className="flex gap-2">
@@ -80,7 +84,7 @@ export function FooterV2() {
             </div>
             <div>
               <p className="font-display text-[10px] font-bold uppercase tracking-[0.3em] text-ju-cyanGlow">
-                {t(v2Footer.hours, locale)}
+                {t(footer.hours, locale)}
               </p>
               <p className="mt-4 text-[10px] font-bold uppercase tracking-wider text-ju-yellow">
                 {pickLocalized(c.hoursReservation, locale)}

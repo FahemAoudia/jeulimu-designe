@@ -1,4 +1,10 @@
 import type { SiteContent } from "@/types/site-content";
+import {
+  defaultPricing,
+  defaultSectionVisibilityV2,
+  defaultTheme,
+  defaultV2SiteContent,
+} from "@/lib/v2-content-defaults";
 
 const L = (en: string, fr: string) => ({ en, fr });
 
@@ -387,4 +393,8 @@ export const defaultSiteContent: SiteContent = {
       ),
     },
   ],
+  v2: structuredClone(defaultV2SiteContent),
+  pricingV2: structuredClone(defaultPricing),
+  theme: structuredClone(defaultTheme),
+  sectionVisibilityV2: structuredClone(defaultSectionVisibilityV2),
 };

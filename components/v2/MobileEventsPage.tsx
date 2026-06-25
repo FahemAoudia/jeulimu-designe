@@ -7,11 +7,13 @@ import {
   SectionLabel,
 } from "@/components/v3/primitives";
 import { useLocaleContext } from "@/providers/AppProviders";
-import { v2Mobile, t } from "@/lib/site-v2-content";
+import { t } from "@/lib/site-v2-content";
+import { useV2Content } from "@/hooks/useV2Content";
 
 export function MobileEventsPageContent() {
   const { locale } = useLocaleContext();
-  const m = v2Mobile;
+  const { v2 } = useV2Content();
+  const m = v2.mobile;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [org, setOrg] = useState("");

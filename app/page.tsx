@@ -1,26 +1,10 @@
 import { PublicShell } from "@/components/v2/PublicShell";
-import {
-  GlanceSection,
-  HeroV2,
-  WhatIsSection,
-  HowWorksSection,
-  GameModesSection,
-  ExperiencesSection,
-  ReviewsSection,
-  FinalCtaSection,
-} from "@/components/v2/HomeSections";
+import { HomePageContent } from "@/components/v2/HomePageContent";
 
 export default function Home() {
   return (
     <PublicShell>
-      <HeroV2 />
-      <GlanceSection />
-      <WhatIsSection />
-      <HowWorksSection />
-      <GameModesSection />
-      <ExperiencesSection />
-      <ReviewsSection />
-      <FinalCtaSection />
+      <HomePageContent />
     </PublicShell>
   );
 }
