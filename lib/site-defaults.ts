@@ -315,7 +315,7 @@ export const defaultSiteContent: SiteContent = {
     "Plancher de jeu LED interactif — mouvement, équipe et spectacle à LaSalle.",
   ),
   siteBranding: {
-    logoImage: "/logo.svg",
+    logoImage: "/logo.png",
     logoAlt: L("jeuLumi — interactive LED game floor", "jeuLumi — plancher de jeu LED interactif"),
     logoSize: "md",
     showTagline: false,
@@ -397,5 +397,5 @@ export const defaultSiteContent: SiteContent = {
   pricingV2: structuredClone(defaultPricing),
   theme: structuredClone(defaultTheme),
   sectionVisibilityV2: structuredClone(defaultSectionVisibilityV2),
-  schemaVersion: 4,
+  schemaVersion: 5,
 };

@@ -1115,6 +1115,8 @@ html[data-theme="light"] .glow-magenta-popular {
   height: auto;
   object-fit: contain;
   object-position: left center;
+  /* Logos exported with black backgrounds blend into dark nav/footer */
+  mix-blend-mode: lighten;
 }
 
 .ju-site-logo[data-variant="nav"][data-size="sm"] .ju-site-logo-img {
