@@ -2,6 +2,10 @@ import { promises as fs } from "fs";
 import path from "path";
 import { del, head, put } from "@vercel/blob";
 import { defaultSiteContent } from "@/lib/site-defaults";
+import {
+  blobTokenMissingMessage,
+  getBlobReadWriteToken,
+} from "@/lib/blob-env";
 import type { SiteContent } from "@/types/site-content";
 
 const DATA_FILE = path.join(process.cwd(), "data", "site-content.json");
@@ -31,7 +35,7 @@ function deepMerge<T extends Record<string, unknown>>(base: T, patch: unknown): 
 }
 
 function blobToken(): string | undefined {
-  return process.env.BLOB_READ_WRITE_TOKEN?.trim() || undefined;
+  return getBlobReadWriteToken();
 }
 
 async function readSiteContentFromBlob(): Promise<unknown | null> {
@@ -102,9 +106,7 @@ export async function writeSiteContent(content: SiteContent): Promise<void> {
   }
 
   if (onVercel) {
-    throw new Error(
-      "BLOB_READ_WRITE_TOKEN is missing. In Vercel: Storage → Blob → copy Read/Write token → Project Settings → Environment Variables → redeploy.",
-    );
+    throw new Error(blobTokenMissingMessage());
   }
 
   try {

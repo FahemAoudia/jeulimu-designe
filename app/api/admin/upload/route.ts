@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
 import { put } from "@vercel/blob";
+import { getBlobReadWriteToken } from "@/lib/blob-env";
 
 const IMAGE_TYPES = new Set([
   "image/jpeg",
@@ -42,7 +43,7 @@ async function persistUpload(
   buffer: Buffer,
   contentType: string,
 ): Promise<string> {
-  const token = process.env.BLOB_READ_WRITE_TOKEN?.trim();
+  const token = getBlobReadWriteToken();
   if (token) {
     const blob = await put(`jeulumi/${filename}`, buffer, {
       access: "public",
@@ -109,7 +110,7 @@ export async function POST(req: Request) {
     const msg =
       e instanceof Error ? e.message : "Upload could not be completed";
     const readOnly = /EROFS|EPERM|EACCES|read-only/i.test(msg);
-    const noBlob = !process.env.BLOB_READ_WRITE_TOKEN?.trim();
+    const noBlob = !getBlobReadWriteToken();
     return NextResponse.json(
       {
         error: readOnly && noBlob
