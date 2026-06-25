@@ -310,32 +310,52 @@ export function AdminDashboard() {
                   <div className="mt-4 space-y-4">
                     <AdminImageUpload
                       label="Logo image"
-                      value={content.siteBranding.logoImage}
+                      value={
+                        content.siteBranding?.logoImage ??
+                        defaultSiteContent.siteBranding.logoImage
+                      }
                       onChange={(v) =>
                         setContent((p) => ({
                           ...p,
-                          siteBranding: { ...p.siteBranding, logoImage: v },
+                          siteBranding: {
+                            ...defaultSiteContent.siteBranding,
+                            ...p.siteBranding,
+                            logoImage: v,
+                          },
                         }))
                       }
                     />
                     <LocEditor
                       label="Logo alt text"
-                      value={content.siteBranding.logoAlt}
+                      value={
+                        content.siteBranding?.logoAlt ?? defaultSiteContent.siteBranding.logoAlt
+                      }
                       onChange={(v) =>
                         setContent((p) => ({
                           ...p,
-                          siteBranding: { ...p.siteBranding, logoAlt: v },
+                          siteBranding: {
+                            ...defaultSiteContent.siteBranding,
+                            ...p.siteBranding,
+                            logoAlt: v,
+                          },
                         }))
                       }
                     />
                     <label className="flex items-center gap-3 text-sm text-white">
                       <input
                         type="checkbox"
-                        checked={content.siteBranding.showTagline}
+                        checked={
+                          content.siteBranding?.showTagline ??
+                          defaultSiteContent.siteBranding.showTagline
+                        }
                         onChange={(e) =>
                           setContent((p) => ({
                             ...p,
-                            siteBranding: { ...p.siteBranding, showTagline: e.target.checked },
+                            siteBranding: {
+                              ...defaultSiteContent.siteBranding,
+                              ...p.siteBranding,
+                              showTagline: e.target.checked,
+                            },
                           }))
                         }
                         className="size-4 accent-ju-electric"
@@ -346,11 +366,15 @@ export function AdminDashboard() {
                       Logo size
                       <select
                         className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-3 py-2 text-sm text-white"
-                        value={content.siteBranding.logoSize}
+                        value={
+                          content.siteBranding?.logoSize ??
+                          defaultSiteContent.siteBranding.logoSize
+                        }
                         onChange={(e) =>
                           setContent((p) => ({
                             ...p,
                             siteBranding: {
+                              ...defaultSiteContent.siteBranding,
                               ...p.siteBranding,
                               logoSize: e.target.value as "sm" | "md" | "lg",
                             },

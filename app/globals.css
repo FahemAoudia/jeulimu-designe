@@ -1108,6 +1108,83 @@ html[data-theme="light"] .glow-magenta-popular {
   color: color-mix(in srgb, var(--ju-nav-text, #ffffff) 80%, transparent);
 }
 
+/* Site logo image — size from admin (sm / md / lg) */
+.ju-site-logo .ju-site-logo-img {
+  width: auto !important;
+  max-width: min(72vw, 360px);
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.ju-site-logo[data-variant="nav"][data-size="sm"] .ju-site-logo-img {
+  height: 2.25rem;
+  max-height: 2.25rem;
+}
+
+.ju-site-logo[data-variant="nav"][data-size="md"] .ju-site-logo-img {
+  height: 2.875rem;
+  max-height: 2.875rem;
+}
+
+.ju-site-logo[data-variant="nav"][data-size="lg"] .ju-site-logo-img {
+  height: 3.5rem;
+  max-height: 3.5rem;
+}
+
+.ju-site-logo[data-variant="footer"][data-size="sm"] .ju-site-logo-img {
+  height: 2.5rem;
+  max-height: 2.5rem;
+}
+
+.ju-site-logo[data-variant="footer"][data-size="md"] .ju-site-logo-img {
+  height: 3.25rem;
+  max-height: 3.25rem;
+}
+
+.ju-site-logo[data-variant="footer"][data-size="lg"] .ju-site-logo-img {
+  height: 4rem;
+  max-height: 4rem;
+}
+
+@media (min-width: 640px) {
+  .ju-site-logo[data-variant="nav"][data-size="sm"] .ju-site-logo-img {
+    height: 2.625rem;
+    max-height: 2.625rem;
+    max-width: min(48vw, 220px);
+  }
+
+  .ju-site-logo[data-variant="nav"][data-size="md"] .ju-site-logo-img {
+    height: 3.375rem;
+    max-height: 3.375rem;
+    max-width: min(52vw, 280px);
+  }
+
+  .ju-site-logo[data-variant="nav"][data-size="lg"] .ju-site-logo-img {
+    height: 4.25rem;
+    max-height: 4.25rem;
+    max-width: min(56vw, 340px);
+  }
+
+  .ju-site-logo[data-variant="footer"][data-size="sm"] .ju-site-logo-img {
+    height: 2.75rem;
+    max-height: 2.75rem;
+    max-width: 260px;
+  }
+
+  .ju-site-logo[data-variant="footer"][data-size="md"] .ju-site-logo-img {
+    height: 3.5rem;
+    max-height: 3.5rem;
+    max-width: 320px;
+  }
+
+  .ju-site-logo[data-variant="footer"][data-size="lg"] .ju-site-logo-img {
+    height: 4.5rem;
+    max-height: 4.5rem;
+    max-width: 400px;
+  }
+}
+
 .ju-btn-primary {
   background: linear-gradient(135deg, var(--ju-magenta, #ff2d95) 0%, #c026d3 50%, var(--ju-purple, #7b2cff) 100%);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
