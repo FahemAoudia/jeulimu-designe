@@ -228,7 +228,7 @@ export function GameModesSection() {
 
 export function ExperiencesSection() {
   const { locale } = useLocaleContext();
-  const { v2 } = useV2Content();
+  const { v2, pricing } = useV2Content();
   const e = v2.home.experiences;
 
   const cards = [
