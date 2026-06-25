@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
 import { put } from "@vercel/blob";
-import { getBlobReadWriteToken } from "@/lib/blob-env";
+import { blobTokenMissingMessage, getBlobReadWriteToken } from "@/lib/blob-env";
 
 const IMAGE_TYPES = new Set([
   "image/jpeg",
@@ -47,7 +47,7 @@ async function persistUpload(
   if (token) {
     const blob = await put(`jeulumi/${filename}`, buffer, {
       access: "public",
-      addRandomSuffix: false,
+      addRandomSuffix: true,
       contentType: contentType || "application/octet-stream",
       token,
     });
@@ -113,10 +113,10 @@ export async function POST(req: Request) {
     const noBlob = !getBlobReadWriteToken();
     return NextResponse.json(
       {
-        error: readOnly && noBlob
-          ? "This host cannot write files to disk. In Vercel: create a Blob store, copy the Read/Write token, and add env var BLOB_READ_WRITE_TOKEN to this project (then redeploy). Or use “Paste URL”, or run the site locally."
+        error: noBlob
+          ? blobTokenMissingMessage()
           : readOnly
-            ? "Could not save file. Check BLOB_READ_WRITE_TOKEN or use “Paste URL” / local dev."
+            ? "Could not save file to disk on this host. Use Paste URL or check BLOB_READ_WRITE_TOKEN."
             : msg,
       },
       { status: 500 },

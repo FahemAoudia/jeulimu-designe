@@ -21,6 +21,7 @@ export function AdminImageUpload({
   const inputId = useId();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [okMsg, setOkMsg] = useState<string | null>(null);
   const [pasteUrl, setPasteUrl] = useState("");
   const trimmed = value?.trim() ?? "";
 
@@ -29,11 +30,13 @@ export function AdminImageUpload({
     e.target.value = "";
     if (!file) return;
     setErr(null);
+    setOkMsg(null);
     setBusy(true);
     try {
       const url = await postAdminImage(file);
       onChange(url);
       setPasteUrl(url);
+      setOkMsg("Uploaded — click Save at the top to publish on the site.");
     } catch (er) {
       setErr(er instanceof Error ? er.message : "Upload failed");
     } finally {
@@ -44,8 +47,23 @@ export function AdminImageUpload({
   function applyPasteUrl() {
     const url = pasteUrl.trim();
     if (!url) return;
+    if (!/^https?:\/\//i.test(url)) {
+      setErr("Use a full link starting with https://");
+      setOkMsg(null);
+      return;
+    }
     setErr(null);
     onChange(url);
+    setOkMsg("URL applied — click Save at the top to publish on the site.");
+  }
+
+  function onPasteBlur() {
+    const url = pasteUrl.trim();
+    if (url && url !== trimmed && /^https?:\/\//i.test(url)) {
+      onChange(url);
+      setOkMsg("URL applied — click Save at the top to publish on the site.");
+      setErr(null);
+    }
   }
 
   return (
@@ -80,6 +98,7 @@ export function AdminImageUpload({
             onClick={() => {
               onChange("");
               setPasteUrl("");
+              setOkMsg(null);
             }}
           >
             <Trash2 className="size-3" /> Remove
@@ -96,7 +115,11 @@ export function AdminImageUpload({
             placeholder="https://…"
             className="min-w-0 flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2 text-sm text-white"
             value={pasteUrl || trimmed}
-            onChange={(e) => setPasteUrl(e.target.value)}
+            onChange={(e) => {
+              setPasteUrl(e.target.value);
+              setOkMsg(null);
+            }}
+            onBlur={onPasteBlur}
           />
         </label>
         <button
@@ -109,12 +132,14 @@ export function AdminImageUpload({
       </div>
 
       {err ? <p className="mt-2 text-xs text-red-300">{err}</p> : null}
+      {okMsg ? <p className="mt-2 text-xs text-emerald-300">{okMsg}</p> : null}
       {helper ? (
         <p className="mt-2 text-[11px] leading-relaxed text-ju-muted">{helper}</p>
       ) : (
         <p className="mt-2 text-[11px] leading-relaxed text-ju-muted">
-          Upload needs <code className="text-ju-cyanGlow">BLOB_READ_WRITE_TOKEN</code> on Vercel.
-          Or paste a direct image link and click Use URL — then Save.
+          Paste a direct image link → <strong className="text-white/80">Use URL</strong> →{" "}
+          <strong className="text-white/80">Save</strong> at the top. Upload from computer needs
+          Blob token (same as colors).
         </p>
       )}
       {trimmed ? (
