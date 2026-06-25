@@ -164,10 +164,14 @@ export function AdminDashboard() {
   async function save() {
     setBusy(true);
     setMsg(null);
-    const ok = await saveToServer();
+    const result = await saveToServer();
     setBusy(false);
-    setMsg(ok ? "Saved — changes are live on the public site." : "Save failed (check auth / permissions).");
-    if (ok) router.refresh();
+    if (result.ok) {
+      setMsg("Saved — changes are live on the public site.");
+      router.refresh();
+    } else {
+      setMsg(result.error);
+    }
   }
 
   function resetDefaults() {

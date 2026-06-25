@@ -24,7 +24,7 @@ type LangContextValue = {
 type SiteContextValue = {
   content: SiteContent;
   setContent: React.Dispatch<React.SetStateAction<SiteContent>>;
-  saveToServer: () => Promise<boolean>;
+  saveToServer: () => Promise<{ ok: true } | { ok: false; error: string }>;
 };
 
 const LangContext = createContext<LangContextValue | null>(null);
@@ -66,7 +66,18 @@ export function AppProviders({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(content),
     });
-    return res.ok;
+    if (res.ok) return { ok: true as const };
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
+    if (res.status === 401) {
+      return {
+        ok: false as const,
+        error: "Session expired — log in again at /admin/login.",
+      };
+    }
+    return {
+      ok: false as const,
+      error: data.error ?? `Save failed (HTTP ${res.status}).`,
+    };
   }, [content]);
 
   const langValue = useMemo(

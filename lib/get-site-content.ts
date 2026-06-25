@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { head, put } from "@vercel/blob";
+import { del, head, put } from "@vercel/blob";
 import { defaultSiteContent } from "@/lib/site-defaults";
 import type { SiteContent } from "@/types/site-content";
 
@@ -47,16 +47,19 @@ async function readSiteContentFromBlob(): Promise<unknown | null> {
   }
 }
 
-async function writeSiteContentToBlob(content: SiteContent): Promise<boolean> {
-  const token = blobToken();
-  if (!token) return false;
+async function writeSiteContentToBlob(content: SiteContent, token: string): Promise<void> {
+  try {
+    const existing = await head(BLOB_PATHNAME, { token });
+    await del(existing.url, { token });
+  } catch {
+    /* first save — no existing blob */
+  }
   await put(BLOB_PATHNAME, JSON.stringify(content, null, 2), {
     access: "public",
     token,
     contentType: "application/json",
     addRandomSuffix: false,
   });
-  return true;
 }
 
 export async function getSiteContent(): Promise<SiteContent> {
@@ -85,8 +88,35 @@ export function getSiteContentPath() {
 }
 
 export async function writeSiteContent(content: SiteContent): Promise<void> {
-  if (await writeSiteContentToBlob(content)) return;
+  const token = blobToken();
+  const onVercel = process.env.VERCEL === "1";
 
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(content, null, 2), "utf-8");
+  if (token) {
+    try {
+      await writeSiteContentToBlob(content, token);
+      return;
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      throw new Error(`Could not save to Vercel Blob: ${msg}`);
+    }
+  }
+
+  if (onVercel) {
+    throw new Error(
+      "BLOB_READ_WRITE_TOKEN is missing. In Vercel: Storage → Blob → copy Read/Write token → Project Settings → Environment Variables → redeploy.",
+    );
+  }
+
+  try {
+    await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
+    await fs.writeFile(DATA_FILE, JSON.stringify(content, null, 2), "utf-8");
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    if (/EROFS|EPERM|EACCES|read-only/i.test(msg)) {
+      throw new Error(
+        "This host cannot write to disk. Set BLOB_READ_WRITE_TOKEN or run the site locally.",
+      );
+    }
+    throw e;
+  }
 }

@@ -31,6 +31,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ error: "Save failed" }, { status: 500 });
+    const message =
+      e instanceof Error ? e.message : "Save failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
