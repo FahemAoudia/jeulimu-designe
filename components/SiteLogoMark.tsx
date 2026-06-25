@@ -70,7 +70,7 @@ export function SiteLogoMark({
           <span className="bg-gradient-to-r from-ju-electric to-ju-cyanGlow bg-clip-text text-transparent">
             Jeu
           </span>
-          <span className="bg-gradient-to-r from-[#FF2D95] to-[#7B2CFF] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-ju-magenta to-ju-purple bg-clip-text text-transparent">
             Lumi
           </span>
         </span>
@@ -79,7 +79,7 @@ export function SiteLogoMark({
           <span className="bg-gradient-to-r from-ju-electric to-ju-cyanGlow bg-clip-text text-transparent drop-shadow-[0_0_18px_rgba(0,245,255,0.45)]">
             Jeu
           </span>
-          <span className="bg-gradient-to-r from-[#FF2D95] to-[#7B2CFF] bg-clip-text text-transparent drop-shadow-[0_0_18px_rgba(255,45,149,0.45)]">
+          <span className="bg-gradient-to-r from-ju-magenta to-ju-purple bg-clip-text text-transparent drop-shadow-[0_0_18px_rgba(255,45,149,0.45)]">
             Lumi
           </span>
         </span>

@@ -2,10 +2,10 @@
 
 import { useMemo } from "react";
 import { useSiteContext } from "@/providers/AppProviders";
+import { mergeTheme } from "@/lib/theme-css";
 import {
   defaultPricing,
   defaultSectionVisibilityV2,
-  defaultTheme,
   defaultV2SiteContent,
 } from "@/lib/v2-content-defaults";
 import type { SiteTheme, V2Pricing, V2SectionVisibility, V2SiteContent } from "@/types/v2-site-content";
@@ -36,7 +36,7 @@ export function useV2Content() {
     () => ({
       v2: mergeV2(content.v2),
       pricing: content.pricingV2 ?? defaultPricing,
-      theme: content.theme ?? defaultTheme,
+      theme: mergeTheme(content.theme),
       visibility: content.sectionVisibilityV2 ?? defaultSectionVisibilityV2,
     }),
     [content],

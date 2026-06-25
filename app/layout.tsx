@@ -33,15 +33,21 @@ export const viewport = {
 
 const themeInitScript = `(function(){try{var t=localStorage.getItem("jl_theme");document.documentElement.setAttribute("data-theme",t==="light"||t==="dark"?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();`;
 
+import { generateThemeCss, mergeTheme } from "@/lib/theme-css";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const initialContent = await getSiteContent();
+  const themeCss = generateThemeCss(mergeTheme(initialContent.theme));
 
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <style id="jl-theme-ssr">{themeCss}</style>
+      </head>
       <body
         className={`${outfit.variable} ${syne.variable} ju-body-root font-sans antialiased overflow-x-hidden text-[15px] sm:text-base`}
       >

@@ -8,13 +8,14 @@ import { useSiteContext } from "@/providers/AppProviders";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { defaultSiteContent } from "@/lib/site-defaults";
 import type { SiteContent } from "@/types/site-content";
-import type { SiteTheme } from "@/types/v2-site-content";
 import { setAtPath } from "@/lib/content-path";
 import {
   AdminCollapse,
   LocEditor,
   SectionPathEditor,
 } from "@/components/admin/AdminFields";
+import { ThemeColorEditor } from "@/components/admin/ThemeColorEditor";
+import { ReviewsAdminSection } from "@/components/admin/ReviewsAdminSection";
 import { AdminImageUpload } from "@/components/AdminImageUpload";
 import { AdminVideoUpload } from "@/components/AdminVideoUpload";
 
@@ -52,19 +53,6 @@ const V2_VISIBILITY_META: {
   { key: "experiences", title: "Experiences", desc: "Birthdays / groups / mobile cards." },
   { key: "reviews", title: "Reviews", desc: "Google-style review carousel." },
   { key: "finalCta", title: "Final CTA", desc: "Ready to play booking band." },
-];
-
-const THEME_FIELDS: { key: keyof SiteTheme; label: string }[] = [
-  { key: "cyan", label: "Cyan accent" },
-  { key: "magenta", label: "Magenta accent" },
-  { key: "purple", label: "Purple accent" },
-  { key: "pinkGlow", label: "Pink glow" },
-  { key: "bgDeep", label: "Background deep" },
-  { key: "bgMid", label: "Background mid" },
-  { key: "bgNav", label: "Nav background" },
-  { key: "gradientStart", label: "Gradient start" },
-  { key: "gradientMid", label: "Gradient mid" },
-  { key: "gradientEnd", label: "Gradient end" },
 ];
 
 function updateContent(
@@ -306,40 +294,16 @@ export function AdminDashboard() {
 
             {tab === "Theme & Branding" ? (
               <div className="space-y-4">
-                <AdminCollapse title="Brand colors" hint="Updates accents, buttons, and page background." defaultOpen>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {THEME_FIELDS.map((f) => (
-                      <label key={f.key} className="block text-xs font-bold uppercase tracking-wider text-ju-soft">
-                        {f.label}
-                        <div className="mt-1 flex gap-2">
-                          <input
-                            type="color"
-                            value={content.theme?.[f.key] ?? defaultSiteContent.theme[f.key]}
-                            onChange={(e) =>
-                              setContent((p) => ({
-                                ...p,
-                                theme: { ...p.theme, [f.key]: e.target.value },
-                              }))
-                            }
-                            className="size-10 rounded border border-white/15 bg-transparent"
-                          />
-                          <input
-                            className="flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2 text-sm text-white"
-                            value={content.theme?.[f.key] ?? defaultSiteContent.theme[f.key]}
-                            onChange={(e) =>
-                              setContent((p) => ({
-                                ...p,
-                                theme: { ...p.theme, [f.key]: e.target.value },
-                              }))
-                            }
-                          />
-                        </div>
-                      </label>
-                    ))}
-                  </div>
-                </AdminCollapse>
+                <ThemeColorEditor
+                  theme={content.theme}
+                  onChange={(theme) => setContent((p) => ({ ...p, theme }))}
+                />
                 <AdminCollapse title="Logo & branding" defaultOpen>
-                  <div className="space-y-4">
+                  <p className="text-xs leading-relaxed text-ju-muted">
+                    On Vercel: set <code className="text-ju-cyanGlow">BLOB_READ_WRITE_TOKEN</code> for uploads,
+                    or paste an image URL below (e.g. from Imgur or your CDN).
+                  </p>
+                  <div className="mt-4 space-y-4">
                     <AdminImageUpload
                       label="Logo image"
                       value={content.siteBranding.logoImage}
@@ -518,9 +482,8 @@ export function AdminDashboard() {
             ) : null}
 
             {tab === "Reviews" ? (
-              <SectionPathEditor
-                title="Homepage reviews"
-                value={content.testimonialReviews}
+              <ReviewsAdminSection
+                reviews={content.testimonialReviews ?? []}
                 onChange={(v) => patch(["testimonialReviews"], v)}
               />
             ) : null}
