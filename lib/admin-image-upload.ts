@@ -21,7 +21,7 @@ export async function postAdminUpload(file: File): Promise<string> {
       j.error ??
         (raw.trim()
           ? `Upload failed (${res.status})`
-          : `Upload failed (${res.status}): empty response — try a smaller image (under 4 MB) or use “Paste URL”.`),
+          : `Upload failed (${res.status}): empty response — try a smaller image (under 4 MB).`),
     );
   }
   if (!j.url) {

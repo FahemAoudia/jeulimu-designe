@@ -20,6 +20,7 @@ export function AdminVideoUpload({
   const inputId = useId();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [okMsg, setOkMsg] = useState<string | null>(null);
   const trimmed = value?.trim() ?? "";
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
@@ -27,10 +28,12 @@ export function AdminVideoUpload({
     e.target.value = "";
     if (!file) return;
     setErr(null);
+    setOkMsg(null);
     setBusy(true);
     try {
       const url = await postAdminUpload(file);
       onChange(url);
+      setOkMsg("Uploaded — click Save at the top to publish on the site.");
     } catch (er) {
       setErr(er instanceof Error ? er.message : "Upload failed");
     } finally {
@@ -61,22 +64,31 @@ export function AdminVideoUpload({
           ) : (
             <Film className="size-3.5" />
           )}
-          {busy ? "Uploading…" : "Upload video file"}
+          {busy ? "Uploading…" : "Choose from computer"}
         </label>
         {trimmed ? (
           <button
             type="button"
             className="inline-flex items-center gap-1 rounded-lg border border-red-400/35 px-2 py-1.5 text-[11px] font-semibold uppercase text-red-200 hover:bg-red-500/10"
-            onClick={() => onChange("")}
+            onClick={() => {
+              onChange("");
+              setOkMsg(null);
+            }}
           >
             <Trash2 className="size-3" /> Remove video
           </button>
         ) : null}
       </div>
       {err ? <p className="mt-2 text-xs text-red-300">{err}</p> : null}
+      {okMsg ? <p className="mt-2 text-xs text-emerald-300">{okMsg}</p> : null}
       {helper ? (
         <p className="mt-2 text-[11px] leading-relaxed text-ju-muted">{helper}</p>
-      ) : null}
+      ) : (
+        <p className="mt-2 text-[11px] leading-relaxed text-ju-muted">
+          MP4, WebM or MOV — max 80 MB. Then click <strong className="text-white/80">Save</strong> at
+          the top.
+        </p>
+      )}
       {trimmed ? (
         <video
           className="mt-3 max-h-52 w-full max-w-md rounded-lg border border-white/15 bg-black/60 object-contain"

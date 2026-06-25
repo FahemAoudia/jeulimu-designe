@@ -116,7 +116,7 @@ export async function POST(req: Request) {
         error: noBlob
           ? blobTokenMissingMessage()
           : readOnly
-            ? "Could not save file to disk on this host. Use Paste URL or check BLOB_READ_WRITE_TOKEN."
+            ? "Could not save file to disk on this host. Check BLOB_READ_WRITE_TOKEN and redeploy."
             : msg,
       },
       { status: 500 },

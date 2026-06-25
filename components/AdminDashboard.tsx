@@ -304,8 +304,8 @@ export function AdminDashboard() {
                 />
                 <AdminCollapse title="Logo & branding" defaultOpen>
                   <p className="text-xs leading-relaxed text-ju-muted">
-                    Upload needs <code className="text-ju-cyanGlow">BLOB_READ_WRITE_TOKEN</code> on Vercel,
-                    or paste an image URL below then click Use URL.
+                    Choose an image from your computer, then Save at the top. Requires{" "}
+                    <code className="text-ju-cyanGlow">BLOB_READ_WRITE_TOKEN</code> on Vercel.
                   </p>
                   <div className="mt-4 space-y-4">
                     <AdminImageUpload

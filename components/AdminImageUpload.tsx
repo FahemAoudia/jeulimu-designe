@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import Image from "next/image";
-import { ImageUp, Link2, Loader2, Trash2 } from "lucide-react";
+import { ImageUp, Loader2, Trash2 } from "lucide-react";
 import { postAdminImage } from "@/lib/admin-image-upload";
 
 type AdminImageUploadProps = {
@@ -22,7 +22,6 @@ export function AdminImageUpload({
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [okMsg, setOkMsg] = useState<string | null>(null);
-  const [pasteUrl, setPasteUrl] = useState("");
   const trimmed = value?.trim() ?? "";
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
@@ -35,34 +34,11 @@ export function AdminImageUpload({
     try {
       const url = await postAdminImage(file);
       onChange(url);
-      setPasteUrl(url);
       setOkMsg("Uploaded — click Save at the top to publish on the site.");
     } catch (er) {
       setErr(er instanceof Error ? er.message : "Upload failed");
     } finally {
       setBusy(false);
-    }
-  }
-
-  function applyPasteUrl() {
-    const url = pasteUrl.trim();
-    if (!url) return;
-    if (!/^https?:\/\//i.test(url)) {
-      setErr("Use a full link starting with https://");
-      setOkMsg(null);
-      return;
-    }
-    setErr(null);
-    onChange(url);
-    setOkMsg("URL applied — click Save at the top to publish on the site.");
-  }
-
-  function onPasteBlur() {
-    const url = pasteUrl.trim();
-    if (url && url !== trimmed && /^https?:\/\//i.test(url)) {
-      onChange(url);
-      setOkMsg("URL applied — click Save at the top to publish on the site.");
-      setErr(null);
     }
   }
 
@@ -97,7 +73,6 @@ export function AdminImageUpload({
             className="inline-flex items-center gap-1 rounded-lg border border-red-400/35 px-2 py-1.5 text-[11px] font-semibold uppercase text-red-200 hover:bg-red-500/10"
             onClick={() => {
               onChange("");
-              setPasteUrl("");
               setOkMsg(null);
             }}
           >
@@ -106,40 +81,14 @@ export function AdminImageUpload({
         ) : null}
       </div>
 
-      <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
-        <label className="flex min-w-0 flex-1 items-center gap-2 text-xs text-ju-muted">
-          <Link2 className="size-3.5 shrink-0 text-ju-cyanGlow" aria-hidden />
-          <span className="shrink-0 font-bold uppercase tracking-wider">Paste URL</span>
-          <input
-            type="url"
-            placeholder="https://…"
-            className="min-w-0 flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2 text-sm text-white"
-            value={pasteUrl || trimmed}
-            onChange={(e) => {
-              setPasteUrl(e.target.value);
-              setOkMsg(null);
-            }}
-            onBlur={onPasteBlur}
-          />
-        </label>
-        <button
-          type="button"
-          onClick={applyPasteUrl}
-          className="shrink-0 rounded-lg border border-white/15 px-3 py-2 text-[10px] font-bold uppercase text-white hover:border-ju-cyanGlow/40"
-        >
-          Use URL
-        </button>
-      </div>
-
       {err ? <p className="mt-2 text-xs text-red-300">{err}</p> : null}
       {okMsg ? <p className="mt-2 text-xs text-emerald-300">{okMsg}</p> : null}
       {helper ? (
         <p className="mt-2 text-[11px] leading-relaxed text-ju-muted">{helper}</p>
       ) : (
         <p className="mt-2 text-[11px] leading-relaxed text-ju-muted">
-          Paste a direct image link → <strong className="text-white/80">Use URL</strong> →{" "}
-          <strong className="text-white/80">Save</strong> at the top. Upload from computer needs
-          Blob token (same as colors).
+          JPG, PNG, WebP or GIF — max 4 MB. Then click <strong className="text-white/80">Save</strong> at
+          the top.
         </p>
       )}
       {trimmed ? (
