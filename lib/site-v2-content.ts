@@ -10,9 +10,11 @@ const L = (en: string, fr: string): L10n => ({ en, fr });
 
 export const v2Nav = {
   birthdays: L("Birthdays", "Anniversaires"),
-  groupsPricing: L("Groups & Pricing", "Groupes & tarifs"),
+  groupsPricing: L("Groups & Events", "Groupes & événements"),
   mobileEvents: L("Mobile Events", "Événements mobiles"),
-  faq: L("FAQ", "FAQ"),
+  faq: L("F.A.Q.", "F.A.Q."),
+  contactUs: L("Contact Us", "Contactez-nous"),
+  events: L("Events", "Événements"),
   bookNow: L("Book Now", "Réserver"),
 };
 
@@ -52,11 +54,11 @@ export const v2Home = {
       "JeuLumi combine activité physique, travail d’équipe, stratégie et technologie pour des expériences engageantes. Nos animateurs guident les participants dans des défis coopératifs, compétitifs et stratégiques.",
     ),
     features: [
-      { icon: "run", title: L("Active Play", "Jeu actif"), sub: L("Fast-paced movement challenges.", "Défis de mouvement rapides.") },
-      { icon: "coop", title: L("Cooperative", "Coopération"), sub: L("Work together to complete objectives.", "Objectifs en équipe.") },
-      { icon: "vs", title: L("Competitive", "Compétition"), sub: L("Race, react, and compete.", "Courez, réagissez, rivalisez.") },
-      { icon: "brain", title: L("Memory & Strategy", "Mémoire & stratégie"), sub: L("Recall, decide, adapt.", "Observer, décider, s’adapter.") },
-      { icon: "social", title: L("Social Fun", "Plaisir social"), sub: L("Designed to bring people together.", "Pour jouer ensemble.") },
+      { icon: "run", title: L("🏃 Active Play", "🏃 Jeu actif"), sub: L("Stay moving through fast-paced challenges.", "Défis rapides qui vous font bouger.") },
+      { icon: "coop", title: L("🤝 Cooperative Challenges", "🤝 Défis coopératifs"), sub: L("Work together to complete objectives and progress through levels.", "Objectifs en équipe pour progresser.") },
+      { icon: "vs", title: L("🏆 Competitive Games", "🏆 Jeux compétitifs"), sub: L("Race, react, and compete against each other.", "Courez, réagissez et rivalisez.") },
+      { icon: "brain", title: L("🧠 Memory & Strategy", "🧠 Mémoire & stratégie"), sub: L("Test observation, recall, decision-making, and adaptability.", "Observation, mémoire et adaptation.") },
+      { icon: "social", title: L("🎉 Social Fun", "🎉 Plaisir social"), sub: L("Designed to bring people together through play.", "Pour jouer ensemble.") },
     ],
     cta: L("Learn More", "En savoir plus"),
   },
@@ -105,8 +107,8 @@ export const v2Home = {
   experiences: {
     title: L("Experiences For Every Group", "Expériences pour tous les groupes"),
     body: L(
-      "Whether you’re celebrating a birthday, planning a group outing, or bringing a team together — JeuLumi gets everyone moving, thinking, and having fun.",
-      "Anniversaire, sortie de groupe ou activité d’équipe — JeuLumi fait bouger, réfléchir et s’amuser.",
+      "Whether you're celebrating a birthday, planning a group outing, or bringing the team together — we are ready for your event.",
+      "Anniversaire, sortie de groupe ou activité d'équipe — nous sommes prêts pour votre événement.",
     ),
     birthday: {
       title: L("Birthday Parties That Get Kids Moving", "Des fêtes qui font bouger les enfants"),
@@ -116,18 +118,17 @@ export const v2Home = {
     groups: {
       title: L("Groups & Events", "Groupes & événements"),
       perfectFor: [
-        L("Families & Friends", "Familles & amis"),
-        L("Schools & Day Camps", "Écoles & camps de jour"),
-        L("Sports Teams", "Équipes sportives"),
-        L("Team Building", "Team building"),
-        L("Community Groups", "Groupes communautaires"),
+        L("Families, schools, sports teams, camps", "Familles, écoles, équipes sportives, camps"),
+        L("Corporate teams and community organizations", "Équipes corporatives et groupes communautaires"),
+        L("Flexible pricing based on group size", "Tarifs flexibles selon la taille du groupe"),
+        L("Starting at $21 per participant", "Dès 21 $ par participant"),
       ],
       pricing: [
-        L("2–24 Participants", "2–24 participants"),
-        L("Starting at $20.99 / player", "Dès 20,99 $ / participant"),
+        L("2–30 participants", "2–30 participants"),
+        L("Private sessions available", "Séances privées disponibles"),
         L("60–75 minute sessions", "Séances 60–75 min"),
       ],
-      cta: L("View Groups & Pricing", "Voir groupes & tarifs"),
+      cta: L("View Groups & Events →", "Voir groupes & événements →"),
     },
     mobile: {
       title: L("Bringing the Game to You", "Le jeu vient à vous"),
@@ -176,23 +177,22 @@ export const v2Birthdays = {
     price: "$249.99",
     tax: L("+ tax", "+ taxes"),
     includes: [
-      L("Min 8 participants", "Min. 8 participants"),
-      L("75 minutes gameplay", "75 min de jeu"),
-      L("60 min celebration space", "60 min espace fête"),
-      L("Staff-guided activities", "Activités encadrées"),
-      L("Digital & printable invitations", "Invitations numériques & imprimables"),
-      L("Tables and chairs provided", "Tables et chaises fournies"),
+      L("2-hour access to the party room; host has 15 extra minutes before guests arrive", "2 h d'accès à la salle; 15 min supplémentaires pour l'organisateur avant les invités"),
+      L("Customize your party — bring your own food and décor", "Personnalisez votre fête — apportez nourriture et décorations"),
+      L("Essential decorations: tablecloth in red, orange, pink, blue, green, or white", "Décorations essentielles : nappe rouge, orange, rose, bleue, verte ou blanche"),
+      L("Downloadable digital invitation", "Invitation numérique téléchargeable"),
+      L("Event cleanup handled by our staff", "Nettoyage géré par notre équipe"),
+      L("75 minutes interactive gameplay on the LED floor", "75 min de jeu interactif sur le plancher LED"),
     ],
     extra: L("$20.99 + tax per additional participant", "20,99 $ + taxes par participant additionnel"),
-    capacity: L("Up to 24 participants", "Jusqu’à 24 participants"),
+    capacity: L("Up to 30 participants", "Jusqu'à 30 participants"),
   },
   gameplay: {
-    title: L("What's Included During Gameplay", "Pendant le jeu"),
+    title: L("What's Included", "Ce qui est inclus"),
     items: [
-      { icon: "coop", title: L("Cooperative Challenges", "Défis coopératifs"), sub: L("Complete objectives together.", "Objectifs en équipe.") },
-      { icon: "trophy", title: L("Competitive Games", "Jeux compétitifs"), sub: L("Race and react.", "Courez et réagissez.") },
-      { icon: "brain", title: L("Memory & Strategy", "Mémoire & stratégie"), sub: L("Patterns evolve fast.", "Motifs évolutifs.") },
-      { icon: "bolt", title: L("Fast Reactions", "Réactions rapides"), sub: L("Colours and rules change.", "Couleurs et règles changeantes.") },
+      { icon: "gamepad", title: L("Dynamic Games", "Jeux dynamiques"), sub: L("Different interactive group challenges.", "Défis de groupe interactifs variés.") },
+      { icon: "music", title: L("Atmosphere", "Ambiance"), sub: L("Create your vibe during gameplay — send us your curated Spotify playlist.", "Créez l'ambiance — envoyez votre playlist Spotify.") },
+      { icon: "party", title: L("Party Zone", "Zone fête"), sub: L("Private room for celebrating. Bring your own food and decorations.", "Salle privée pour célébrer. Apportez nourriture et décorations.") },
     ],
   },
   bring: {
@@ -233,8 +233,8 @@ export const v2Groups = {
     title: L("Groups & Events", "Groupes & événements"),
     sub: L("Active experiences for groups of all sizes.", "Expériences actives pour tous les groupes."),
     body: L(
-      "Family outings, school trips, sports teams, team building, or community gatherings — interactive challenges that get people moving and having fun.",
-      "Sorties familiales, écoles, équipes sportives, team building ou groupes — défis interactifs et plaisir.",
+      "Perfect for families, schools, sports teams, camps, corporate teams, and community organizations.",
+      "Familles, écoles, équipes sportives, camps, entreprises et groupes communautaires.",
     ),
   },
   audiences: [
@@ -286,12 +286,12 @@ export const v2Groups = {
     {
       id: "large",
       title: L("Large Group", "Grand groupe"),
-      players: L("16–24 Participants", "16–24 participants"),
+      players: L("16–30 Participants", "16–30 participants"),
       duration: L("75 Minutes", "75 minutes"),
       price: "$20.99",
       unit: L("/ participant", "/ participant"),
       cta: L("Contact Us", "Contactez-nous"),
-      href: "mailto:contact@jeulumi.ca",
+      href: "/contact",
     },
   ],
   addon: {
@@ -307,6 +307,19 @@ export const v2Groups = {
     sub: L("Larger bookings or recurring visits.", "Réservations importantes ou récurrentes."),
     cta: L("Contact Us", "Contactez-nous"),
   },
+  customQuote: {
+    title: L("Schools, Camps & Corporate", "Écoles, camps & entreprises"),
+    body: L(
+      "Need a custom quote for schools, day camps, corporate teams, or recurring visits? Contact us — we'll tailor pricing to your group.",
+      "Devis sur mesure pour écoles, camps, entreprises ou visites récurrentes ? Contactez-nous.",
+    ),
+    cta: L("Request a Custom Quote", "Demander un devis"),
+  },
+  faq: [
+    { q: L("What group sizes do you accommodate?", "Quelles tailles de groupe ?"), a: L("From 2 to 30 participants depending on the experience.", "De 2 à 30 participants selon l'expérience.") },
+    { q: L("Do you offer private sessions?", "Séances privées ?"), a: L("Yes — your group enjoys the floor without sharing with others.", "Oui — votre groupe seul sur le plancher.") },
+    { q: L("Can schools book field trips?", "Sorties scolaires ?"), a: L("Yes — contact us for custom school and camp pricing.", "Oui — contactez-nous pour tarifs écoles et camps.") },
+  ],
 };
 
 export const v2Mobile = {

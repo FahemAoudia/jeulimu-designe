@@ -8,6 +8,7 @@ import {
   PrimaryBtn,
   SectionLabel,
 } from "@/components/v3/primitives";
+import { FaqAccordion } from "@/components/v2/FaqAccordion";
 import { useLocaleContext } from "@/providers/AppProviders";
 import { t } from "@/lib/site-v2-content";
 import { formatPrice, useV2Content } from "@/hooks/useV2Content";
@@ -51,7 +52,7 @@ export function GroupsPricingPageContent() {
       price: formatPrice(pricing.largeGroup.perPlayer),
       unit: g.pricing[2]?.unit ?? { en: "", fr: "" },
       cta: g.pricing[2]?.cta ?? { en: "", fr: "" },
-      href: g.pricing[2]?.href ?? "mailto:contact@jeulumi.ca",
+      href: g.pricing[2]?.href ?? "/contact",
       featured: false,
     },
   ];
@@ -68,23 +69,40 @@ export function GroupsPricingPageContent() {
       </section>
 
       <section className="border-y border-white/10 bg-black/40 px-4 py-16 sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-[1400px] grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {g.audiences.map((a, i) => {
-            const Icon = ICONS[i] ?? Users;
-            return (
-              <BentoCard key={i} accent="cyan" className="!p-6">
-                <Icon className="size-5 text-ju-cyanGlow" />
-                <p className="mt-3 font-display font-bold uppercase text-white">{t(a.title, locale)}</p>
-                <p className="mt-2 text-xs text-white/45">{t(a.desc ?? { en: "", fr: "" }, locale)}</p>
-              </BentoCard>
-            );
-          })}
+        <div className="mx-auto max-w-[1400px]">
+          <DisplayTitle className="!text-2xl">{locale === "fr" ? "Qui nous choisit" : "Who We Serve"}</DisplayTitle>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {g.audiences.map((a, i) => {
+              const Icon = ICONS[i] ?? Users;
+              return (
+                <BentoCard key={i} accent="cyan" className="!p-6">
+                  <Icon className="size-5 text-ju-cyanGlow" />
+                  <p className="mt-3 font-display font-bold uppercase text-white">{t(a.title, locale)}</p>
+                  <p className="mt-2 text-xs text-white/45">{t(a.desc ?? { en: "", fr: "" }, locale)}</p>
+                </BentoCard>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      <section id="pricing" className="px-4 py-20 sm:px-6 lg:px-10">
+      <section className="px-4 py-16 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
-          <DisplayTitle className="!text-3xl">{locale === "fr" ? "Tarifs" : "Pricing"}</DisplayTitle>
+          <DisplayTitle className="!text-2xl">{t(g.expect.title, locale)}</DisplayTitle>
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+            {g.expect.items.map((item, i) => (
+              <li key={i} className="flex gap-2 text-sm text-white/65">
+                <span className="text-ju-cyanGlow">▸</span>
+                {t(item, locale)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section id="pricing" className="border-y border-white/10 bg-black/40 px-4 py-20 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <DisplayTitle className="!text-3xl">{locale === "fr" ? "Tarifs par groupe" : "Pricing by Group Size"}</DisplayTitle>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {pricingCards.map((p) => (
               <div key={p.id} className={cn("ju-bento border bg-[#0a0a12]/80 p-8 backdrop-blur-md", p.featured ? "border-[#FF2D95]/40" : "border-white/10")}>
@@ -97,13 +115,17 @@ export function GroupsPricingPageContent() {
               </div>
             ))}
           </div>
-          <BentoCard accent="pink" className="mt-8 !p-8">
-            <h3 className="font-display text-xl font-bold uppercase text-white">{t(g.addon.title, locale)}</h3>
-            <p className="mt-2 text-white/50">
-              {formatPrice(pricing.partyRoom.price)} {t(g.addon.tax, locale)} · {t(g.addon.duration, locale)}
-            </p>
-            <GhostBtn href={g.addon.href} className="mt-6 !text-[10px]">{t(g.addon.cta, locale)}</GhostBtn>
+          <BentoCard accent="cyan" className="mt-8 !p-8">
+            <h3 className="font-display text-xl font-bold uppercase text-white">{t(g.customQuote.title, locale)}</h3>
+            <p className="mt-3 text-sm text-white/55">{t(g.customQuote.body, locale)}</p>
+            <GhostBtn href="/contact" className="mt-6 !text-[10px]">{t(g.customQuote.cta, locale)}</GhostBtn>
           </BentoCard>
+        </div>
+      </section>
+
+      <section className="px-4 py-16 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <FaqAccordion items={g.faq.map((f) => ({ q: t(f.q, locale), a: t(f.a, locale) }))} />
         </div>
       </section>
 
@@ -111,7 +133,7 @@ export function GroupsPricingPageContent() {
         <div className="mx-auto max-w-[1400px] border border-white/10 bg-gradient-to-r from-cyan-500/10 to-purple-600/10 px-8 py-14 text-center">
           <DisplayTitle className="!text-2xl">{t(g.contact.title, locale)}</DisplayTitle>
           <p className="mt-2 text-white/50">{t(g.contact.sub, locale)}</p>
-          <PrimaryBtn href="mailto:contact@jeulumi.ca" className="mt-6">{t(g.contact.cta, locale)}</PrimaryBtn>
+          <PrimaryBtn href="/contact" className="mt-6">{t(g.contact.cta, locale)}</PrimaryBtn>
         </div>
       </section>
     </div>

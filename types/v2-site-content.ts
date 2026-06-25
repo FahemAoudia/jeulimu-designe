@@ -92,6 +92,8 @@ export type V2SiteContent = {
     groupsPricing: LocalizedString;
     mobileEvents: LocalizedString;
     faq: LocalizedString;
+    contactUs: LocalizedString;
+    events: LocalizedString;
     bookNow: LocalizedString;
   };
   home: {
@@ -212,6 +214,8 @@ export type V2SiteContent = {
       href: string;
     };
     contact: { title: LocalizedString; sub: LocalizedString; cta: LocalizedString };
+    customQuote: { title: LocalizedString; body: LocalizedString; cta: LocalizedString };
+    faq: V2FaqPair[];
   };
   mobile: {
     hero: {

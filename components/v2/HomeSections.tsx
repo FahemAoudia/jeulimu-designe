@@ -15,7 +15,7 @@ import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { t } from "@/lib/site-v2-content";
 import { pickLocalized } from "@/types/site-content";
 import { LumiFloor3D } from "@/components/v3/LumiFloor3D";
-import { formatPrice, useV2Content } from "@/hooks/useV2Content";
+import { useV2Content } from "@/hooks/useV2Content";
 import { cn } from "@/lib/cn";
 
 const MODE_COLORS = ["#00F5FF", "#FF2D95", "#7B2CFF"];
@@ -23,7 +23,7 @@ const MODE_COLORS = ["#00F5FF", "#FF2D95", "#7B2CFF"];
 export function HeroV2() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
-  const { v2, pricing, visibility } = useV2Content();
+  const { v2, visibility } = useV2Content();
   const hero = content.hero;
   const bgImg = hero.backgroundImage?.trim() || "/hero-background.png";
   const bgVid = hero.backgroundVideo?.trim();
@@ -64,23 +64,11 @@ export function HeroV2() {
           </div>
           <div className="hidden flex-col items-center gap-4 lg:col-span-5 lg:flex">
             <LumiFloor3D className="w-full" showStage />
-            <p className="text-center text-[10px] font-bold uppercase tracking-[0.25em] text-white/45">
-              {locale === "fr" ? "Dès" : "From"}{" "}
-              <span className="text-ju-cyanGlow">
-                {formatPrice(pricing.largeGroup.perPlayer)}
-              </span>
-              {locale === "fr" ? " / participant" : " / player"}
-            </p>
           </div>
         </div>
 
         <div className="mt-10 w-full lg:hidden">
           <LumiFloor3D className="w-full max-w-[400px] mx-auto" showStage />
-          <p className="mt-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
-            {locale === "fr" ? "Dès" : "From"}{" "}
-            <span className="text-ju-cyanGlow">{formatPrice(pricing.largeGroup.perPlayer)}</span>
-            {locale === "fr" ? " / participant" : " / player"}
-          </p>
         </div>
       </div>
 
@@ -228,7 +216,7 @@ export function GameModesSection() {
 
 export function ExperiencesSection() {
   const { locale } = useLocaleContext();
-  const { v2, pricing } = useV2Content();
+  const { v2 } = useV2Content();
   const e = v2.home.experiences;
 
   const cards = [
@@ -239,16 +227,14 @@ export function ExperiencesSection() {
       title: t(e.birthday.title, locale),
       sub: t(e.birthday.sub, locale),
       cta: t(e.birthday.cta, locale),
-      badge: formatPrice(pricing.birthday.package),
     },
     {
       href: "/groups-pricing",
       accent: "cyan" as const,
       label: t(e.groups.label, locale),
-      title: t(e.groups.sub, locale),
-      sub: `${formatPrice(pricing.smallGroup.perPlayer)} – ${formatPrice(pricing.largeGroup.perPlayer)} / player`,
+      title: t(e.groups.title, locale),
+      sub: t(e.groups.perfectFor[0], locale),
       cta: t(e.groups.cta, locale),
-      badge: t(e.groups.badge, locale),
     },
     {
       href: "/mobile-events",
@@ -257,12 +243,11 @@ export function ExperiencesSection() {
       title: t(e.mobile.title, locale),
       sub: t(e.mobile.sub, locale),
       cta: t(e.mobile.ctaLearn, locale),
-      badge: t(e.mobile.badge, locale),
     },
   ];
 
   return (
-    <section className="border-t border-white/10 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-24">
+    <section id="experiences" className="border-t border-white/10 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-24">
       <div className="mx-auto max-w-[1400px]">
         <SectionLabel>{t(e.title, locale)}</SectionLabel>
         <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">
@@ -278,18 +263,13 @@ export function ExperiencesSection() {
               accent={card.accent}
               className="ju-exp-card !min-h-[220px] !p-6 sm:!p-7"
             >
-              <div className="flex items-start justify-between gap-3">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
-                  {card.label}
-                </span>
-                <span className="shrink-0 rounded-sm border border-white/15 bg-black/40 px-2 py-1 text-[10px] font-bold text-ju-cyanGlow">
-                  {card.badge}
-                </span>
-              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
+                {card.label}
+              </span>
               <h3 className="mt-4 font-display text-lg font-bold uppercase leading-snug text-white sm:text-xl line-clamp-3">
                 {card.title}
               </h3>
-              <p className="mt-2 text-xs leading-relaxed text-white/45 line-clamp-2">{card.sub}</p>
+              <p className="mt-2 text-xs leading-relaxed text-white/45 line-clamp-3">{card.sub}</p>
               <span className="mt-auto pt-5 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#FF2D95] group-hover:text-ju-cyanGlow">
                 {card.cta} <ArrowRight className="size-3.5 shrink-0" />
               </span>

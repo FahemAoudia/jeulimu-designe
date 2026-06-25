@@ -28,6 +28,7 @@ export async function POST(req: Request) {
     revalidatePath("/mobile-events");
     revalidatePath("/faq");
     revalidatePath("/booking");
+    revalidatePath("/contact");
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error(e);

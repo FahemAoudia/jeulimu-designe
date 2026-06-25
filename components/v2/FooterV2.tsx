@@ -39,8 +39,8 @@ export function FooterV2() {
               {pickLocalized(content.footerTagline, locale)}
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <PrimaryBtn href="/booking" className="w-full justify-center sm:w-auto !text-[10px]">
-                {t(nav.bookNow, locale)}
+              <PrimaryBtn href="/#experiences" className="w-full justify-center sm:w-auto !text-[10px]">
+                {t(nav.events, locale)}
               </PrimaryBtn>
               <GhostBtn href={MAPS} className="w-full justify-center sm:w-auto !text-[10px]">
                 {t(footer.directions, locale)}

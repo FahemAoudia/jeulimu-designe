@@ -11,7 +11,7 @@ export const CLIENT_PRICING = {
     perPlayer: 24.99,
   },
   largeGroup: {
-    players: "16–24",
+    players: "16–30",
     durationMin: 75,
     perPlayer: 20.99,
   },
@@ -19,7 +19,7 @@ export const CLIENT_PRICING = {
     package: 249.99,
     extraPerPlayer: 20.99,
     includedPlayers: 8,
-    maxPlayers: 24,
+    maxPlayers: 30,
   },
   partyRoom: {
     price: 60,

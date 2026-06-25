@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Gamepad2, Lock, PartyPopper, Trophy, Users, Zap } from "lucide-react";
+import { Gamepad2, Lock, Music, PartyPopper, Trophy, Users, Zap } from "lucide-react";
 import {
   BentoCard,
   DisplayTitle,
@@ -15,36 +14,8 @@ import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { t } from "@/lib/site-v2-content";
 import { formatPrice, useV2Content } from "@/hooks/useV2Content";
 
-function Calculator({ locale }: { locale: "en" | "fr" }) {
-  const { pricing } = useV2Content();
-  const BASE = pricing.birthday.package;
-  const EXTRA = pricing.birthday.extraPerPlayer;
-  const INCLUDED = pricing.birthday.includedPlayers;
-  const MAX = pricing.birthday.maxPlayers;
-  const [count, setCount] = useState(INCLUDED);
-  const extra = Math.max(0, Math.min(count - INCLUDED, MAX - INCLUDED));
-  const total = BASE + extra * EXTRA;
-
-  return (
-    <BentoCard accent="pink" className="!p-8">
-      <p className="font-display text-[10px] uppercase tracking-[0.3em] text-ju-cyanGlow">
-        {locale === "fr" ? "Calculateur" : "Calculator"}
-      </p>
-      <input
-        type="range"
-        min={INCLUDED}
-        max={MAX}
-        value={count}
-        onChange={(e) => setCount(Number(e.target.value))}
-        className="mt-6 w-full accent-[#FF2D95]"
-      />
-      <div className="mt-4 flex justify-between font-display text-2xl font-bold text-white">
-        <span>{count} {locale === "fr" ? "joueurs" : "players"}</span>
-        <span className="text-ju-cyanGlow">${total.toFixed(2)} + tax</span>
-      </div>
-    </BentoCard>
-  );
-}
+const WHY_ICONS = [Gamepad2, Zap, PartyPopper, Users, Trophy, Lock];
+const INCLUDED_ICONS = [Gamepad2, Music, PartyPopper];
 
 export function BirthdaysPageContent() {
   const { locale } = useLocaleContext();
@@ -52,7 +23,6 @@ export function BirthdaysPageContent() {
   const { v2, pricing } = useV2Content();
   const b = v2.birthdays;
   const heroImg = content.eventsPromoImage?.trim() || content.hero.backgroundImage || "/hero-background.png";
-  const whyIcons = [Gamepad2, Zap, PartyPopper, Users, Trophy, Lock];
 
   return (
     <div className="ju-v3-shell">
@@ -68,7 +38,7 @@ export function BirthdaysPageContent() {
           <p className="mt-4 max-w-xl text-sm text-white/50">{t(b.hero.body, locale)}</p>
           <div className="mt-8 flex flex-wrap gap-4">
             <PrimaryBtn href="/booking">{t(b.hero.ctaBook, locale)}</PrimaryBtn>
-            <GhostBtn href="/booking">{t(b.hero.ctaCheck, locale)}</GhostBtn>
+            <GhostBtn href="/contact">{t(b.hero.ctaCheck, locale)}</GhostBtn>
           </div>
         </div>
       </section>
@@ -78,13 +48,13 @@ export function BirthdaysPageContent() {
           <DisplayTitle className="!text-3xl">{t(b.why.title, locale)}</DisplayTitle>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {b.why.items.map((item, i) => {
-              const Icon = whyIcons[i] ?? Gamepad2;
+              const Icon = WHY_ICONS[i] ?? Gamepad2;
               return (
-              <BentoCard key={i} accent="cyan" className="!p-5">
-                <Icon className="size-5 text-ju-cyanGlow" />
-                <p className="mt-3 font-display text-sm font-bold uppercase text-white">{t(item.title, locale)}</p>
-                <p className="mt-1 text-xs text-white/45">{t(item.sub ?? { en: "", fr: "" }, locale)}</p>
-              </BentoCard>
+                <BentoCard key={i} accent="cyan" className="!p-5">
+                  <Icon className="size-5 text-ju-cyanGlow" />
+                  <p className="mt-3 font-display text-sm font-bold uppercase text-white">{t(item.title, locale)}</p>
+                  <p className="mt-1 text-xs text-white/45">{t(item.sub ?? { en: "", fr: "" }, locale)}</p>
+                </BentoCard>
               );
             })}
           </div>
@@ -92,22 +62,45 @@ export function BirthdaysPageContent() {
       </section>
 
       <section className="border-y border-white/10 bg-black/40 px-4 py-20 sm:px-6 lg:px-10">
-        <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-2">
-          <BentoCard accent="purple" className="!p-8">
-            <DisplayTitle className="!text-2xl">{t(b.package.title, locale)}</DisplayTitle>
-            <p className="mt-4 font-display text-5xl font-bold text-white">{formatPrice(pricing.birthday.package)}</p>
-            <p className="text-sm text-white/45">{t(b.package.tax, locale)}</p>
-            <ul className="mt-6 space-y-2 text-sm text-white/60">
-              {b.package.includes.map((line, i) => (
-                <li key={i}>▸ {t(line, locale)}</li>
-              ))}
-            </ul>
-          </BentoCard>
-          <Calculator locale={locale} />
+        <div className="mx-auto max-w-[1400px]">
+          <DisplayTitle className="!text-3xl">{t(b.gameplay.title, locale)}</DisplayTitle>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {b.gameplay.items.map((item, i) => {
+              const Icon = INCLUDED_ICONS[i] ?? Gamepad2;
+              return (
+                <BentoCard key={i} accent="pink" className="!p-6">
+                  <Icon className="size-5 text-[#FF2D95]" />
+                  <p className="mt-3 font-display text-sm font-bold uppercase text-white">{t(item.title, locale)}</p>
+                  <p className="mt-2 text-sm text-white/50">{t(item.sub ?? { en: "", fr: "" }, locale)}</p>
+                </BentoCard>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       <section className="px-4 py-20 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <BentoCard accent="purple" className="!p-8 lg:!p-10">
+            <DisplayTitle className="!text-2xl">{t(b.package.title, locale)}</DisplayTitle>
+            <p className="mt-4 font-display text-5xl font-bold text-white">{formatPrice(pricing.birthday.package)}</p>
+            <p className="text-sm text-white/45">{t(b.package.tax, locale)}</p>
+            <ul className="mt-6 space-y-3 text-sm text-white/65">
+              {b.package.includes.map((line, i) => (
+                <li key={i} className="flex gap-2">
+                  <span className="text-ju-cyanGlow">▸</span>
+                  <span>{t(line, locale)}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-xs text-white/45">{t(b.package.extra, locale)}</p>
+            <p className="mt-1 text-xs text-white/45">{t(b.package.capacity, locale)}</p>
+            <PrimaryBtn href="/booking" className="mt-8">{t(b.final.cta, locale)}</PrimaryBtn>
+          </BentoCard>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-black/40 px-4 py-20 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
           <FaqAccordion items={b.faq.map((f) => ({ q: t(f.q, locale), a: t(f.a, locale) }))} />
         </div>
@@ -116,6 +109,7 @@ export function BirthdaysPageContent() {
       <section className="px-4 pb-20 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-[1400px] border border-[#FF2D95]/30 bg-gradient-to-r from-[#FF2D95]/15 to-purple-900/20 px-8 py-16 text-center">
           <DisplayTitle className="!text-3xl">{t(b.final.title, locale)}</DisplayTitle>
+          <p className="mt-3 text-sm text-white/55">{t(b.final.sub, locale)}</p>
           <PrimaryBtn href="/booking" className="mt-8">{t(b.final.cta, locale)}</PrimaryBtn>
         </div>
       </section>

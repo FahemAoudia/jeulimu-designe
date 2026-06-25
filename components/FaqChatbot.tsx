@@ -200,7 +200,7 @@ export function FaqChatbot() {
                     {t.chat.restart}
                   </button>
                   <Link
-                    href="/#contact"
+                    href="/contact"
                     onClick={() => setOpen(false)}
                     className="rounded-full border border-ju-cyanGlow/35 bg-ju-electric/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-ju-cyanGlow transition hover:border-ju-cyanGlow hover:bg-ju-electric/20"
                   >

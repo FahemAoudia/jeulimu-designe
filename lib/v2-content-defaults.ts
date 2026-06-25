@@ -22,12 +22,12 @@ export const defaultTheme: SiteTheme = {
   magenta: "#FF2D95",
   purple: "#7B2CFF",
   pinkGlow: "#FF00E5",
-  bgDeep: "#030308",
-  bgMid: "#0D0221",
+  bgDeep: "#020818",
+  bgMid: "#0A1035",
   bgNav: "#050A30",
-  gradientStart: "#050A30",
-  gradientMid: "#0D0221",
-  gradientEnd: "#02020F",
+  gradientStart: "#030818",
+  gradientMid: "#0A1035",
+  gradientEnd: "#020510",
   navBackground: "#030308",
   navText: "#FFFFFF",
   navTextMuted: "#FFFFFF",
@@ -60,11 +60,12 @@ export const defaultSectionVisibilityV2: V2SectionVisibility = {
 };
 
 const HOME_MARQUEE = [
-  { v: "16×24", l: L("LED Floor ft", "pi plancher") },
-  { v: "24", l: L("Max players", "Joueurs max") },
-  { v: "3", l: L("Game modes", "Modes de jeu") },
+  { v: "30", l: L("Max players", "Joueurs max") },
+  { v: "3", l: L("Game categories", "Catégories de jeu") },
+  { v: "🔒", l: L("Private sessions", "Séances privées") },
+  { v: "🎮", l: L("Interactive gameplay", "Jeu interactif") },
+  { v: "👤", l: L("Staff guided", "Encadré") },
   { v: "7+", l: L("Ages", "Âges") },
-  { v: "🔒", l: L("Private", "Privé") },
 ];
 
 export const defaultV2SiteContent: V2SiteContent = {
@@ -231,6 +232,8 @@ export const defaultV2SiteContent: V2SiteContent = {
       href: v2Groups.addon.href,
     },
     contact: { ...v2Groups.contact },
+    customQuote: { ...v2Groups.customQuote },
+    faq: [...v2Groups.faq],
   },
   mobile: {
     hero: {

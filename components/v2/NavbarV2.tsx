@@ -76,15 +76,15 @@ export function NavbarV2() {
           <button
             type="button"
             onClick={toggleLang}
-            className="ju-nav-icon-btn flex h-9 min-w-[2.75rem] items-center justify-center text-[10px] font-bold uppercase tracking-widest sm:h-10 sm:min-w-[3rem] lg:hidden"
+            className="ju-nav-icon-btn flex h-9 min-w-[2.75rem] items-center justify-center text-[10px] font-bold uppercase tracking-widest sm:h-10 sm:min-w-[3rem]"
           >
             {locale === "fr" ? "FR" : "EN"}
           </button>
           <PrimaryBtn
-            href="/booking"
+            href="/contact"
             className="hidden sm:inline-flex !py-2.5 !px-5 !text-[10px]"
           >
-            {t(nav.bookNow, locale)}
+            {t(nav.contactUs, locale)}
           </PrimaryBtn>
           <button
             type="button"
@@ -121,8 +121,8 @@ export function NavbarV2() {
             >
               {locale === "fr" ? "FR" : "EN"}
             </button>
-            <PrimaryBtn href="/booking" className="flex-1 !py-3 !text-[10px]">
-              {t(nav.bookNow, locale)}
+            <PrimaryBtn href="/contact" className="flex-1 !py-3 !text-[10px]">
+              {t(nav.contactUs, locale)}
             </PrimaryBtn>
           </div>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { useLocaleContext } from "@/providers/AppProviders";
 
@@ -8,16 +8,24 @@ const COLS = 8;
 const ROWS = 6;
 const TILE_COUNT = COLS * ROWS;
 
-const TILE_COLORS = [
-  { base: "rgba(0, 245, 255, 0.55)", glow: "rgba(0, 245, 255, 0.95)" },
-  { base: "rgba(255, 45, 149, 0.5)", glow: "rgba(255, 45, 149, 0.95)" },
-  { base: "rgba(123, 44, 255, 0.5)", glow: "rgba(123, 44, 255, 0.95)" },
-  { base: "rgba(255, 195, 0, 0.45)", glow: "rgba(255, 195, 0, 0.9)" },
-];
+type TileKind = "blue" | "green" | "red";
+
+const TILE_STYLES: Record<TileKind, { base: string; glow: string }> = {
+  blue: { base: "rgba(0, 120, 255, 0.75)", glow: "rgba(0, 180, 255, 1)" },
+  green: { base: "rgba(0, 200, 90, 0.65)", glow: "rgba(0, 255, 120, 0.95)" },
+  red: { base: "rgba(255, 55, 55, 0.9)", glow: "rgba(255, 90, 90, 1)" },
+};
+
+function buildTileKinds(): TileKind[] {
+  return Array.from({ length: TILE_COUNT }, (_, i) => {
+    const col = i % COLS;
+    if (col % 4 === 0) return "green";
+    return "blue";
+  });
+}
 
 type LumiFloor3DProps = {
   className?: string;
-  /** Dedicated panel — separated from hero photo */
   showStage?: boolean;
 };
 
@@ -27,6 +35,25 @@ export function LumiFloor3D({ className, showStage = true }: LumiFloor3DProps) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [pointer, setPointer] = useState({ col: -1, row: -1 });
   const [isHovering, setIsHovering] = useState(false);
+  const [sweepCol, setSweepCol] = useState(0);
+  const [kinds, setKinds] = useState<TileKind[]>(() => buildTileKinds());
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSweepCol((c) => (c + 1) % COLS);
+    }, 450);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    setKinds((prev) =>
+      prev.map((kind, i) => {
+        const col = i % COLS;
+        if (col === sweepCol && kind === "blue") return "green";
+        return kind;
+      }),
+    );
+  }, [sweepCol]);
 
   const updateFromPoint = useCallback((clientX: number, clientY: number) => {
     const el = arenaRef.current;
@@ -58,16 +85,15 @@ export function LumiFloor3D({ className, showStage = true }: LumiFloor3DProps) {
         updateFromPoint(e.clientX, e.clientY);
       }}
       onTouchStart={(e) => {
-        const t = e.touches[0];
-        if (t) updateFromPoint(t.clientX, t.clientY);
+        const touch = e.touches[0];
+        if (touch) updateFromPoint(touch.clientX, touch.clientY);
       }}
       onTouchMove={(e) => {
-        const t = e.touches[0];
-        if (t) updateFromPoint(t.clientX, t.clientY);
+        const touch = e.touches[0];
+        if (touch) updateFromPoint(touch.clientX, touch.clientY);
       }}
       onTouchEnd={reset}
     >
-      {/* Cursor spotlight */}
       <div
         className="ju-floor-spotlight pointer-events-none absolute inset-0 transition-opacity duration-300"
         style={{
@@ -82,20 +108,17 @@ export function LumiFloor3D({ className, showStage = true }: LumiFloor3DProps) {
           transform: `rotateX(${58 + tilt.y}deg) rotateZ(${-14 + tilt.x}deg)`,
         }}
       >
-        <div
-          className="ju-floor-3d-grid"
-          style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)` }}
-        >
-          {Array.from({ length: TILE_COUNT }).map((_, i) => {
+        <div className="ju-floor-3d-grid" style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)` }}>
+          {kinds.map((kind, i) => {
             const col = i % COLS;
             const row = Math.floor(i / COLS);
+            const isRedSweep = col === sweepCol;
+            const tileKind: TileKind = isRedSweep ? "red" : kind;
             const dist =
-              pointer.col < 0
-                ? 99
-                : Math.hypot(col - pointer.col, row - pointer.row);
+              pointer.col < 0 ? 99 : Math.hypot(col - pointer.col, row - pointer.row);
             const hot = dist <= 1.2;
             const warm = dist <= 2.2;
-            const color = TILE_COLORS[i % TILE_COLORS.length];
+            const color = TILE_STYLES[tileKind];
             return (
               <div
                 key={i}
@@ -103,12 +126,19 @@ export function LumiFloor3D({ className, showStage = true }: LumiFloor3DProps) {
                   "ju-floor-tile transition-all duration-150",
                   hot && "ju-floor-tile-hot",
                   warm && !hot && "ju-floor-tile-warm",
+                  isRedSweep && "ju-floor-tile-sweep",
                 )}
                 style={{
                   backgroundColor: hot ? color.glow : color.base,
-                  opacity: hot ? 1 : warm ? 0.92 : 0.38,
-                  animationDelay: `${(i % COLS) * 0.18}s`,
-                  transform: hot ? "translateZ(14px) scale(1.08)" : warm ? "translateZ(6px)" : "translateZ(0)",
+                  opacity: hot ? 1 : warm ? 0.92 : isRedSweep ? 1 : 0.55,
+                  animationDelay: `${(i % COLS) * 0.12}s`,
+                  transform: hot
+                    ? "translateZ(14px) scale(1.08)"
+                    : warm
+                      ? "translateZ(6px)"
+                      : isRedSweep
+                        ? "translateZ(10px) scale(1.05)"
+                        : "translateZ(0)",
                 }}
               />
             );
@@ -133,14 +163,14 @@ export function LumiFloor3D({ className, showStage = true }: LumiFloor3DProps) {
           {locale === "fr" ? "Plancher LED interactif" : "Interactive LED floor"}
         </span>
         <span className="text-[9px] font-bold uppercase tracking-widest text-white/35">
-          {locale === "fr" ? "Déplacez la souris" : "Move to play"}
+          {locale === "fr" ? "Éliminez le bleu" : "Clear the blue"}
         </span>
       </div>
       <div className="ju-floor-panel-body relative aspect-[4/3] p-4 sm:p-5">
         {floor}
         <div className="pointer-events-none absolute bottom-3 left-4 right-4 flex justify-between text-[9px] font-bold uppercase tracking-widest text-white/30">
-          <span>16×24 ft</span>
-          <span>{locale === "fr" ? "Réagit à vous" : "Reacts to you"}</span>
+          <span>16&apos;×24&apos;</span>
+          <span>{locale === "fr" ? "Rouge en mouvement" : "Red on the move"}</span>
         </div>
       </div>
     </div>
