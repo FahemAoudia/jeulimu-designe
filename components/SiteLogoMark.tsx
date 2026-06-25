@@ -6,8 +6,8 @@ import { defaultSiteContent } from "@/lib/site-defaults";
 import { pickLocalized } from "@/types/site-content";
 import { cn } from "@/lib/cn";
 
-function normalizeLogoSize(value: unknown): "sm" | "md" | "lg" {
-  if (value === "sm" || value === "md" || value === "lg") return value;
+function normalizeLogoSize(value: unknown): "sm" | "md" | "lg" | "xl" {
+  if (value === "sm" || value === "md" || value === "lg" || value === "xl") return value;
   return "md";
 }
 

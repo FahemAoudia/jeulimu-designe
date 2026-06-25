@@ -75,7 +75,7 @@ export type SiteBranding = {
   logoImage: string;
   logoAlt: LocalizedString;
   /** Responsive scale for the image in nav + footer */
-  logoSize: "sm" | "md" | "lg";
+  logoSize: "sm" | "md" | "lg" | "xl";
   /** Second line under logo (e.g. “Interactive LED Game Floor”) */
   showTagline: boolean;
 };

@@ -376,7 +376,7 @@ export function AdminDashboard() {
                             siteBranding: {
                               ...defaultSiteContent.siteBranding,
                               ...p.siteBranding,
-                              logoSize: e.target.value as "sm" | "md" | "lg",
+                              logoSize: e.target.value as "sm" | "md" | "lg" | "xl",
                             },
                           }))
                         }
@@ -384,6 +384,7 @@ export function AdminDashboard() {
                         <option value="sm">Small</option>
                         <option value="md">Medium</option>
                         <option value="lg">Large</option>
+                        <option value="xl">Extra large</option>
                       </select>
                     </label>
                   </div>
