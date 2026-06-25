@@ -80,6 +80,14 @@ export function FooterV2() {
                     <Mail className="size-4 text-[#FF2D95]" /> {c.email}
                   </a>
                 </li>
+                <li>
+                  <Link
+                    href="/admin/login"
+                    className="text-xs text-white/35 hover:text-white/70 transition"
+                  >
+                    {locale === "fr" ? "Administration" : "Admin login"}
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
