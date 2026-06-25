@@ -23,7 +23,7 @@ export function FooterV2() {
   const QUICK = [
     { href: "/", label: { en: "Home", fr: "Accueil" } },
     { href: "/birthdays", label: nav.birthdays },
-    { href: "/groups-pricing", label: nav.groupsPricing },
+    { href: "/groups-events", label: nav.groupsPricing },
     { href: "/mobile-events", label: nav.mobileEvents },
     { href: "/faq", label: nav.faq },
   ];

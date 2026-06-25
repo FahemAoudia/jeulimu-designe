@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  GlanceSection,
   HeroV2,
   WhatIsSection,
   HowWorksSection,
@@ -17,6 +18,7 @@ export function HomePageContent() {
   return (
     <>
       {visibility.hero ? <HeroV2 /> : null}
+      {visibility.glance ? <GlanceSection /> : null}
       {visibility.whatIs ? <WhatIsSection /> : null}
       {visibility.howWorks ? <HowWorksSection /> : null}
       {visibility.gameModes ? <GameModesSection /> : null}

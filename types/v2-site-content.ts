@@ -49,6 +49,7 @@ export type V2Pricing = {
 export type V2SectionVisibility = {
   hero: boolean;
   marquee: boolean;
+  glance: boolean;
   whatIs: boolean;
   howWorks: boolean;
   gameModes: boolean;
@@ -106,6 +107,7 @@ export type V2SiteContent = {
       ctaGroups: LocalizedString;
     };
     marquee: V2MarqueeStat[];
+    glance?: V2IconItem[];
     whatIs: {
       title: LocalizedString;
       body: LocalizedString;
@@ -184,6 +186,7 @@ export type V2SiteContent = {
     why: { title: LocalizedString; items: V2IconItem[] };
     package: {
       title: LocalizedString;
+      price?: LocalizedString;
       tax: LocalizedString;
       includes: LocalizedString[];
       extra: LocalizedString;

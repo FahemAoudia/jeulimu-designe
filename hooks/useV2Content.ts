@@ -11,17 +11,39 @@ import {
 import type { SiteTheme, V2Pricing, V2SectionVisibility, V2SiteContent } from "@/types/v2-site-content";
 
 function mergeV2(patch: Partial<V2SiteContent> | undefined): V2SiteContent {
-  if (!patch) return structuredClone(defaultV2SiteContent);
+  const base = structuredClone(defaultV2SiteContent);
+  if (!patch) return base;
+
+  const home = { ...base.home, ...patch.home };
+  if (!home.glance?.length) home.glance = base.home.glance;
+  if (!home.marquee?.length) home.marquee = base.home.marquee;
+  if (!home.whatIs?.features?.length) {
+    home.whatIs = { ...home.whatIs, features: base.home.whatIs.features };
+  }
+  if (!home.experiences?.groups?.perfectFor?.length) {
+    home.experiences = {
+      ...home.experiences,
+      groups: {
+        ...home.experiences.groups,
+        perfectFor: base.home.experiences.groups.perfectFor,
+      },
+    };
+  }
+
   return structuredClone({
-    ...defaultV2SiteContent,
+    ...base,
     ...patch,
-    nav: { ...defaultV2SiteContent.nav, ...patch.nav },
-    home: { ...defaultV2SiteContent.home, ...patch.home },
-    birthdays: { ...defaultV2SiteContent.birthdays, ...patch.birthdays },
-    groups: { ...defaultV2SiteContent.groups, ...patch.groups },
-    mobile: { ...defaultV2SiteContent.mobile, ...patch.mobile },
-    faq: { ...defaultV2SiteContent.faq, ...patch.faq },
-    footer: { ...defaultV2SiteContent.footer, ...patch.footer },
+    nav: { ...base.nav, ...patch.nav },
+    home,
+    birthdays: {
+      ...base.birthdays,
+      ...patch.birthdays,
+      package: { ...base.birthdays.package, ...patch.birthdays?.package },
+    },
+    groups: { ...base.groups, ...patch.groups },
+    mobile: { ...base.mobile, ...patch.mobile },
+    faq: { ...base.faq, ...patch.faq },
+    footer: { ...base.footer, ...patch.footer },
   });
 }
 
@@ -37,7 +59,11 @@ export function useV2Content() {
       v2: mergeV2(content.v2),
       pricing: content.pricingV2 ?? defaultPricing,
       theme: mergeTheme(content.theme),
-      visibility: content.sectionVisibilityV2 ?? defaultSectionVisibilityV2,
+      visibility: {
+        ...defaultSectionVisibilityV2,
+        ...content.sectionVisibilityV2,
+        glance: content.sectionVisibilityV2?.glance ?? defaultSectionVisibilityV2.glance,
+      },
     }),
     [content],
   );

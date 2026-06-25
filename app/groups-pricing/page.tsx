@@ -1,15 +1,5 @@
-import { PublicShell } from "@/components/v2/PublicShell";
-import { GroupsPricingPageContent } from "@/components/v2/GroupsPricingPage";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: "Groups & Pricing | jeuLumi",
-  description: "Group experiences and pricing for families, schools, teams, and events.",
-};
-
-export default function GroupsPricingPage() {
-  return (
-    <PublicShell>
-      <GroupsPricingPageContent />
-    </PublicShell>
-  );
+export default function GroupsPricingRedirect() {
+  redirect("/groups-events");
 }

@@ -182,6 +182,8 @@ export type SiteContent = {
   theme: SiteTheme;
   /** Show/hide homepage v2 sections. */
   sectionVisibilityV2: V2SectionVisibility;
+  /** Bumps when default copy must replace saved CMS (client content updates). */
+  schemaVersion?: number;
 };
 
 export function pickLocalized<T extends LocalizedString>(

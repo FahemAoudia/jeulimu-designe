@@ -6,6 +6,7 @@ import {
   blobTokenMissingMessage,
   getBlobReadWriteToken,
 } from "@/lib/blob-env";
+import { migrateSiteContent } from "@/lib/content-migration";
 import type { SiteContent } from "@/types/site-content";
 
 const DATA_FILE = path.join(process.cwd(), "data", "site-content.json");
@@ -69,21 +70,25 @@ async function writeSiteContentToBlob(content: SiteContent, token: string): Prom
 export async function getSiteContent(): Promise<SiteContent> {
   const blobParsed = await readSiteContentFromBlob();
   if (blobParsed) {
-    return deepMerge(
-      structuredClone(defaultSiteContent) as unknown as Record<string, unknown>,
-      blobParsed,
-    ) as SiteContent;
+    return migrateSiteContent(
+      deepMerge(
+        structuredClone(defaultSiteContent) as unknown as Record<string, unknown>,
+        blobParsed,
+      ) as SiteContent,
+    );
   }
 
   try {
     const raw = await fs.readFile(DATA_FILE, "utf-8");
     const parsed = JSON.parse(raw) as unknown;
-    return deepMerge(
-      structuredClone(defaultSiteContent) as unknown as Record<string, unknown>,
-      parsed,
-    ) as SiteContent;
+    return migrateSiteContent(
+      deepMerge(
+        structuredClone(defaultSiteContent) as unknown as Record<string, unknown>,
+        parsed,
+      ) as SiteContent,
+    );
   } catch {
-    return structuredClone(defaultSiteContent);
+    return migrateSiteContent(structuredClone(defaultSiteContent));
   }
 }
 

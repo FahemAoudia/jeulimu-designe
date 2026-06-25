@@ -24,6 +24,7 @@ export async function POST(req: Request) {
     await writeSiteContent(body);
     revalidatePath("/", "layout");
     revalidatePath("/birthdays");
+    revalidatePath("/groups-events");
     revalidatePath("/groups-pricing");
     revalidatePath("/mobile-events");
     revalidatePath("/faq");

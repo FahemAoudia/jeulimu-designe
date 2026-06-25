@@ -51,6 +51,7 @@ export const defaultPricing: V2Pricing = {
 export const defaultSectionVisibilityV2: V2SectionVisibility = {
   hero: true,
   marquee: true,
+  glance: true,
   whatIs: true,
   howWorks: true,
   gameModes: true,
@@ -64,7 +65,7 @@ const HOME_MARQUEE = [
   { v: "3", l: L("Game categories", "Catégories de jeu") },
   { v: "🔒", l: L("Private sessions", "Séances privées") },
   { v: "🎮", l: L("Interactive gameplay", "Jeu interactif") },
-  { v: "👤", l: L("Staff guided", "Encadré") },
+  { v: "🧑‍🏫", l: L("Staff guided", "Encadré") },
   { v: "7+", l: L("Ages", "Âges") },
 ];
 
@@ -80,6 +81,11 @@ export const defaultV2SiteContent: V2SiteContent = {
       ctaGroups: v2Home.hero.ctaGroups,
     },
     marquee: HOME_MARQUEE,
+    glance: v2Home.glance.map((g) => ({
+      icon: g.icon,
+      title: g.title,
+      sub: g.sub,
+    })),
     whatIs: {
       title: v2Home.whatIs.title,
       body: v2Home.whatIs.body,
@@ -126,10 +132,13 @@ export const defaultV2SiteContent: V2SiteContent = {
       },
       groups: {
         title: v2Home.experiences.groups.title,
-        sub: L("Group pricing", "Tarifs groupe"),
+        sub: L(
+          "Perfect for families, schools, sports teams, camps, corporate teams, and community organizations.",
+          "Parfait pour familles, écoles, équipes sportives, camps, entreprises et groupes communautaires.",
+        ),
         cta: v2Home.experiences.groups.cta,
-        label: L("Groups", "Groupes"),
-        badge: L("2–24 players", "2–24 joueurs"),
+        label: L("Groups & Events", "Groupes & événements"),
+        badge: L("2–30 players", "2–30 joueurs"),
         perfectFor: [...v2Home.experiences.groups.perfectFor],
         pricing: [...v2Home.experiences.groups.pricing],
       },
@@ -169,6 +178,7 @@ export const defaultV2SiteContent: V2SiteContent = {
     },
     package: {
       title: v2Birthdays.package.title,
+      price: v2Birthdays.package.price,
       tax: v2Birthdays.package.tax,
       includes: [...v2Birthdays.package.includes],
       extra: v2Birthdays.package.extra,

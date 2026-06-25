@@ -22,7 +22,7 @@ export function BirthdaysPageContent() {
   const { content } = useSiteContext();
   const { v2, pricing } = useV2Content();
   const b = v2.birthdays;
-  const heroImg = content.eventsPromoImage?.trim() || content.hero.backgroundImage || "/hero-background.png";
+  const heroImg = content.eventsPromoImage?.trim() || content.hero.backgroundImage || "/hero-background.svg";
 
   return (
     <div className="ju-v3-shell">
@@ -83,7 +83,9 @@ export function BirthdaysPageContent() {
         <div className="mx-auto max-w-[1400px]">
           <BentoCard accent="purple" className="!p-8 lg:!p-10">
             <DisplayTitle className="!text-2xl">{t(b.package.title, locale)}</DisplayTitle>
-            <p className="mt-4 font-display text-5xl font-bold text-white">{formatPrice(pricing.birthday.package)}</p>
+            <p className="mt-4 font-display text-5xl font-bold text-white">
+              {b.package.price ? t(b.package.price, locale) : formatPrice(pricing.birthday.package)}
+            </p>
             <p className="text-sm text-white/45">{t(b.package.tax, locale)}</p>
             <ul className="mt-6 space-y-3 text-sm text-white/65">
               {b.package.includes.map((line, i) => (

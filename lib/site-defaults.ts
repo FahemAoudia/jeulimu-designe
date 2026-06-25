@@ -20,7 +20,7 @@ export const defaultSiteContent: SiteContent = {
       "Interactive LED Game Floor Experience",
       "Expérience de plancher lumineux LED interactif",
     ),
-    backgroundImage: "/hero-background.png",
+    backgroundImage: "/hero-background.svg",
     backgroundVideo: "",
     badges: [
       L("Physical Activity", "Activité physique"),
@@ -66,7 +66,7 @@ export const defaultSiteContent: SiteContent = {
   },
   gallery: [
     {
-      image: "/hero-background.png",
+      image: "/images/lumivs.svg",
       alt: L(
         "Group playing LumiVS LED-floor game at JeuLumi — interactive group activity and friendly competition.",
         "Groupe jouant à LumiVS sur le plancher LED JeuLumi — activité de groupe et compétition amicale.",
@@ -74,7 +74,7 @@ export const defaultSiteContent: SiteContent = {
       caption: L("LumiVS — friendly competition", "LumiVS — compétition amicale"),
     },
     {
-      image: "/hero-reference.png",
+      image: "/images/lumivs.svg",
       alt: L(
         "Group playing LumiQuest LED-floor game at JeuLumi LaSalle — teamwork, strategy, and fun.",
         "Groupe jouant à LumiQuest chez JeuLumi LaSalle — équipe, stratégie et plaisir.",
@@ -82,7 +82,7 @@ export const defaultSiteContent: SiteContent = {
       caption: L("LumiQuest — teamwork", "LumiQuest — travail d’équipe"),
     },
     {
-      image: "/hero-background.png",
+      image: "/images/lumilogik.svg",
       alt: L(
         "Group playing LumiLogik LED-floor challenge at JeuLumi LaSalle — memory, reflex, and brain training as active fun.",
         "Défi LumiLogik sur plancher LED à JeuLumi LaSalle — mémoire, réflexes et stimulation cognitive en mouvement.",
@@ -142,7 +142,7 @@ export const defaultSiteContent: SiteContent = {
         "Work together to clear the floor and advance through levels. Every step counts — coordination and communication matter.",
         "Travaillez ensemble pour dégager le plancher et avancer. Chaque pas compte — coordination et communication essentielles.",
       ),
-      image: "/hero-background.png",
+      image: "/images/lumiquest.svg",
     },
     {
       id: "lumivs",
@@ -159,7 +159,7 @@ export const defaultSiteContent: SiteContent = {
         "Go head-to-head in energetic face-offs where speed and accuracy win. Rounds get intense — but rankings are revealed at the end.",
         "Affrontez-vous dans des duels énergiques où vitesse et précision paient. Les manches intensifient — les classements arrivent à la fin.",
       ),
-      image: "/hero-reference.png",
+      image: "/images/lumivs.svg",
     },
     {
       id: "lumilogik",
@@ -173,7 +173,7 @@ export const defaultSiteContent: SiteContent = {
         "LumiLogik blends movement with brainpower. Memorize patterns, solve visual challenges, and step with intention.",
         "LumiLogik marie mouvement et réflexion. Mémorisez des motifs, relevez des défis visuels et avancez avec intention.",
       ),
-      image: "/hero-background.png",
+      image: "/images/lumilogik.svg",
     },
   ],
   pricing: {
@@ -211,7 +211,7 @@ export const defaultSiteContent: SiteContent = {
     {
       id: "large",
       title: L("Large Group", "Grand groupe"),
-      players: L("16–24 Players", "16–24 joueurs"),
+      players: L("16–30 Players", "16–30 joueurs"),
       price: "$20.99",
       priceNote: L("/player + taxes", "/personne + taxes"),
       extras: [
@@ -315,10 +315,10 @@ export const defaultSiteContent: SiteContent = {
     "Plancher de jeu LED interactif — mouvement, équipe et spectacle à LaSalle.",
   ),
   siteBranding: {
-    logoImage: "",
+    logoImage: "/logo.svg",
     logoAlt: L("jeuLumi — interactive LED game floor", "jeuLumi — plancher de jeu LED interactif"),
     logoSize: "md",
-    showTagline: true,
+    showTagline: false,
   },
   testimonialReviews: [
     {
@@ -397,4 +397,5 @@ export const defaultSiteContent: SiteContent = {
   pricingV2: structuredClone(defaultPricing),
   theme: structuredClone(defaultTheme),
   sectionVisibilityV2: structuredClone(defaultSectionVisibilityV2),
+  schemaVersion: 4,
 };

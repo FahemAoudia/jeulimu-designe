@@ -36,15 +36,14 @@ export const v2Home = {
       L("LaSalle, QC", "LaSalle, QC"),
     ],
     ctaBirthdays: L("Explore Birthday Parties", "Explorer les fêtes d’anniversaire"),
-    ctaGroups: L("View Groups & Pricing", "Voir groupes & tarifs"),
+    ctaGroups: L("View Groups & Events", "Voir groupes & événements"),
   },
   glance: [
-    { icon: "grid", title: L("16 × 24 ft Floor", "Plancher 16 × 24 pi"), sub: L("Interactive LED", "LED interactif") },
-    { icon: "users", title: L("Up To 24", "Jusqu’à 24"), sub: L("Participants", "Participants") },
-    { icon: "gamepad", title: L("Interactive", "Interactif"), sub: L("Gameplay", "Jeu") },
-    { icon: "trophy", title: L("3 Categories", "3 catégories"), sub: L("Game modes", "Modes de jeu") },
+    { icon: "users", title: L("30", "30"), sub: L("Max players", "Joueurs max") },
+    { icon: "trophy", title: L("3", "3"), sub: L("Game categories", "Catégories de jeu") },
     { icon: "lock", title: L("Private", "Privé"), sub: L("Sessions", "Séances") },
-    { icon: "guide", title: L("Staff", "Équipe"), sub: L("Guided", "Encadré") },
+    { icon: "gamepad", title: L("🎮", "🎮"), sub: L("Interactive gameplay", "Jeu interactif") },
+    { icon: "guide", title: L("🧑‍🏫", "🧑‍🏫"), sub: L("Staff guided", "Encadré") },
     { icon: "target", title: L("Ages 7+", "7 ans et +"), sub: L("Recommended", "Recommandé") },
   ],
   whatIs: {
@@ -58,7 +57,9 @@ export const v2Home = {
       { icon: "coop", title: L("🤝 Cooperative Challenges", "🤝 Défis coopératifs"), sub: L("Work together to complete objectives and progress through levels.", "Objectifs en équipe pour progresser.") },
       { icon: "vs", title: L("🏆 Competitive Games", "🏆 Jeux compétitifs"), sub: L("Race, react, and compete against each other.", "Courez, réagissez et rivalisez.") },
       { icon: "brain", title: L("🧠 Memory & Strategy", "🧠 Mémoire & stratégie"), sub: L("Test observation, recall, decision-making, and adaptability.", "Observation, mémoire et adaptation.") },
-      { icon: "social", title: L("🎉 Social Fun", "🎉 Plaisir social"), sub: L("Designed to bring people together through play.", "Pour jouer ensemble.") },
+      { icon: "social", title: L("👨‍👩‍👧‍👦 Social Fun", "👨‍👩‍👧‍👦 Plaisir social"), sub: L("Designed to bring people together through play.", "Pour jouer ensemble.") },
+      { icon: "gamepad", title: L("🎮 Interactive Gameplay", "🎮 Jeu interactif"), sub: L("Lights, movement, and reactive challenges on the LED floor.", "Lumières, mouvement et défis réactifs sur le plancher LED.") },
+      { icon: "guide", title: L("🧑‍🏫 Staff Guided", "🧑‍🏫 Encadré"), sub: L("Our hosts guide every session and keep the fun going.", "Nos animateurs guident chaque séance et maintiennent l'énergie.") },
     ],
     cta: L("Learn More", "En savoir plus"),
   },
@@ -118,8 +119,10 @@ export const v2Home = {
     groups: {
       title: L("Groups & Events", "Groupes & événements"),
       perfectFor: [
-        L("Families, schools, sports teams, camps", "Familles, écoles, équipes sportives, camps"),
-        L("Corporate teams and community organizations", "Équipes corporatives et groupes communautaires"),
+        L(
+          "Perfect for families, schools, sports teams, camps, corporate teams, and community organizations.",
+          "Parfait pour familles, écoles, équipes sportives, camps, entreprises et groupes communautaires.",
+        ),
         L("Flexible pricing based on group size", "Tarifs flexibles selon la taille du groupe"),
         L("Starting at $21 per participant", "Dès 21 $ par participant"),
       ],
@@ -167,14 +170,14 @@ export const v2Birthdays = {
       { icon: "gamepad", title: L("Interactive Games", "Jeux interactifs"), sub: L("Lights, movement, teamwork.", "Lumières, mouvement, équipe.") },
       { icon: "run", title: L("Active Play", "Jeu actif"), sub: L("Kids stay engaged and moving.", "Les enfants bougent.") },
       { icon: "party", title: L("Celebrate Together", "Fête ensemble"), sub: L("Time for cake and gifts.", "Gâteau et cadeaux.") },
-      { icon: "guide", title: L("Staff Guided", "Encadré"), sub: L("Hosts keep the fun going.", "Animateurs présents.") },
+      { icon: "guide", title: L("🧑‍🏫 Staff Guided", "🧑‍🏫 Encadré"), sub: L("Hosts keep the fun going.", "Animateurs présents.") },
       { icon: "coop", title: L("Teamwork & Competition", "Équipe & compétition"), sub: L("Cooperative and competitive fun.", "Coopération et compétition.") },
       { icon: "lock", title: L("Private Experience", "Expérience privée"), sub: L("Your group only.", "Votre groupe seul.") },
     ],
   },
   package: {
     title: L("Birthday Package", "Forfait anniversaire"),
-    price: "$249.99",
+    price: L("$249", "249 $"),
     tax: L("+ tax", "+ taxes"),
     includes: [
       L("2-hour access to the party room; host has 15 extra minutes before guests arrive", "2 h d'accès à la salle; 15 min supplémentaires pour l'organisateur avant les invités"),
@@ -218,7 +221,7 @@ export const v2Birthdays = {
     { q: L("What ages are recommended?", "Quel âge est recommandé ?"), a: L("Ages 7 and up.", "7 ans et plus.") },
     { q: L("Can adults participate?", "Les adultes peuvent jouer ?"), a: L("Absolutely — parents and guests welcome.", "Oui — parents et invités accueillis.") },
     { q: L("Can I bring cake and snacks?", "Gâteau et collations ?"), a: L("Yes, for the celebration space.", "Oui, pour l’espace fête.") },
-    { q: L("How many participants?", "Combien de participants ?"), a: L("Package includes 8; up to 24 total.", "8 inclus ; max. 24.") },
+    { q: L("How many participants?", "Combien de participants ?"), a: L("Package includes 8; up to 30 total.", "8 inclus ; max. 30.") },
     { q: L("Grip socks required?", "Chaussettes antidérapantes ?"), a: L("Yes, for all participants.", "Oui, pour tous.") },
   ],
   final: {
@@ -374,14 +377,14 @@ export const v2Faq = {
       items: [
         { q: L("Can I bring food and cake?", "Nourriture et gâteau ?"), a: L("Yes — bring your own cake, snacks, and refreshments for the celebration space.", "Oui — pour l’espace fête.") },
         { q: L("Can I decorate?", "Décorations ?"), a: L("Yes, decorations are welcome in the party room.", "Oui, dans la salle de fête.") },
-        { q: L("How many people can play?", "Combien de joueurs ?"), a: L("Up to 24 participants; package includes 8.", "Jusqu’à 24 ; forfait 8 inclus.") },
+        { q: L("How many people can play?", "Combien de joueurs ?"), a: L("Up to 30 participants; package includes 8.", "Jusqu'à 30 ; forfait 8 inclus.") },
       ],
     },
     {
       id: "groups",
       label: L("Groups", "Groupes"),
       items: [
-        { q: L("What group sizes do you accommodate?", "Tailles de groupe ?"), a: L("From 2 to 24 participants with flexible pricing tiers.", "De 2 à 24 participants, tarifs flexibles.") },
+        { q: L("What group sizes do you accommodate?", "Tailles de groupe ?"), a: L("From 2 to 30 participants with flexible pricing tiers.", "De 2 à 30 participants, tarifs flexibles.") },
         { q: L("Do you host schools and camps?", "Écoles et camps ?"), a: L("Yes — ideal for school outings and day camp trips.", "Oui — sorties scolaires et camps.") },
       ],
     },

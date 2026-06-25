@@ -25,7 +25,7 @@ export function HeroV2() {
   const { content } = useSiteContext();
   const { v2, visibility } = useV2Content();
   const hero = content.hero;
-  const bgImg = hero.backgroundImage?.trim() || "/hero-background.png";
+  const bgImg = hero.backgroundImage?.trim() || "/hero-background.svg";
   const bgVid = hero.backgroundVideo?.trim();
   const h = v2.home.hero;
   const lines = t(h.headline, locale).split(". ").filter(Boolean);
@@ -58,8 +58,8 @@ export function HeroV2() {
             <p className="mt-6 max-w-lg text-base text-white/60 sm:text-lg">{t(h.support, locale)}</p>
 
             <div className="mt-8 hidden flex-wrap gap-4 lg:flex">
-              <PrimaryBtn href="/booking">{t(v2.home.finalCta.cta, locale)}</PrimaryBtn>
-              <GhostBtn href="/groups-pricing">{t(h.ctaGroups, locale)}</GhostBtn>
+              <PrimaryBtn href="/birthdays">{t(h.ctaBirthdays, locale)}</PrimaryBtn>
+              <GhostBtn href="/groups-events">{t(h.ctaGroups, locale)}</GhostBtn>
             </div>
           </div>
           <div className="hidden flex-col items-center gap-4 lg:col-span-5 lg:flex">
@@ -88,13 +88,32 @@ export function HeroV2() {
 }
 
 export function GlanceSection() {
-  return null;
+  const { locale } = useLocaleContext();
+  const { v2 } = useV2Content();
+  const items = v2.home.glance ?? [];
+
+  if (!items.length) return null;
+
+  return (
+    <section className="border-b border-white/10 bg-black/50 px-4 py-8 sm:px-6 lg:px-10">
+      <div className="mx-auto grid max-w-[1400px] gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        {items.map((item, i) => (
+          <div key={i} className="border border-white/10 bg-[#0a0a12]/80 px-4 py-5 text-center">
+            <p className="font-display text-2xl font-bold text-ju-cyanGlow">{t(item.title, locale)}</p>
+            <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/55">
+              {item.sub ? t(item.sub, locale) : ""}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export function WhatIsSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
-  const img = content.gallery?.[0]?.image?.trim() || content.hero.backgroundImage || "/hero-background.png";
+  const img = content.gallery?.[0]?.image?.trim() || content.hero.backgroundImage || "/hero-background.svg";
   const { v2 } = useV2Content();
   const w = v2.home.whatIs;
 
@@ -114,10 +133,11 @@ export function WhatIsSection() {
               <SectionLabel>{t(w.sectionLabel, locale)}</SectionLabel>
               <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">{t(w.title, locale)}</DisplayTitle>
               <p className="mt-4 text-sm leading-relaxed text-white/55">{t(w.body, locale)}</p>
-              <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                 {w.features.map((f, i) => (
-                  <li key={i} className="text-[11px] font-bold uppercase tracking-wider text-white/70">
-                    <span className="text-ju-cyanGlow">▸</span> {t(f.title, locale)}
+                  <li key={i} className="text-sm text-white/70">
+                    <p className="font-bold uppercase tracking-wider text-white/85">{t(f.title, locale)}</p>
+                    {f.sub ? <p className="mt-1 text-xs leading-relaxed text-white/50 normal-case">{t(f.sub, locale)}</p> : null}
                   </li>
                 ))}
               </ul>
@@ -175,7 +195,7 @@ export function GameModesSection() {
         <div className="mt-12 space-y-6">
           {(modes ?? []).map((m, i) => {
             const v2 = gm.modes[i];
-            const img = m.image?.trim() || "/hero-background.png";
+            const img = m.image?.trim() || `/images/${m.id === "lumivs" ? "lumivs" : m.id === "lumilogik" ? "lumilogik" : "lumiquest"}.svg`;
             const color = MODE_COLORS[i];
             return (
               <article
@@ -227,14 +247,16 @@ export function ExperiencesSection() {
       title: t(e.birthday.title, locale),
       sub: t(e.birthday.sub, locale),
       cta: t(e.birthday.cta, locale),
+      isGroups: false,
     },
     {
-      href: "/groups-pricing",
+      href: "/groups-events",
       accent: "cyan" as const,
       label: t(e.groups.label, locale),
       title: t(e.groups.title, locale),
-      sub: t(e.groups.perfectFor[0], locale),
+      sub: "",
       cta: t(e.groups.cta, locale),
+      isGroups: true,
     },
     {
       href: "/mobile-events",
@@ -243,6 +265,7 @@ export function ExperiencesSection() {
       title: t(e.mobile.title, locale),
       sub: t(e.mobile.sub, locale),
       cta: t(e.mobile.ctaLearn, locale),
+      isGroups: false,
     },
   ];
 
@@ -261,15 +284,29 @@ export function ExperiencesSection() {
               key={card.href}
               href={card.href}
               accent={card.accent}
-              className="ju-exp-card !min-h-[220px] !p-6 sm:!p-7"
+              className={cn(
+                "ju-exp-card !min-h-[220px] !p-6 sm:!p-7",
+                card.isGroups && "!min-h-[280px]",
+              )}
             >
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">
                 {card.label}
               </span>
-              <h3 className="mt-4 font-display text-lg font-bold uppercase leading-snug text-white sm:text-xl line-clamp-3">
+              <h3 className="mt-4 font-display text-lg font-bold uppercase leading-snug text-white sm:text-xl">
                 {card.title}
               </h3>
-              <p className="mt-2 text-xs leading-relaxed text-white/45 line-clamp-3">{card.sub}</p>
+              {card.isGroups ? (
+                <ul className="mt-3 space-y-2 text-xs leading-relaxed text-white/50">
+                  {e.groups.perfectFor.map((line, i) => (
+                    <li key={i} className="flex gap-2">
+                      <span className="text-ju-cyanGlow shrink-0">▸</span>
+                      <span>{t(line, locale)}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-2 text-xs leading-relaxed text-white/45 line-clamp-3">{card.sub}</p>
+              )}
               <span className="mt-auto pt-5 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#FF2D95] group-hover:text-ju-cyanGlow">
                 {card.cta} <ArrowRight className="size-3.5 shrink-0" />
               </span>

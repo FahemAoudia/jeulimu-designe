@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" fill="#020818"/>
+  <rect x="40" y="40" width="720" height="370" rx="12" fill="#0A1035" stroke="#00F5FF" stroke-width="2" opacity="0.5"/>
+  <g opacity="0.9">
+    <rect x="80" y="100" width="56" height="56" fill="#00F5FF" opacity="0.85"/>
+    <rect x="152" y="100" width="56" height="56" fill="#00F5FF" opacity="0.55"/>
+    <rect x="224" y="100" width="56" height="56" fill="#00F5FF" opacity="0.35"/>
+    <rect x="296" y="100" width="56" height="56" fill="#7B2CFF" opacity="0.7"/>
+    <rect x="368" y="100" width="56" height="56" fill="#7B2CFF" opacity="0.5"/>
+    <rect x="440" y="100" width="56" height="56" fill="#00F5FF" opacity="0.4"/>
+    <rect x="80" y="172" width="56" height="56" fill="#00F5FF" opacity="0.4"/>
+    <rect x="152" y="172" width="56" height="56" fill="#00F5FF" opacity="0.75"/>
+    <rect x="224" y="172" width="56" height="56" fill="#00F5FF" opacity="0.6"/>
+    <rect x="296" y="172" width="56" height="56" fill="#7B2CFF" opacity="0.85"/>
+    <rect x="368" y="172" width="56" height="56" fill="#7B2CFF" opacity="0.65"/>
+    <rect x="440" y="172" width="56" height="56" fill="#00F5FF" opacity="0.5"/>
+    <rect x="80" y="256" width="56" height="56" fill="#00F5FF" opacity="0.3"/>
+    <rect x="152" y="256" width="56" height="56" fill="#00F5FF" opacity="0.55"/>
+    <rect x="224" y="256" width="56" height="56" fill="#00F5FF" opacity="0.8"/>
+    <rect x="296" y="256" width="56" height="56" fill="#7B2CFF" opacity="0.45"/>
+    <rect x="368" y="256" width="56" height="56" fill="#7B2CFF" opacity="0.9"/>
+    <rect x="440" y="256" width="56" height="56" fill="#00F5FF" opacity="0.65"/>
+  </g>
+  <text x="80" y="380" fill="#00F5FF" font-family="Arial, sans-serif" font-size="28" font-weight="bold">LUMIQUEST</text>
+  <text x="80" y="408" fill="#FFFFFF" opacity="0.6" font-family="Arial, sans-serif" font-size="16">Cooperative adventure</text>
+</svg>

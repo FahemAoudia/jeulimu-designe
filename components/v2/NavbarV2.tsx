@@ -21,7 +21,7 @@ export function NavbarV2() {
 
   const NAV_LINKS = [
     { href: "/birthdays", label: nav.birthdays },
-    { href: "/groups-pricing", label: nav.groupsPricing },
+    { href: "/groups-events", label: nav.groupsPricing },
     { href: "/mobile-events", label: nav.mobileEvents },
     { href: "/faq", label: nav.faq },
   ];
