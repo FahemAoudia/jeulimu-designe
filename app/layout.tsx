@@ -5,6 +5,7 @@ import "./globals.css";
 import { AppProviders } from "@/providers/AppProviders";
 import { FaqChatbot } from "@/components/FaqChatbot";
 import { getSiteContent } from "@/lib/get-site-content";
+import { generateThemeCss, mergeTheme } from "@/lib/theme-css";
 
 const outfit = Outfit({
   subsets: ["latin", "latin-ext"],
@@ -32,8 +33,6 @@ export const viewport = {
 };
 
 const themeInitScript = `(function(){try{var t=localStorage.getItem("jl_theme");document.documentElement.setAttribute("data-theme",t==="light"||t==="dark"?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();`;
-
-import { generateThemeCss, mergeTheme } from "@/lib/theme-css";
 
 export default async function RootLayout({
   children,

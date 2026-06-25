@@ -18,6 +18,8 @@ import { LumiFloor3D } from "@/components/v3/LumiFloor3D";
 import { formatPrice, useV2Content } from "@/hooks/useV2Content";
 import { cn } from "@/lib/cn";
 
+const MODE_COLORS = ["#00F5FF", "#FF2D95", "#7B2CFF"];
+
 export function HeroV2() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
@@ -38,8 +40,8 @@ export function HeroV2() {
         ) : (
           <Image src={bgImg} alt="" fill priority className="object-cover scale-105" sizes="100vw" unoptimized={/^https?:\/\//.test(bgImg)} />
         )}
-        <div className="absolute inset-0 bg-[var(--ju-bg-deep)]/88 lg:bg-[var(--ju-bg-deep)]/80" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--ju-bg-deep)]/95 via-[var(--ju-bg-deep)]/70 to-[var(--ju-bg-deep)]/90 lg:bg-gradient-to-r lg:from-[var(--ju-bg-deep)]/95 lg:via-[var(--ju-bg-deep)]/55 lg:to-[var(--ju-bg-deep)]/25" />
+        <div className="absolute inset-0 bg-[#030308]/88 lg:bg-[#030308]/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#030308]/95 via-[#030308]/70 to-[#030308]/90 lg:bg-gradient-to-r lg:from-[#030308]/95 lg:via-[#030308]/55 lg:to-[#030308]/25" />
         <LumiGridBg />
       </div>
 
@@ -142,9 +144,8 @@ export function WhatIsSection() {
 
 export function HowWorksSection() {
   const { locale } = useLocaleContext();
-  const { v2, theme } = useV2Content();
+  const { v2 } = useV2Content();
   const h = v2.home.howWorks;
-  const modeColors = [theme.cyan, theme.magenta, theme.purple];
 
   return (
     <section id="how-it-works" className="border-y border-white/10 bg-black/40 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
@@ -155,7 +156,7 @@ export function HowWorksSection() {
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-5 lg:gap-6">
           {h.steps.map((step, i) => (
-            <div key={i} className="relative pl-6 ju-mode-stripe" style={{ "--stripe-color": modeColors[i % 3] } as React.CSSProperties}>
+            <div key={i} className="relative pl-6 ju-mode-stripe" style={{ "--stripe-color": MODE_COLORS[i % 3] } as React.CSSProperties}>
               <span className="font-display text-4xl font-bold text-white/15">{String(i + 1).padStart(2, "0")}</span>
               <p className="mt-2 font-display text-sm font-bold uppercase tracking-wide text-white">{t(step.title, locale)}</p>
               <p className="mt-2 text-xs text-white/45 leading-relaxed">{t(step.sub ?? { en: "", fr: "" }, locale)}</p>
@@ -173,9 +174,8 @@ export function HowWorksSection() {
 export function GameModesSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
-  const { v2, theme } = useV2Content();
+  const { v2 } = useV2Content();
   const gm = v2.home.gameModes;
-  const modeColors = [theme.cyan, theme.magenta, theme.purple];
   const modes = content.gameModes?.length ? content.gameModes.slice(0, 3) : null;
 
   return (
@@ -188,7 +188,7 @@ export function GameModesSection() {
           {(modes ?? []).map((m, i) => {
             const v2 = gm.modes[i];
             const img = m.image?.trim() || "/hero-background.png";
-            const color = modeColors[i % modeColors.length];
+            const color = MODE_COLORS[i];
             return (
               <article
                 key={m.id}
@@ -304,8 +304,8 @@ export function ExperiencesSection() {
 export function ReviewsSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
-  const { v2, theme } = useV2Content();
   const reviews = content.testimonialReviews ?? [];
+  const { v2 } = useV2Content();
   const r = v2.home.reviews;
   const items =
     reviews.length > 0
@@ -325,7 +325,7 @@ export function ReviewsSection() {
             <article key={rev.id} className="w-[min(100%,340px)] shrink-0 border border-white/10 bg-[#0a0a12] p-6">
               <div className="flex gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="size-3.5" style={{ fill: theme.magenta, color: theme.magenta }} />
+                  <Star key={i} className="size-3.5 fill-[#FF2D95] text-[#FF2D95]" />
                 ))}
               </div>
               <p className="mt-4 text-sm leading-relaxed text-white/75">
@@ -345,18 +345,12 @@ export function ReviewsSection() {
 
 export function FinalCtaSection() {
   const { locale } = useLocaleContext();
-  const { v2, theme } = useV2Content();
+  const { v2 } = useV2Content();
   const f = v2.home.finalCta;
 
   return (
     <section className="px-4 py-10 sm:px-6 sm:py-16 lg:px-10">
-      <div
-        className="relative mx-auto max-w-[1400px] overflow-hidden border px-5 py-12 text-center sm:px-12 sm:py-16 lg:px-16 lg:py-20"
-        style={{
-          borderColor: `${theme.magenta}4d`,
-          background: `linear-gradient(to right, ${theme.magenta}33, ${theme.purple}26, ${theme.cyan}1a)`,
-        }}
-      >
+      <div className="relative mx-auto max-w-[1400px] overflow-hidden border border-[#FF2D95]/30 bg-gradient-to-r from-[#FF2D95]/20 via-[#7B2CFF]/15 to-cyan-500/10 px-5 py-12 text-center sm:px-12 sm:py-16 lg:px-16 lg:py-20">
         <LumiGridBg className="opacity-50" />
         <div className="relative">
           <DisplayTitle className="!text-3xl sm:!text-4xl lg:!text-6xl">{t(f.title, locale)}</DisplayTitle>
