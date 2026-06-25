@@ -11,6 +11,26 @@ export type SiteTheme = {
   gradientStart: string;
   gradientMid: string;
   gradientEnd: string;
+  /** Nav bar background (when scrolled). */
+  navBackground: string;
+  /** Nav link / menu text. */
+  navText: string;
+  /** Nav links default (muted). */
+  navTextMuted: string;
+  /** Active nav link + border accent. */
+  navLinkActive: string;
+  /** Mobile menu panel background. */
+  navMobileBackground: string;
+  /** Footer background. */
+  footerBackground: string;
+  /** Footer body text. */
+  footerText: string;
+  /** Footer muted text / links. */
+  footerTextMuted: string;
+  /** Footer section headings (Quick links, Contact…). */
+  footerHeading: string;
+  /** Footer icons (phone, map, mail). */
+  footerIconAccent: string;
 };
 
 export type V2Pricing = {

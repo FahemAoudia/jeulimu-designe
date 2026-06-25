@@ -1072,10 +1072,40 @@ html[data-theme="light"] .glow-magenta-popular {
 }
 
 .ju-nav-v3[data-scrolled="true"] {
-  background: rgba(3, 3, 10, 0.88);
-  border-bottom: 1px solid rgba(0, 245, 255, 0.12);
+  background: color-mix(in srgb, var(--ju-nav-bg, #030308) 88%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ju-nav-border, #00f5ff) 12%, transparent);
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(16px);
+}
+
+.ju-nav-link {
+  color: var(--ju-nav-text-muted, rgba(255, 255, 255, 0.65));
+  transition: color 0.2s ease;
+}
+
+.ju-nav-link:hover {
+  color: var(--ju-nav-text, #ffffff);
+}
+
+.ju-nav-link-active {
+  background: color-mix(in srgb, var(--ju-nav-text, #ffffff) 10%, transparent);
+  color: var(--ju-nav-link-active, #00f5ff);
+}
+
+.ju-nav-mobile-panel {
+  background: var(--ju-nav-mobile-bg, rgba(3, 3, 8, 0.98));
+  border-top: 1px solid color-mix(in srgb, var(--ju-nav-text, #ffffff) 10%, transparent);
+}
+
+.ju-nav-mobile-link {
+  color: color-mix(in srgb, var(--ju-nav-text, #ffffff) 90%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ju-nav-text, #ffffff) 5%, transparent);
+}
+
+.ju-nav-icon-btn {
+  border: 1px solid color-mix(in srgb, var(--ju-nav-text, #ffffff) 15%, transparent);
+  background: color-mix(in srgb, black 30%, transparent);
+  color: color-mix(in srgb, var(--ju-nav-text, #ffffff) 80%, transparent);
 }
 
 .ju-btn-primary {
@@ -1144,8 +1174,37 @@ html[data-theme="light"] .glow-magenta-popular {
 }
 
 .ju-footer-v3 {
+  background: var(--ju-footer-bg, #020205);
   border-top: 1px solid transparent;
   border-image: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.35), rgba(255, 45, 149, 0.35), transparent) 1;
+}
+
+.ju-footer-heading {
+  color: var(--ju-footer-heading, #00f5ff);
+}
+
+.ju-footer-muted {
+  color: var(--ju-footer-text-muted, rgba(255, 255, 255, 0.55));
+}
+
+.ju-footer-muted:hover {
+  color: var(--ju-footer-text, #ffffff);
+}
+
+.ju-footer-tagline {
+  color: var(--ju-footer-tagline, rgba(255, 255, 255, 0.5));
+}
+
+.ju-footer-icon {
+  color: var(--ju-footer-icon, #ff2d95);
+}
+
+.ju-footer-copyright {
+  color: var(--ju-footer-copyright, rgba(255, 255, 255, 0.35));
+}
+
+.ju-footer-hours-strong {
+  color: color-mix(in srgb, var(--ju-footer-text, #ffffff) 80%, transparent);
 }
 
 .ju-snap-x {

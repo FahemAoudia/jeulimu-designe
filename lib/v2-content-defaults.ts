@@ -28,6 +28,16 @@ export const defaultTheme: SiteTheme = {
   gradientStart: "#050A30",
   gradientMid: "#0D0221",
   gradientEnd: "#02020F",
+  navBackground: "#030308",
+  navText: "#FFFFFF",
+  navTextMuted: "#FFFFFF",
+  navLinkActive: "#00F5FF",
+  navMobileBackground: "#030308",
+  footerBackground: "#020205",
+  footerText: "#FFFFFF",
+  footerTextMuted: "#FFFFFF",
+  footerHeading: "#00F5FF",
+  footerIconAccent: "#FF2D95",
 };
 
 export const defaultPricing: V2Pricing = {

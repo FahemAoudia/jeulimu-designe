@@ -26,7 +26,7 @@ export function mergeTheme(theme?: Partial<SiteTheme> | null): SiteTheme {
   return { ...defaultTheme, ...theme };
 }
 
-/** Only CSS variables — globals.css keeps the original v3 design. */
+/** CSS variables for brand + nav + footer — does not override core v3 layout CSS. */
 export function generateThemeCss(themeInput?: Partial<SiteTheme> | null): string {
   const theme = mergeTheme(themeInput);
   return `
@@ -43,6 +43,19 @@ export function generateThemeCss(themeInput?: Partial<SiteTheme> | null): string
       --ju-gradient-mid: ${theme.gradientMid};
       --ju-gradient-end: ${theme.gradientEnd};
       --ju-focus: ${rgba(theme.cyan, 0.48, "rgba(0, 245, 255, 0.48)")};
+      --ju-nav-bg: ${theme.navBackground};
+      --ju-nav-text: ${theme.navText};
+      --ju-nav-text-muted: ${rgba(theme.navTextMuted, 0.65, "rgba(255, 255, 255, 0.65)")};
+      --ju-nav-link-active: ${theme.navLinkActive};
+      --ju-nav-mobile-bg: ${rgba(theme.navMobileBackground, 0.98, "rgba(3, 3, 8, 0.98)")};
+      --ju-nav-border: ${theme.navLinkActive};
+      --ju-footer-bg: ${theme.footerBackground};
+      --ju-footer-text: ${theme.footerText};
+      --ju-footer-text-muted: ${rgba(theme.footerTextMuted, 0.55, "rgba(255, 255, 255, 0.55)")};
+      --ju-footer-heading: ${theme.footerHeading};
+      --ju-footer-icon: ${theme.footerIconAccent};
+      --ju-footer-copyright: ${rgba(theme.footerTextMuted, 0.35, "rgba(255, 255, 255, 0.35)")};
+      --ju-footer-tagline: ${rgba(theme.footerTextMuted, 0.5, "rgba(255, 255, 255, 0.5)")};
     }
   `;
 }

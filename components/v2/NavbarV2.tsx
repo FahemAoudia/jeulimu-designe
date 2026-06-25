@@ -63,10 +63,8 @@ export function NavbarV2() {
               key={l.href}
               href={l.href}
               className={cn(
-                "px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] transition",
-                pathname === l.href
-                  ? "bg-white/10 text-ju-cyanGlow"
-                  : "text-white/65 hover:text-white",
+                "ju-nav-link px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em]",
+                pathname === l.href && "ju-nav-link-active",
               )}
             >
               {t(l.label, locale)}
@@ -78,7 +76,7 @@ export function NavbarV2() {
           <button
             type="button"
             onClick={toggleLang}
-            className="flex h-9 min-w-[2.75rem] items-center justify-center border border-white/15 bg-black/30 text-[10px] font-bold uppercase tracking-widest text-white/80 sm:h-10 sm:min-w-[3rem] lg:hidden"
+            className="ju-nav-icon-btn flex h-9 min-w-[2.75rem] items-center justify-center text-[10px] font-bold uppercase tracking-widest sm:h-10 sm:min-w-[3rem] lg:hidden"
           >
             {locale === "fr" ? "FR" : "EN"}
           </button>
@@ -90,7 +88,8 @@ export function NavbarV2() {
           </PrimaryBtn>
           <button
             type="button"
-            className="flex border border-white/20 bg-black/40 p-2.5 text-white lg:hidden"
+            className="ju-nav-icon-btn flex p-2.5 lg:hidden"
+            style={{ color: "var(--ju-nav-text, #ffffff)" }}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
@@ -100,13 +99,13 @@ export function NavbarV2() {
       </nav>
 
       {open ? (
-        <div className="border-t border-white/10 bg-[#030308]/98 px-4 py-5 backdrop-blur-xl lg:hidden">
+        <div className="ju-nav-mobile-panel px-4 py-5 backdrop-blur-xl lg:hidden">
           <ul className="flex flex-col gap-1">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="block border-b border-white/5 py-3 text-sm font-bold uppercase tracking-[0.15em] text-white/90"
+                  className="ju-nav-mobile-link block py-3 text-sm font-bold uppercase tracking-[0.15em]"
                   onClick={() => setOpen(false)}
                 >
                   {t(l.label, locale)}
