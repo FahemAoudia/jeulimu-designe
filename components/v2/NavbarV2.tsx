@@ -52,7 +52,7 @@ export function NavbarV2() {
       className="ju-nav-v3 fixed left-0 right-0 top-0 z-50"
       data-scrolled={scrolled ? "true" : "false"}
     >
-      <nav className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-3 py-3 sm:px-6 sm:py-4 lg:px-10">
+      <nav className="ju-nav-bar mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-3 sm:px-6 lg:px-10">
         <Link href="/" className="min-w-0 shrink" onClick={() => setOpen(false)}>
           <SiteLogoMark variant="nav" />
         </Link>
