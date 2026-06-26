@@ -31,7 +31,7 @@ export function BirthdaysPageContent() {
           <Image src={heroImg} alt="" fill className="object-cover opacity-50" priority unoptimized={/^https?:\/\//.test(heroImg)} />
           <div className="absolute inset-0 bg-gradient-to-b from-[#030308]/90 to-[#030308]" />
         </div>
-        <div className="relative mx-auto max-w-[1400px] px-4 py-28 sm:px-6 lg:px-10">
+        <div className="relative mx-auto max-w-[1400px] px-4 pb-28 ju-pt-nav sm:px-6 lg:px-10">
           <SectionLabel>{t(b.hero.sectionLabel, locale)}</SectionLabel>
           <DisplayTitle className="mt-4 max-w-2xl">{t(b.hero.title, locale)}</DisplayTitle>
           <p className="mt-4 text-lg text-ju-cyanGlow">{t(b.hero.sub, locale)}</p>

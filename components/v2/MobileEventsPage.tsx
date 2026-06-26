@@ -21,7 +21,7 @@ export function MobileEventsPageContent() {
 
   return (
     <div className="ju-v3-shell">
-      <section className="px-4 pt-24 pb-12 sm:px-6 lg:px-10">
+      <section className="ju-pt-nav px-4 pb-12 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
           <span className="inline-block border border-ju-yellow/40 bg-ju-yellow/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ju-yellow">
             {t(m.hero.badge, locale)}

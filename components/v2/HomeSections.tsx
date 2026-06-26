@@ -45,7 +45,7 @@ export function HeroV2() {
         <LumiGridBg />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 pt-[4.75rem] sm:px-6 sm:pb-10 sm:pt-24 lg:justify-center lg:pb-16 lg:pt-24 lg:px-10">
+      <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 ju-pt-nav sm:px-6 sm:pb-10 lg:justify-center lg:pb-16 lg:px-10">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="ju-on-dark lg:col-span-7">
             <SectionLabel>{t(h.locationLabel, locale)}</SectionLabel>

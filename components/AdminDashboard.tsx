@@ -392,7 +392,7 @@ export function AdminDashboard() {
                       <p className="text-[10px] font-bold uppercase tracking-wider text-ju-muted">
                         Nav preview (updates live — click Save to publish)
                       </p>
-                      <div className="mt-3 flex h-[4.5rem] max-h-[4.5rem] items-center overflow-hidden rounded-lg border border-white/5 bg-[#030308] px-3">
+                      <div className="mt-3 flex h-[var(--ju-nav-height)] max-h-[var(--ju-nav-height)] items-center overflow-hidden rounded-lg border border-white/5 bg-[#030308] px-3">
                         <SiteLogoMark variant="nav" />
                       </div>
                     </div>

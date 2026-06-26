@@ -20,7 +20,7 @@ export function ContactPageContent() {
 
   return (
     <div className="ju-v3-shell">
-      <section className="px-4 pt-20 pb-12 sm:px-6 sm:pt-24 sm:pb-16 lg:px-10">
+      <section className="ju-pt-nav px-4 pb-12 sm:px-6 sm:pb-16 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
           <SectionLabel>{locale === "fr" ? "Contact" : "Contact"}</SectionLabel>
           <DisplayTitle className="mt-4">{pickLocalized(c.title, locale)}</DisplayTitle>
