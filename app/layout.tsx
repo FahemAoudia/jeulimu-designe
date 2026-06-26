@@ -32,6 +32,9 @@ export const viewport = {
   viewportFit: "cover",
 };
 
+/** CMS content (logo size, branding) must load fresh — not baked at build time */
+export const dynamic = "force-dynamic";
+
 const themeInitScript = `(function(){try{var t=localStorage.getItem("jl_theme");document.documentElement.setAttribute("data-theme",t==="light"||t==="dark"?t:"dark");}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();`;
 
 export default async function RootLayout({

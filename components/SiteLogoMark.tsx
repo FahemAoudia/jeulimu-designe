@@ -1,12 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { defaultSiteContent } from "@/lib/site-defaults";
 import { pickLocalized } from "@/types/site-content";
 import { cn } from "@/lib/cn";
 
-function normalizeLogoSize(value: unknown): "sm" | "md" | "lg" | "xl" {
+export type LogoSize = "sm" | "md" | "lg" | "xl";
+
+function normalizeLogoSize(value: unknown): LogoSize {
   if (value === "sm" || value === "md" || value === "lg" || value === "xl") return value;
   return "md";
 }
@@ -36,6 +37,11 @@ export function SiteLogoMark({
   const taglineFooter =
     locale === "fr" ? "Plancher LED interactif" : "Interactive LED game floor";
 
+  const imgClass = cn(
+    "ju-site-logo-img",
+    `ju-site-logo-img--${variant}-${size}`,
+  );
+
   return (
     <span
       data-variant={variant}
@@ -47,14 +53,13 @@ export function SiteLogoMark({
       )}
     >
       {src ? (
-        <Image
+        // eslint-disable-next-line @next/next/no-img-element -- explicit CSS sizing; next/image blocks size classes
+        <img
           src={src}
           alt={pickLocalized(b.logoAlt, locale)}
-          width={640}
-          height={200}
-          className="ju-site-logo-img"
-          priority={variant === "nav"}
-          unoptimized={/^https?:\/\//.test(src)}
+          className={imgClass}
+          decoding="async"
+          fetchPriority={variant === "nav" ? "high" : "auto"}
         />
       ) : variant === "footer" ? (
         <span className="text-2xl font-black">

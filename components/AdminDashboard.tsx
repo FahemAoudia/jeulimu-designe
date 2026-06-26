@@ -18,6 +18,7 @@ import { ReviewsAdminSection } from "@/components/admin/ReviewsAdminSection";
 import { AdminImageUpload } from "@/components/AdminImageUpload";
 import { AdminVideoUpload } from "@/components/AdminVideoUpload";
 import { ThemeColorBoxes } from "@/components/admin/ThemeColorBoxes";
+import { SiteLogoMark } from "@/components/SiteLogoMark";
 
 const TABS = [
   "Overview",
@@ -387,6 +388,14 @@ export function AdminDashboard() {
                         <option value="xl">Extra large</option>
                       </select>
                     </label>
+                    <div className="rounded-xl border border-white/10 bg-[#020818] p-4">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-ju-muted">
+                        Nav preview (updates live — click Save to publish)
+                      </p>
+                      <div className="mt-3 flex h-[4.5rem] max-h-[4.5rem] items-center overflow-hidden rounded-lg border border-white/5 bg-[#030308] px-3">
+                        <SiteLogoMark variant="nav" />
+                      </div>
+                    </div>
                   </div>
                 </AdminCollapse>
               </div>

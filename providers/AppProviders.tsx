@@ -60,13 +60,27 @@ export function AppProviders({
   }, []);
 
   const saveToServer = useCallback(async () => {
+    const payload = {
+      ...content,
+      schemaVersion: content.schemaVersion ?? 5,
+    };
     const res = await fetch("/api/site", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(content),
+      body: JSON.stringify(payload),
     });
-    if (res.ok) return { ok: true as const };
+    if (res.ok) {
+      try {
+        const fresh = (await fetch("/api/site", { cache: "no-store" }).then((r) =>
+          r.json(),
+        )) as SiteContent;
+        setContent(fresh);
+      } catch {
+        setContent(payload);
+      }
+      return { ok: true as const };
+    }
     const data = (await res.json().catch(() => ({}))) as { error?: string };
     if (res.status === 401) {
       return {

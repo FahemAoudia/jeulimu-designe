@@ -46,12 +46,20 @@ export function migrateSiteContent(content: SiteContent): SiteContent {
   const savedPromo = content.eventsPromoImage?.trim() ?? "";
   const savedTheme = content.theme;
   const savedEventsList = content.eventsList ?? [];
+  const savedLogoSize = content.siteBranding?.logoSize;
+  const savedShowTagline = content.siteBranding?.showTagline;
 
   const migrated = structuredClone(defaultSiteContent);
   migrated.schemaVersion = SITE_CONTENT_SCHEMA_VERSION;
 
   if (isUploadedLogo) migrated.siteBranding.logoImage = savedLogo;
   else migrated.siteBranding.logoImage = "/logo.png";
+  if (savedLogoSize === "sm" || savedLogoSize === "md" || savedLogoSize === "lg" || savedLogoSize === "xl") {
+    migrated.siteBranding.logoSize = savedLogoSize;
+  }
+  if (typeof savedShowTagline === "boolean") {
+    migrated.siteBranding.showTagline = savedShowTagline;
+  }
   if (isCustomHero) migrated.hero.backgroundImage = savedHeroBg;
   if (savedHeroVid) migrated.hero.backgroundVideo = savedHeroVid;
   if (savedGallery.length) migrated.gallery = savedGallery;

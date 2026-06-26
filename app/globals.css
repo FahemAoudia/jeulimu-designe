@@ -1121,118 +1121,125 @@ html[data-theme="light"] .glow-magenta-popular {
   color: color-mix(in srgb, var(--ju-nav-text, #ffffff) 80%, transparent);
 }
 
-/* Site logo image — size from admin (sm / md / lg) */
+/* Site logo — explicit size classes (admin: sm / md / lg / xl) */
 .ju-site-logo .ju-site-logo-img {
+  display: block;
   width: auto !important;
-  max-width: min(72vw, 360px);
-  height: auto;
   object-fit: contain;
   object-position: left center;
-  /* Logos exported with black backgrounds blend into dark nav/footer */
-  mix-blend-mode: lighten;
 }
 
-.ju-site-logo[data-variant="nav"][data-size="sm"] .ju-site-logo-img {
-  height: 2.25rem;
-  max-height: 2.25rem;
+/* Nav — mobile */
+.ju-site-logo-img--nav-sm {
+  height: 2rem !important;
+  max-height: 2rem !important;
+  max-width: min(62vw, 200px) !important;
 }
 
-.ju-site-logo[data-variant="nav"][data-size="md"] .ju-site-logo-img {
-  height: 2.875rem;
-  max-height: 2.875rem;
+.ju-site-logo-img--nav-md {
+  height: 2.625rem !important;
+  max-height: 2.625rem !important;
+  max-width: min(68vw, 260px) !important;
 }
 
-.ju-site-logo[data-variant="nav"][data-size="lg"] .ju-site-logo-img {
-  height: 3.25rem;
-  max-height: 3.25rem;
+.ju-site-logo-img--nav-lg {
+  height: 3rem !important;
+  max-height: 3rem !important;
+  max-width: min(72vw, 320px) !important;
 }
 
-.ju-site-logo[data-variant="nav"][data-size="xl"] .ju-site-logo-img {
-  height: 3.5rem;
-  max-height: 3.5rem;
+.ju-site-logo-img--nav-xl {
+  height: 3.25rem !important;
+  max-height: 3.25rem !important;
+  max-width: min(76vw, 380px) !important;
 }
 
-.ju-site-logo[data-variant="footer"][data-size="sm"] .ju-site-logo-img {
-  height: 2.5rem;
-  max-height: 2.5rem;
+/* Footer — mobile */
+.ju-site-logo-img--footer-sm {
+  height: 2.5rem !important;
+  max-height: 2.5rem !important;
+  max-width: 220px !important;
 }
 
-.ju-site-logo[data-variant="footer"][data-size="md"] .ju-site-logo-img {
-  height: 3.25rem;
-  max-height: 3.25rem;
+.ju-site-logo-img--footer-md {
+  height: 3.25rem !important;
+  max-height: 3.25rem !important;
+  max-width: 280px !important;
 }
 
-.ju-site-logo[data-variant="footer"][data-size="lg"] .ju-site-logo-img {
-  height: 4.5rem;
-  max-height: 4.5rem;
+.ju-site-logo-img--footer-lg {
+  height: 4rem !important;
+  max-height: 4rem !important;
+  max-width: 360px !important;
 }
 
-.ju-site-logo[data-variant="footer"][data-size="xl"] .ju-site-logo-img {
-  height: 5.25rem;
-  max-height: 5.25rem;
+.ju-site-logo-img--footer-xl {
+  height: 4.75rem !important;
+  max-height: 4.75rem !important;
+  max-width: 420px !important;
 }
 
 @media (min-width: 640px) {
-  .ju-site-logo[data-variant="nav"][data-size="sm"] .ju-site-logo-img {
-    height: 2.625rem;
-    max-height: 2.625rem;
-    max-width: min(48vw, 220px);
+  .ju-site-logo-img--nav-sm {
+    height: 2.25rem !important;
+    max-height: 2.25rem !important;
+    max-width: min(50vw, 240px) !important;
   }
 
-  .ju-site-logo[data-variant="nav"][data-size="md"] .ju-site-logo-img {
-    height: 3.375rem;
-    max-height: 3.375rem;
-    max-width: min(52vw, 280px);
+  .ju-site-logo-img--nav-md {
+    height: 2.875rem !important;
+    max-height: 2.875rem !important;
+    max-width: min(54vw, 300px) !important;
   }
 
-  .ju-site-logo[data-variant="nav"][data-size="lg"] .ju-site-logo-img {
-    height: 3.75rem;
-    max-height: 3.75rem;
-    max-width: min(58vw, 460px);
+  .ju-site-logo-img--nav-lg {
+    height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    max-width: min(58vw, 420px) !important;
   }
 
-  .ju-site-logo[data-variant="nav"][data-size="xl"] .ju-site-logo-img {
-    height: 4.125rem;
-    max-height: 4.125rem;
-    max-width: min(64vw, 540px);
+  .ju-site-logo-img--nav-xl {
+    height: 4rem !important;
+    max-height: 4rem !important;
+    max-width: min(62vw, 520px) !important;
   }
 
-  .ju-site-logo[data-variant="footer"][data-size="sm"] .ju-site-logo-img {
-    height: 2.75rem;
-    max-height: 2.75rem;
-    max-width: 260px;
+  .ju-site-logo-img--footer-sm {
+    height: 2.75rem !important;
+    max-height: 2.75rem !important;
+    max-width: 260px !important;
   }
 
-  .ju-site-logo[data-variant="footer"][data-size="md"] .ju-site-logo-img {
-    height: 3.5rem;
-    max-height: 3.5rem;
-    max-width: 320px;
+  .ju-site-logo-img--footer-md {
+    height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    max-width: 320px !important;
   }
 
-  .ju-site-logo[data-variant="footer"][data-size="lg"] .ju-site-logo-img {
-    height: 5rem;
-    max-height: 5rem;
-    max-width: 460px;
+  .ju-site-logo-img--footer-lg {
+    height: 5rem !important;
+    max-height: 5rem !important;
+    max-width: 460px !important;
   }
 
-  .ju-site-logo[data-variant="footer"][data-size="xl"] .ju-site-logo-img {
-    height: 5.75rem;
-    max-height: 5.75rem;
-    max-width: 560px;
+  .ju-site-logo-img--footer-xl {
+    height: 5.75rem !important;
+    max-height: 5.75rem !important;
+    max-width: 560px !important;
   }
 }
 
 @media (min-width: 1024px) {
-  .ju-site-logo[data-variant="nav"][data-size="lg"] .ju-site-logo-img {
-    height: 4.125rem;
-    max-height: 4.125rem;
-    max-width: min(50vw, 580px);
+  .ju-site-logo-img--nav-lg {
+    height: 3.75rem !important;
+    max-height: 3.75rem !important;
+    max-width: min(48vw, 560px) !important;
   }
 
-  .ju-site-logo[data-variant="nav"][data-size="xl"] .ju-site-logo-img {
-    height: 4.25rem;
-    max-height: 4.25rem;
-    max-width: min(56vw, 720px);
+  .ju-site-logo-img--nav-xl {
+    height: 4.125rem !important;
+    max-height: 4.125rem !important;
+    max-width: min(52vw, 720px) !important;
   }
 }
 
