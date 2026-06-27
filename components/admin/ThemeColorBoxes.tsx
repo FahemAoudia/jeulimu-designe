@@ -170,6 +170,74 @@ export function ThemeColorBoxes({
           <ColorBox label="Gradient end" value={t.gradientEnd} onChange={(v) => set("gradientEnd", v)} />
         </div>
       </AdminCollapse>
+
+      <AdminCollapse
+        title="Site fonts"
+        hint="Body and heading fonts across the public site."
+        defaultOpen={false}
+      >
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="block text-[10px] font-bold uppercase tracking-wider text-ju-soft">
+            Body font
+            <select
+              className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-2 py-2 text-sm text-white"
+              value={t.fontBody}
+              onChange={(e) =>
+                onChange({ ...t, fontBody: e.target.value as SiteTheme["fontBody"] })
+              }
+            >
+              <option value="outfit">Outfit</option>
+              <option value="syne">Syne</option>
+              <option value="system">System</option>
+            </select>
+          </label>
+          <label className="block text-[10px] font-bold uppercase tracking-wider text-ju-soft">
+            Heading font
+            <select
+              className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-2 py-2 text-sm text-white"
+              value={t.fontHeading}
+              onChange={(e) =>
+                onChange({ ...t, fontHeading: e.target.value as SiteTheme["fontHeading"] })
+              }
+            >
+              <option value="syne">Syne (display)</option>
+              <option value="outfit">Outfit</option>
+              <option value="system">System</option>
+            </select>
+          </label>
+        </div>
+      </AdminCollapse>
+
+      <AdminCollapse
+        title="Light mode (public site)"
+        hint="Background colors when visitors switch to light mode via the sun/moon toggle in the nav."
+        defaultOpen={false}
+      >
+        <div className="grid gap-3 sm:grid-cols-2">
+          <ColorBox
+            label="Light bg deep"
+            hint="Main page background"
+            value={t.lightBgDeep}
+            onChange={(v) => set("lightBgDeep", v)}
+          />
+          <ColorBox
+            label="Light bg mid"
+            hint="Cards & mid-tones"
+            value={t.lightBgMid}
+            onChange={(v) => set("lightBgMid", v)}
+          />
+          <ColorBox
+            label="Light text primary"
+            value={t.lightTextPrimary}
+            onChange={(v) => set("lightTextPrimary", v)}
+          />
+          <ColorBox
+            label="Light text muted"
+            value={t.lightTextMuted}
+            onChange={(v) => set("lightTextMuted", v)}
+          />
+        </div>
+      </AdminCollapse>
     </div>
   );
 }

@@ -38,6 +38,12 @@ export const defaultTheme: SiteTheme = {
   footerTextMuted: "#FFFFFF",
   footerHeading: "#00F5FF",
   footerIconAccent: "#FF2D95",
+  fontBody: "outfit",
+  fontHeading: "syne",
+  lightBgDeep: "#f0f4fc",
+  lightBgMid: "#e8eef8",
+  lightTextPrimary: "#0f172a",
+  lightTextMuted: "#475569",
 };
 
 export const defaultPricing: V2Pricing = {

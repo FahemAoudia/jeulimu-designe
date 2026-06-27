@@ -22,11 +22,33 @@ function rgba(hex: string, alpha: number, fallback: string): string {
   return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
 }
 
+function fontStack(key: SiteTheme["fontBody"]): string {
+  switch (key) {
+    case "syne":
+      return "var(--font-syne), system-ui, sans-serif";
+    case "system":
+      return "system-ui, sans-serif";
+    default:
+      return "var(--font-outfit), system-ui, sans-serif";
+  }
+}
+
+function headingStack(key: SiteTheme["fontHeading"]): string {
+  switch (key) {
+    case "outfit":
+      return "var(--font-outfit), system-ui, sans-serif";
+    case "system":
+      return "system-ui, sans-serif";
+    default:
+      return "var(--font-syne), system-ui, sans-serif";
+  }
+}
+
 export function mergeTheme(theme?: Partial<SiteTheme> | null): SiteTheme {
   return { ...defaultTheme, ...theme };
 }
 
-/** CSS variables for brand + nav + footer — does not override core v3 layout CSS. */
+/** CSS variables for brand + nav + footer + fonts + light mode. */
 export function generateThemeCss(themeInput?: Partial<SiteTheme> | null): string {
   const theme = mergeTheme(themeInput);
   return `
@@ -56,6 +78,26 @@ export function generateThemeCss(themeInput?: Partial<SiteTheme> | null): string
       --ju-footer-icon: ${theme.footerIconAccent};
       --ju-footer-copyright: ${rgba(theme.footerTextMuted, 0.35, "rgba(255, 255, 255, 0.35)")};
       --ju-footer-tagline: ${rgba(theme.footerTextMuted, 0.5, "rgba(255, 255, 255, 0.5)")};
+      --ju-font-body: ${fontStack(theme.fontBody)};
+      --ju-font-heading: ${headingStack(theme.fontHeading)};
+    }
+    html[data-theme="light"] {
+      --ju-bg-deep: ${theme.lightBgDeep};
+      --ju-bg-mid: ${theme.lightBgMid};
+      --ju-gradient-start: ${theme.lightBgDeep};
+      --ju-gradient-mid: ${theme.lightBgMid};
+      --ju-gradient-end: ${theme.lightBgDeep};
+      --ju-light-text: ${theme.lightTextPrimary};
+      --ju-light-text-muted: ${theme.lightTextMuted};
+    }
+    body.ju-body-root {
+      font-family: var(--ju-font-body);
+    }
+    .font-display,
+    .ju-section-heading h1,
+    .ju-section-heading h2,
+    .ju-section-heading h3 {
+      font-family: var(--ju-font-heading);
     }
   `;
 }

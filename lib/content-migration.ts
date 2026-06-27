@@ -3,7 +3,7 @@ import { defaultTheme } from "@/lib/v2-content-defaults";
 import type { SiteContent } from "@/types/site-content";
 import type { SiteTheme } from "@/types/v2-site-content";
 
-export const SITE_CONTENT_SCHEMA_VERSION = 5;
+export const SITE_CONTENT_SCHEMA_VERSION = 6;
 
 function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -48,6 +48,7 @@ export function migrateSiteContent(content: SiteContent): SiteContent {
   const savedEventsList = content.eventsList ?? [];
   const savedLogoSize = content.siteBranding?.logoSize;
   const savedShowTagline = content.siteBranding?.showTagline;
+  const savedSectionStyles = content.sectionStyles;
 
   const migrated = structuredClone(defaultSiteContent);
   migrated.schemaVersion = SITE_CONTENT_SCHEMA_VERSION;
@@ -59,6 +60,9 @@ export function migrateSiteContent(content: SiteContent): SiteContent {
   }
   if (typeof savedShowTagline === "boolean") {
     migrated.siteBranding.showTagline = savedShowTagline;
+  }
+  if (savedSectionStyles && Object.keys(savedSectionStyles).length > 0) {
+    migrated.sectionStyles = savedSectionStyles;
   }
   if (isCustomHero) migrated.hero.backgroundImage = savedHeroBg;
   if (savedHeroVid) migrated.hero.backgroundVideo = savedHeroVid;

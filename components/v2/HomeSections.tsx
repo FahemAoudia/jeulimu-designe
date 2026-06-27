@@ -15,6 +15,14 @@ import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { t } from "@/lib/site-v2-content";
 import { pickLocalized } from "@/types/site-content";
 import { LumiFloor3D } from "@/components/v3/LumiFloor3D";
+import { SectionPrimaryBtn, SectionGhostBtn } from "@/components/SectionButtons";
+import {
+  SectionHeading,
+  SectionIcon,
+  SectionShell,
+  SectionSubtext,
+} from "@/components/SectionShell";
+import { useSectionStyle } from "@/hooks/useSectionStyle";
 import { useV2Content } from "@/hooks/useV2Content";
 import { cn } from "@/lib/cn";
 
@@ -28,10 +36,11 @@ export function HeroV2() {
   const bgImg = hero.backgroundImage?.trim() || "/hero-background.svg";
   const bgVid = hero.backgroundVideo?.trim();
   const h = v2.home.hero;
+  const heroStyle = useSectionStyle("home.hero");
   const lines = t(h.headline, locale).split(". ").filter(Boolean);
 
   return (
-    <section className="relative min-h-[100dvh] overflow-hidden">
+    <SectionShell id="home.hero" className="relative min-h-[100dvh] overflow-hidden">
       <div className="absolute inset-0">
         {bgVid ? (
           <video className="h-full w-full object-cover scale-105" autoPlay muted loop playsInline poster={bgImg}>
@@ -48,18 +57,30 @@ export function HeroV2() {
       <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 ju-pt-nav sm:px-6 sm:pb-10 lg:justify-center lg:pb-16 lg:px-10">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="ju-on-dark lg:col-span-7">
-            <SectionLabel>{t(h.locationLabel, locale)}</SectionLabel>
-            <h1 className="mt-4 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight text-white">
-              {lines[0] ?? t(h.headline, locale)}
-              {lines[1] ? (
-                <span className="block ju-hero-outline mt-1">{lines[1]}</span>
-              ) : null}
-            </h1>
-            <p className="mt-6 max-w-lg text-base text-white/60 sm:text-lg">{t(h.support, locale)}</p>
+            <SectionIcon>
+              <p className="font-display text-[11px] font-bold uppercase tracking-[0.35em]">
+                {t(h.locationLabel, locale)}
+              </p>
+            </SectionIcon>
+            <SectionHeading className="mt-4">
+              <h1 className="font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight text-white">
+                {lines[0] ?? t(h.headline, locale)}
+                {lines[1] ? (
+                  <span className="block ju-hero-outline mt-1">{lines[1]}</span>
+                ) : null}
+              </h1>
+            </SectionHeading>
+            <SectionSubtext className="mt-6 max-w-lg text-base sm:text-lg">
+              {t(h.support, locale)}
+            </SectionSubtext>
 
             <div className="mt-8 hidden flex-wrap gap-4 lg:flex">
-              <PrimaryBtn href="/birthdays">{t(h.ctaBirthdays, locale)}</PrimaryBtn>
-              <GhostBtn href="/groups-events">{t(h.ctaGroups, locale)}</GhostBtn>
+              <SectionPrimaryBtn href="/birthdays" config={heroStyle.primaryButton}>
+                {t(h.ctaBirthdays, locale)}
+              </SectionPrimaryBtn>
+              <SectionGhostBtn href="/groups-events" config={heroStyle.secondaryButton}>
+                {t(h.ctaGroups, locale)}
+              </SectionGhostBtn>
             </div>
           </div>
           <div className="hidden flex-col items-center gap-4 lg:col-span-5 lg:flex">
@@ -83,7 +104,7 @@ export function HeroV2() {
         </div>
       </div>
       ) : null}
-    </section>
+    </SectionShell>
   );
 }
 

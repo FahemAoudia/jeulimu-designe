@@ -1,14 +1,20 @@
 "use client";
 
 import { Building2, GraduationCap, Heart, Users, Volleyball } from "lucide-react";
-import {
-  BentoCard,
-  DisplayTitle,
-  GhostBtn,
-  PrimaryBtn,
-  SectionLabel,
-} from "@/components/v3/primitives";
+import { DisplayTitle } from "@/components/v3/primitives";
 import { FaqAccordion } from "@/components/v2/FaqAccordion";
+import { SectionPrimaryBtn, SectionGhostBtn } from "@/components/SectionButtons";
+import {
+  SectionCard,
+  SectionCardIcon,
+  SectionCardText,
+  SectionCardTitle,
+  SectionHeading,
+  SectionIcon,
+  SectionShell,
+  SectionSubtext,
+} from "@/components/SectionShell";
+import { useSectionStyle } from "@/hooks/useSectionStyle";
 import { useLocaleContext } from "@/providers/AppProviders";
 import { t } from "@/lib/site-v2-content";
 import { formatPrice, useV2Content } from "@/hooks/useV2Content";
@@ -20,6 +26,8 @@ export function GroupsPricingPageContent() {
   const { locale } = useLocaleContext();
   const { v2, pricing } = useV2Content();
   const g = v2.groups;
+  const heroStyle = useSectionStyle("groups.hero");
+  const pricingStyle = useSectionStyle("groups.pricing");
 
   const pricingCards = [
     {
@@ -59,32 +67,63 @@ export function GroupsPricingPageContent() {
 
   return (
     <div className="ju-v3-shell">
-      <section className="ju-pt-nav px-4 pb-12 sm:px-6 sm:pb-16 lg:px-10">
+      <SectionShell id="groups.hero" className="ju-pt-nav px-4 pb-12 sm:px-6 sm:pb-16 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
-          <SectionLabel>{t(g.hero.sectionLabel, locale)}</SectionLabel>
-          <DisplayTitle className="mt-4">{t(g.hero.title, locale)}</DisplayTitle>
-          <p className="mt-4 max-w-2xl text-lg text-ju-cyanGlow">{t(g.hero.sub, locale)}</p>
-          <p className="mt-4 max-w-3xl text-sm text-white/50">{t(g.hero.body, locale)}</p>
+          <SectionIcon>
+            <p className="font-display text-[11px] font-bold uppercase tracking-[0.35em]">
+              {t(g.hero.sectionLabel, locale)}
+            </p>
+          </SectionIcon>
+          <SectionHeading className="mt-4">
+            <DisplayTitle>{t(g.hero.title, locale)}</DisplayTitle>
+          </SectionHeading>
+          <SectionSubtext className="mt-4 max-w-2xl text-lg text-ju-cyanGlow">
+            {t(g.hero.sub, locale)}
+          </SectionSubtext>
+          <SectionSubtext className="mt-4 max-w-3xl text-sm">
+            {t(g.hero.body, locale)}
+          </SectionSubtext>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <SectionPrimaryBtn href="/booking" config={heroStyle.primaryButton}>
+              {locale === "fr" ? "Réserver" : "Book Now"}
+            </SectionPrimaryBtn>
+            <SectionGhostBtn href="/contact" config={heroStyle.secondaryButton}>
+              {locale === "fr" ? "Contact" : "Contact Us"}
+            </SectionGhostBtn>
+          </div>
         </div>
-      </section>
+      </SectionShell>
 
-      <section className="border-y border-white/10 bg-black/40 px-4 py-16 sm:px-6 lg:px-10">
+      <SectionShell
+        id="groups.who"
+        className="border-y border-white/10 bg-black/40 px-4 py-16 sm:px-6 lg:px-10"
+      >
         <div className="mx-auto max-w-[1400px]">
-          <DisplayTitle className="!text-2xl">{locale === "fr" ? "Qui nous choisit" : "Who We Serve"}</DisplayTitle>
+          <SectionHeading>
+            <DisplayTitle className="!text-2xl">
+              {locale === "fr" ? "Qui nous choisit" : "Who We Serve"}
+            </DisplayTitle>
+          </SectionHeading>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {g.audiences.map((a, i) => {
               const Icon = ICONS[i] ?? Users;
               return (
-                <BentoCard key={i} accent="cyan" className="!p-6">
-                  <Icon className="size-5 text-ju-cyanGlow" />
-                  <p className="mt-3 font-display font-bold uppercase text-white">{t(a.title, locale)}</p>
-                  <p className="mt-2 text-xs text-white/45">{t(a.desc ?? { en: "", fr: "" }, locale)}</p>
-                </BentoCard>
+                <SectionCard key={i} className="!p-6">
+                  <SectionCardIcon>
+                    <Icon className="size-5" />
+                  </SectionCardIcon>
+                  <SectionCardTitle className="mt-3 !normal-case">
+                    {t(a.title, locale)}
+                  </SectionCardTitle>
+                  <SectionCardText className="mt-2">
+                    {t(a.desc ?? { en: "", fr: "" }, locale)}
+                  </SectionCardText>
+                </SectionCard>
               );
             })}
           </div>
         </div>
-      </section>
+      </SectionShell>
 
       <section className="px-4 py-16 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
@@ -100,28 +139,62 @@ export function GroupsPricingPageContent() {
         </div>
       </section>
 
-      <section id="pricing" className="border-y border-white/10 bg-black/40 px-4 py-20 sm:px-6 lg:px-10">
+      <SectionShell
+        id="groups.pricing"
+        className="border-y border-white/10 bg-black/40 px-4 py-20 sm:px-6 lg:px-10"
+      >
         <div className="mx-auto max-w-[1400px]">
-          <DisplayTitle className="!text-3xl">{locale === "fr" ? "Tarifs par groupe" : "Pricing by Group Size"}</DisplayTitle>
+          <SectionHeading>
+            <DisplayTitle className="!text-3xl">
+              {locale === "fr" ? "Tarifs par groupe" : "Pricing by Group Size"}
+            </DisplayTitle>
+          </SectionHeading>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {pricingCards.map((p) => (
-              <div key={p.id} className={cn("ju-bento border bg-[#0a0a12]/80 p-8 backdrop-blur-md", p.featured ? "border-[#FF2D95]/40" : "border-white/10")}>
-                <p className="font-display text-xs uppercase tracking-[0.25em] text-ju-cyanGlow">{t(p.title, locale)}</p>
-                <p className="mt-2 text-sm text-white/50">{t(p.players, locale)} · {t(p.duration, locale)}</p>
-                <p className="mt-6 font-display text-4xl font-bold text-white">
-                  {p.price}<span className="text-sm text-white/40">{t(p.unit, locale)}</span>
+              <SectionCard
+                key={p.id}
+                className={cn(
+                  "!p-8",
+                  p.featured ? "border-[#FF2D95]/40" : "border-white/10",
+                )}
+              >
+                <SectionCardTitle className="!text-xs !tracking-[0.25em] text-ju-cyanGlow">
+                  {t(p.title, locale)}
+                </SectionCardTitle>
+                <SectionCardText className="mt-2 text-sm">
+                  {t(p.players, locale)} · {t(p.duration, locale)}
+                </SectionCardText>
+                <p className="ju-section-card-title mt-6 font-display text-4xl font-bold">
+                  {p.price}
+                  <span className="ju-section-card-text text-sm">{t(p.unit, locale)}</span>
                 </p>
-                <PrimaryBtn href={p.href} className="mt-8 w-full !text-[10px]">{t(p.cta, locale)}</PrimaryBtn>
-              </div>
+                <SectionPrimaryBtn
+                  href={p.href}
+                  config={pricingStyle.primaryButton}
+                  className="mt-8 w-full !text-[10px]"
+                >
+                  {t(p.cta, locale)}
+                </SectionPrimaryBtn>
+              </SectionCard>
             ))}
           </div>
-          <BentoCard accent="cyan" className="mt-8 !p-8">
-            <h3 className="font-display text-xl font-bold uppercase text-white">{t(g.customQuote.title, locale)}</h3>
-            <p className="mt-3 text-sm text-white/55">{t(g.customQuote.body, locale)}</p>
-            <GhostBtn href="/contact" className="mt-6 !text-[10px]">{t(g.customQuote.cta, locale)}</GhostBtn>
-          </BentoCard>
+          <SectionCard className="mt-8 !p-8">
+            <SectionCardTitle className="!text-xl !normal-case">
+              {t(g.customQuote.title, locale)}
+            </SectionCardTitle>
+            <SectionCardText className="mt-3 text-sm">
+              {t(g.customQuote.body, locale)}
+            </SectionCardText>
+            <SectionGhostBtn
+              href="/contact"
+              config={pricingStyle.secondaryButton}
+              className="mt-6 !text-[10px]"
+            >
+              {t(g.customQuote.cta, locale)}
+            </SectionGhostBtn>
+          </SectionCard>
         </div>
-      </section>
+      </SectionShell>
 
       <section className="px-4 py-16 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
@@ -133,7 +206,9 @@ export function GroupsPricingPageContent() {
         <div className="mx-auto max-w-[1400px] border border-white/10 bg-gradient-to-r from-cyan-500/10 to-purple-600/10 px-8 py-14 text-center">
           <DisplayTitle className="!text-2xl">{t(g.contact.title, locale)}</DisplayTitle>
           <p className="mt-2 text-white/50">{t(g.contact.sub, locale)}</p>
-          <PrimaryBtn href="/contact" className="mt-6">{t(g.contact.cta, locale)}</PrimaryBtn>
+          <SectionPrimaryBtn href="/contact" className="mt-6">
+            {t(g.contact.cta, locale)}
+          </SectionPrimaryBtn>
         </div>
       </section>
     </div>

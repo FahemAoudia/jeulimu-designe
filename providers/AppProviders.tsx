@@ -62,7 +62,7 @@ export function AppProviders({
   const saveToServer = useCallback(async () => {
     const payload = {
       ...content,
-      schemaVersion: content.schemaVersion ?? 5,
+      schemaVersion: content.schemaVersion ?? 6,
     };
     const res = await fetch("/api/site", {
       method: "POST",

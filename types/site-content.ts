@@ -86,6 +86,7 @@ import type {
   V2SectionVisibility,
   V2SiteContent,
 } from "@/types/v2-site-content";
+import type { SectionStylesMap } from "@/types/section-styles";
 
 export type SiteContent = {
   hero: {
@@ -182,6 +183,8 @@ export type SiteContent = {
   theme: SiteTheme;
   /** Show/hide homepage v2 sections. */
   sectionVisibilityV2: V2SectionVisibility;
+  /** Per-section colors, fonts, buttons — Admin → Page styles */
+  sectionStyles: SectionStylesMap;
   /** Bumps when default copy must replace saved CMS (client content updates). */
   schemaVersion?: number;
 };

@@ -1071,25 +1071,33 @@ html[data-theme="light"] .glow-magenta-popular {
   transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Fixed nav height — grows on desktop to fit XL logo (~100px) */
+/* Fixed nav — grows with logo width (sm 200px → xl 500px) */
 :root {
   --ju-nav-height: 3.5rem;
 }
 
 @media (min-width: 640px) {
   :root {
-    --ju-nav-height: 7rem;
+    --ju-nav-height: 5rem;
   }
 }
 
 .ju-nav-v3 .ju-nav-bar {
-  height: var(--ju-nav-height);
-  max-height: var(--ju-nav-height);
+  height: auto;
+  min-height: var(--ju-nav-height);
+  max-height: none;
+  padding: 0.375rem 0;
 }
 
-/* Page sections below fixed nav */
+/* Page sections below fixed nav — generous top pad for large logos */
 .ju-pt-nav {
-  padding-top: var(--ju-nav-height);
+  padding-top: calc(var(--ju-nav-height) + 0.5rem);
+}
+
+@media (min-width: 640px) {
+  .ju-pt-nav {
+    padding-top: max(6.5rem, calc(var(--ju-nav-height) + 1rem));
+  }
 }
 
 .ju-nav-v3[data-scrolled="true"] {
@@ -1129,121 +1137,143 @@ html[data-theme="light"] .glow-magenta-popular {
   color: color-mix(in srgb, var(--ju-nav-text, #ffffff) 80%, transparent);
 }
 
-/* Site logo — explicit size classes (admin: sm / md / lg / xl) */
+/* Site logo — width targets (admin: sm 200 / md 300 / lg 400 / xl 500px) */
 .ju-site-logo .ju-site-logo-img {
   display: block;
   width: auto !important;
+  height: auto !important;
+  max-height: none !important;
   object-fit: contain;
   object-position: left center;
 }
 
-/* Nav — mobile */
+/* Nav — mobile (scaled down) */
 .ju-site-logo-img--nav-sm {
-  height: 2rem !important;
-  max-height: 2rem !important;
-  max-width: min(62vw, 200px) !important;
+  max-width: min(62vw, 140px) !important;
+  max-height: 2.5rem !important;
 }
 
 .ju-site-logo-img--nav-md {
-  height: 2.75rem !important;
-  max-height: 2.75rem !important;
-  max-width: min(68vw, 260px) !important;
+  max-width: min(68vw, 180px) !important;
+  max-height: 3rem !important;
 }
 
 .ju-site-logo-img--nav-lg {
-  height: 3.25rem !important;
+  max-width: min(72vw, 220px) !important;
   max-height: 3.25rem !important;
-  max-width: min(72vw, 320px) !important;
 }
 
 .ju-site-logo-img--nav-xl {
-  height: 3.75rem !important;
-  max-height: 3.75rem !important;
-  max-width: min(76vw, 380px) !important;
+  max-width: min(76vw, 260px) !important;
+  max-height: 3.5rem !important;
 }
 
 /* Footer — mobile */
 .ju-site-logo-img--footer-sm {
-  height: 2.5rem !important;
-  max-height: 2.5rem !important;
-  max-width: 220px !important;
+  max-width: min(70vw, 160px) !important;
+  max-height: 2.75rem !important;
 }
 
 .ju-site-logo-img--footer-md {
-  height: 3.25rem !important;
+  max-width: min(75vw, 200px) !important;
   max-height: 3.25rem !important;
-  max-width: 280px !important;
 }
 
 .ju-site-logo-img--footer-lg {
-  height: 4rem !important;
-  max-height: 4rem !important;
-  max-width: 360px !important;
+  max-width: min(80vw, 240px) !important;
+  max-height: 3.75rem !important;
 }
 
 .ju-site-logo-img--footer-xl {
-  height: 4.75rem !important;
-  max-height: 4.75rem !important;
-  max-width: 420px !important;
+  max-width: min(85vw, 280px) !important;
+  max-height: 4rem !important;
 }
 
 @media (min-width: 640px) {
   .ju-site-logo-img--nav-sm {
-    height: 2.25rem !important;
-    max-height: 2.25rem !important;
-    max-width: min(50vw, 240px) !important;
+    max-width: 200px !important;
+    max-height: none !important;
   }
 
   .ju-site-logo-img--nav-md {
-    height: 3.75rem !important; /* 60px */
-    max-height: 3.75rem !important;
-    max-width: min(58vw, 420px) !important;
+    max-width: 300px !important;
+    max-height: none !important;
   }
 
   .ju-site-logo-img--nav-lg {
-    height: 4.6875rem !important; /* 75px */
-    max-height: 4.6875rem !important;
-    max-width: min(64vw, 540px) !important;
+    max-width: 400px !important;
+    max-height: none !important;
   }
 
   .ju-site-logo-img--nav-xl {
-    height: 6.25rem !important; /* 100px */
-    max-height: 6.25rem !important;
-    max-width: min(72vw, 760px) !important;
+    max-width: 500px !important;
+    max-height: none !important;
+  }
+
+  .ju-site-logo-img--footer-sm {
+    max-width: 160px !important;
+    max-height: none !important;
   }
 
   .ju-site-logo-img--footer-md {
-    height: 3.75rem !important;
-    max-height: 3.75rem !important;
-    max-width: 420px !important;
+    max-width: 240px !important;
+    max-height: none !important;
   }
 
   .ju-site-logo-img--footer-lg {
-    height: 4.6875rem !important;
-    max-height: 4.6875rem !important;
-    max-width: 540px !important;
+    max-width: 320px !important;
+    max-height: none !important;
   }
 
   .ju-site-logo-img--footer-xl {
-    height: 6.25rem !important;
-    max-height: 6.25rem !important;
-    max-width: 760px !important;
+    max-width: 400px !important;
+    max-height: none !important;
   }
 }
 
-/* lg breakpoint — same target sizes as sm+ for md/lg/xl */
-@media (min-width: 1024px) {
-  .ju-site-logo-img--nav-md {
-    max-width: min(52vw, 480px) !important;
-  }
+/* Per-section CMS styles (Admin → Page styles) */
+.ju-section-heading,
+.ju-section-heading .font-display {
+  color: var(--ju-section-heading, inherit);
+}
 
-  .ju-site-logo-img--nav-lg {
-    max-width: min(56vw, 620px) !important;
-  }
+.ju-section-text {
+  color: var(--ju-section-text, inherit);
+}
 
-  .ju-site-logo-img--nav-xl {
-    max-width: min(60vw, 820px) !important;
-  }
+.ju-section-sub {
+  color: var(--ju-section-sub, rgb(255 255 255 / 0.55));
+}
+
+.ju-section-icon {
+  color: var(--ju-section-icon, var(--ju-cyan-glow, #00f5ff));
+}
+
+.ju-section-card {
+  background: var(--ju-section-card-bg, rgb(10 10 18 / 0.8));
+}
+
+.ju-section-card-title {
+  color: var(--ju-section-card-title, #fff);
+}
+
+.ju-section-card-text {
+  color: var(--ju-section-card-text, rgb(255 255 255 / 0.45));
+}
+
+.ju-section-card-icon {
+  color: var(--ju-section-card-icon, var(--ju-cyan-glow, #00f5ff));
+}
+
+.ju-section-btn-custom.ju-btn-primary,
+.ju-section-btn-custom.ju-btn-ghost {
+  filter: none;
+  box-shadow: none;
+}
+
+.ju-section-btn-custom.ju-btn-primary:hover,
+.ju-section-btn-custom.ju-btn-ghost:hover {
+  filter: brightness(1.06);
 }
 
 .ju-btn-primary {

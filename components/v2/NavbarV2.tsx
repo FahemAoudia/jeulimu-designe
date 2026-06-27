@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { SiteLogoMark } from "@/components/SiteLogoMark";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { PrimaryBtn } from "@/components/v3/primitives";
 import { useLocaleContext } from "@/providers/AppProviders";
 import { t } from "@/lib/site-v2-content";
@@ -73,6 +74,7 @@ export function NavbarV2() {
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+          <ThemeToggle variant="nav" className="hidden sm:flex" />
           <button
             type="button"
             onClick={toggleLang}
@@ -114,6 +116,7 @@ export function NavbarV2() {
             ))}
           </ul>
           <div className="mt-4 flex gap-2">
+            <ThemeToggle variant="nav" className="sm:hidden" />
             <button
               type="button"
               onClick={toggleLang}

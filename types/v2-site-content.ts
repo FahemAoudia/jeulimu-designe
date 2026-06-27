@@ -31,6 +31,18 @@ export type SiteTheme = {
   footerHeading: string;
   /** Footer icons (phone, map, mail). */
   footerIconAccent: string;
+  /** Site-wide body font stack key */
+  fontBody: "outfit" | "syne" | "system";
+  /** Site-wide heading font stack key */
+  fontHeading: "outfit" | "syne" | "system";
+  /** Light mode — page background deep */
+  lightBgDeep: string;
+  /** Light mode — mid background */
+  lightBgMid: string;
+  /** Light mode — primary text */
+  lightTextPrimary: string;
+  /** Light mode — muted text */
+  lightTextMuted: string;
 };
 
 export type V2Pricing = {

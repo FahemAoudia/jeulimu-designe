@@ -18,11 +18,14 @@ import { ReviewsAdminSection } from "@/components/admin/ReviewsAdminSection";
 import { AdminImageUpload } from "@/components/AdminImageUpload";
 import { AdminVideoUpload } from "@/components/AdminVideoUpload";
 import { ThemeColorBoxes } from "@/components/admin/ThemeColorBoxes";
+import { SectionStyleEditor } from "@/components/admin/SectionStyleEditor";
+import { SECTION_PAGES, SECTION_STYLE_REGISTRY } from "@/lib/section-style-registry";
 import { SiteLogoMark } from "@/components/SiteLogoMark";
 
 const TABS = [
   "Overview",
   "Theme & Branding",
+  "Page styles",
   "Navigation",
   "Home",
   "Birthdays",
@@ -297,6 +300,37 @@ export function AdminDashboard() {
               </div>
             ) : null}
 
+            {tab === "Page styles" ? (
+              <div className="space-y-4">
+                <p className="text-sm leading-relaxed text-ju-muted">
+                  Customize colors, fonts, and buttons for each page section. Toggle sections or
+                  buttons off, then click Save at the top to publish.
+                </p>
+                {SECTION_PAGES.map((page) => (
+                  <AdminCollapse key={page} title={page} defaultOpen={page === "Birthdays"}>
+                    <div className="space-y-3">
+                      {SECTION_STYLE_REGISTRY.filter((s) => s.page === page).map((entry) => (
+                        <SectionStyleEditor
+                          key={entry.id}
+                          title={entry.title}
+                          hint={entry.hint}
+                          showCards={entry.showCards}
+                          showButtons={entry.showButtons}
+                          value={content.sectionStyles?.[entry.id] ?? {}}
+                          onChange={(v) =>
+                            setContent((p) => ({
+                              ...p,
+                              sectionStyles: { ...p.sectionStyles, [entry.id]: v },
+                            }))
+                          }
+                        />
+                      ))}
+                    </div>
+                  </AdminCollapse>
+                ))}
+              </div>
+            ) : null}
+
             {tab === "Theme & Branding" ? (
               <div className="space-y-4">
                 <ThemeColorBoxes
@@ -382,17 +416,17 @@ export function AdminDashboard() {
                           }))
                         }
                       >
-                        <option value="sm">Small</option>
-                        <option value="md">Medium</option>
-                        <option value="lg">Large</option>
-                        <option value="xl">Extra large</option>
+                        <option value="sm">Small (200px width)</option>
+                        <option value="md">Medium (300px width)</option>
+                        <option value="lg">Large (400px width)</option>
+                        <option value="xl">Extra large (500px width)</option>
                       </select>
                     </label>
                     <div className="rounded-xl border border-white/10 bg-[#020818] p-4">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-ju-muted">
                         Nav preview (updates live — click Save to publish)
                       </p>
-                      <div className="mt-3 flex h-[var(--ju-nav-height)] max-h-[var(--ju-nav-height)] items-center overflow-hidden rounded-lg border border-white/5 bg-[#030308] px-3">
+                      <div className="mt-3 flex min-h-[var(--ju-nav-height)] items-center overflow-hidden rounded-lg border border-white/5 bg-[#030308] px-3 py-2">
                         <SiteLogoMark variant="nav" />
                       </div>
                     </div>

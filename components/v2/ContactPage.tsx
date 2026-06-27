@@ -2,11 +2,19 @@
 
 import { useState, type ReactNode } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { DisplayTitle } from "@/components/v3/primitives";
+import { SectionSubmitBtn } from "@/components/SectionButtons";
 import {
-  BentoCard,
-  DisplayTitle,
-  SectionLabel,
-} from "@/components/v3/primitives";
+  SectionCard,
+  SectionCardIcon,
+  SectionCardText,
+  SectionCardTitle,
+  SectionHeading,
+  SectionIcon,
+  SectionShell,
+  SectionSubtext,
+} from "@/components/SectionShell";
+import { useSectionStyle } from "@/hooks/useSectionStyle";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { ui } from "@/lib/ui-strings";
 import { pickLocalized } from "@/types/site-content";
@@ -41,137 +49,157 @@ export function ContactPageContent() {
   const { content } = useSiteContext();
   const t = ui(locale);
   const c = content.contact;
+  const formStyle = useSectionStyle("contact.form");
   const [status, setStatus] = useState<"idle" | "sent">("idle");
 
   return (
     <div className="ju-v3-shell">
       <section className="ju-pt-nav px-4 pb-12 sm:px-6 sm:pb-16 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
-          <SectionLabel>{locale === "fr" ? "Contact" : "Contact"}</SectionLabel>
-          <DisplayTitle className="mt-4">{pickLocalized(c.title, locale)}</DisplayTitle>
-          <p className="mt-4 max-w-2xl text-sm text-white/55">{pickLocalized(c.sparkle, locale)}</p>
+          <SectionIcon>
+            <p className="font-display text-[11px] font-bold uppercase tracking-[0.35em]">
+              {locale === "fr" ? "Contact" : "Contact"}
+            </p>
+          </SectionIcon>
+          <SectionHeading className="mt-4">
+            <DisplayTitle>{pickLocalized(c.title, locale)}</DisplayTitle>
+          </SectionHeading>
+          <SectionSubtext className="mt-4 max-w-2xl text-sm">
+            {pickLocalized(c.sparkle, locale)}
+          </SectionSubtext>
         </div>
       </section>
 
       <section className="px-4 pb-20 sm:px-6 lg:px-10">
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-2">
-          <BentoCard accent="cyan" className="!p-6 sm:!p-8">
-            <form
-              className="flex flex-col gap-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setStatus("sent");
-              }}
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <FormField label={t.form.firstName} hint={t.form.mandatory}>
-                  <input required name="firstName" className={fieldClass} />
-                </FormField>
-                <FormField label={t.form.lastName} hint={t.form.mandatory}>
-                  <input required name="lastName" className={fieldClass} />
-                </FormField>
-              </div>
-
-              <FormField label={t.form.email} hint={t.form.required}>
-                <input required type="email" name="email" className={fieldClass} />
-              </FormField>
-
-              <FormField label={t.form.phone}>
-                <input type="tel" name="phone" className={fieldClass} />
-              </FormField>
-
-              <FormField label={t.form.date} hint={t.form.mandatory}>
-                <input
-                  required
-                  type="date"
-                  name="date"
-                  className={fieldClass}
-                  placeholder={t.form.datePlaceholder}
-                />
-              </FormField>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <FormField label={t.form.players} hint={t.form.required}>
-                  <input
-                    required
-                    type="number"
-                    name="totalPlayers"
-                    min={1}
-                    max={30}
-                    className={fieldClass}
-                  />
-                </FormField>
-                <FormField label={t.form.kids} hint={t.form.mandatory}>
-                  <input
-                    required
-                    type="number"
-                    name="kidsUnder12"
-                    min={0}
-                    max={30}
-                    className={fieldClass}
-                  />
-                </FormField>
-              </div>
-
-              <FormField label={t.form.message}>
-                <textarea name="message" rows={4} className={`${fieldClass} resize-y`} />
-              </FormField>
-
-              <button
-                type="submit"
-                className="ju-btn-primary inline-flex w-full items-center justify-center px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-white sm:w-auto"
+          <SectionShell id="contact.form" as="div">
+            <SectionCard className="!p-6 sm:!p-8">
+              <form
+                className="flex flex-col gap-4"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setStatus("sent");
+                }}
               >
-                {t.form.submit}
-              </button>
-              {status === "sent" ? (
-                <p className="text-sm text-emerald-300">
-                  {locale === "fr"
-                    ? "Merci — nous vous répondrons bientôt."
-                    : "Thanks — we'll get back to you shortly."}
-                </p>
-              ) : null}
-            </form>
-          </BentoCard>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <FormField label={t.form.firstName} hint={t.form.mandatory}>
+                    <input required name="firstName" className={fieldClass} />
+                  </FormField>
+                  <FormField label={t.form.lastName} hint={t.form.mandatory}>
+                    <input required name="lastName" className={fieldClass} />
+                  </FormField>
+                </div>
 
-          <div className="flex flex-col gap-6">
-            <BentoCard accent="pink" className="!p-6">
-              <h3 className="text-xs font-bold uppercase tracking-[0.25em] text-ju-cyanGlow">
+                <FormField label={t.form.email} hint={t.form.required}>
+                  <input required type="email" name="email" className={fieldClass} />
+                </FormField>
+
+                <FormField label={t.form.phone}>
+                  <input type="tel" name="phone" className={fieldClass} />
+                </FormField>
+
+                <FormField label={t.form.date} hint={t.form.mandatory}>
+                  <input
+                    required
+                    type="date"
+                    name="date"
+                    className={fieldClass}
+                    placeholder={t.form.datePlaceholder}
+                  />
+                </FormField>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <FormField label={t.form.players} hint={t.form.required}>
+                    <input
+                      required
+                      type="number"
+                      name="totalPlayers"
+                      min={1}
+                      max={30}
+                      className={fieldClass}
+                    />
+                  </FormField>
+                  <FormField label={t.form.kids} hint={t.form.mandatory}>
+                    <input
+                      required
+                      type="number"
+                      name="kidsUnder12"
+                      min={0}
+                      max={30}
+                      className={fieldClass}
+                    />
+                  </FormField>
+                </div>
+
+                <FormField label={t.form.message}>
+                  <textarea name="message" rows={4} className={`${fieldClass} resize-y`} />
+                </FormField>
+
+                <SectionSubmitBtn
+                  config={formStyle.primaryButton}
+                  className="w-full sm:w-auto"
+                >
+                  {t.form.submit}
+                </SectionSubmitBtn>
+                {status === "sent" ? (
+                  <p className="text-sm text-emerald-300">
+                    {locale === "fr"
+                      ? "Merci — nous vous répondrons bientôt."
+                      : "Thanks — we'll get back to you shortly."}
+                  </p>
+                ) : null}
+              </form>
+            </SectionCard>
+          </SectionShell>
+
+          <SectionShell id="contact.sidebar" as="div" className="flex flex-col gap-6">
+            <SectionCard className="!p-6">
+              <SectionCardTitle className="!text-xs !tracking-[0.25em] text-ju-cyanGlow">
                 {locale === "fr" ? "Coordonnées" : "Get in touch"}
-              </h3>
-              <ul className="mt-4 space-y-3 text-sm text-white/65">
+              </SectionCardTitle>
+              <ul className="ju-section-card-text mt-4 space-y-3 text-sm">
                 <li className="flex gap-3">
-                  <Phone className="size-4 shrink-0 text-[#FF2D95]" />
+                  <SectionCardIcon>
+                    <Phone className="size-4 shrink-0" />
+                  </SectionCardIcon>
                   <a href={`tel:+1${c.phone.replace(/\D/g, "")}`} className="hover:text-white">
                     {c.phone}
                   </a>
                 </li>
                 <li className="flex gap-3">
-                  <Mail className="size-4 shrink-0 text-[#FF2D95]" />
+                  <SectionCardIcon>
+                    <Mail className="size-4 shrink-0" />
+                  </SectionCardIcon>
                   <a href={`mailto:${c.email}`} className="hover:text-white">{c.email}</a>
                 </li>
                 <li className="flex gap-3">
-                  <MapPin className="size-4 shrink-0 text-[#FF2D95]" />
+                  <SectionCardIcon>
+                    <MapPin className="size-4 shrink-0" />
+                  </SectionCardIcon>
                   <span>{pickLocalized(c.address, locale)}</span>
                 </li>
               </ul>
-            </BentoCard>
+            </SectionCard>
 
-            <BentoCard accent="purple" className="!p-6">
-              <h3 className="text-xs font-bold uppercase tracking-[0.25em] text-ju-yellow">
+            <SectionCard className="!p-6">
+              <SectionCardTitle className="!text-xs !tracking-[0.25em] text-ju-yellow">
                 {pickLocalized(c.hoursTitle, locale)}
-              </h3>
-              <p className="mt-2 text-xs font-bold uppercase text-ju-cyanGlow">
+              </SectionCardTitle>
+              <SectionCardText className="mt-2 text-xs font-bold uppercase text-ju-cyanGlow">
                 {pickLocalized(c.hoursReservation, locale)}
-              </p>
-              <ul className="mt-4 space-y-2 text-sm text-white/55">
+              </SectionCardText>
+              <ul className="ju-section-card-text mt-4 space-y-2 text-sm">
                 {c.schedule.map((row, i) => (
-                  <li key={i} className="flex justify-between gap-4 border-b border-white/10 pb-2">
+                  <li
+                    key={i}
+                    className="flex justify-between gap-4 border-b border-white/10 pb-2"
+                  >
                     <span>{pickLocalized(row.days, locale)}</span>
                     <span className="text-white/80">{pickLocalized(row.hours, locale)}</span>
                   </li>
                 ))}
               </ul>
-            </BentoCard>
+            </SectionCard>
 
             <div className="overflow-hidden rounded-lg border border-white/10">
               <iframe
@@ -181,7 +209,7 @@ export function ContactPageContent() {
                 loading="lazy"
               />
             </div>
-          </div>
+          </SectionShell>
         </div>
       </section>
     </div>
