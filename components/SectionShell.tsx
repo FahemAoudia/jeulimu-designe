@@ -2,7 +2,9 @@
 
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { sectionFontFamily, useSectionStyle } from "@/hooks/useSectionStyle";
+import { sectionShellInlineStyle } from "@/lib/section-style-css";
+import { sectionShellInlineStyle } from "@/lib/section-style-css";
+import { useSectionStyle } from "@/hooks/useSectionStyle";
 
 export function SectionShell({
   id,
@@ -13,29 +15,13 @@ export function SectionShell({
   id: string;
   className?: string;
   children: ReactNode;
-  as?: "section" | "div";
+  as?: "section" | "div" | "header";
 }) {
   const style = useSectionStyle(id);
 
   if (style.visible === false) return null;
 
-  const cssVars = {
-    "--ju-section-heading": style.headingColor || undefined,
-    "--ju-section-text": style.textColor || undefined,
-    "--ju-section-sub": style.subtextColor || undefined,
-    "--ju-section-icon": style.iconColor || undefined,
-    "--ju-section-card-bg": style.cardBackground || undefined,
-    "--ju-section-card-title": style.cardHeadingColor || undefined,
-    "--ju-section-card-text": style.cardTextColor || undefined,
-    "--ju-section-card-icon": style.cardIconColor || undefined,
-  } as CSSProperties;
-
-  const inline: CSSProperties = {
-    ...cssVars,
-    background: style.background || undefined,
-    color: style.textColor || undefined,
-    fontFamily: sectionFontFamily(style.fontFamily),
-  };
+  const inline: CSSProperties = sectionShellInlineStyle(style);
 
   return (
     <Tag
@@ -57,6 +43,68 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("ju-section-heading text-white", className)}>{children}</div>
+  );
+}
+
+export function SectionHeadingLine1({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <span className={cn("ju-section-heading-line1 text-white", className)}>{children}</span>
+  );
+}
+
+export function SectionHeadingLine2({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <span className={cn("ju-section-heading-line2 ju-hero-outline", className)}>{children}</span>
+  );
+}
+
+export function SectionLabelText({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <p className={cn("ju-section-label font-display text-[11px] font-bold uppercase tracking-[0.35em]", className)}>
+      {children}
+    </p>
+  );
+}
+
+export function SectionTitleText({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("ju-section-title text-white", className)}>{children}</div>
+  );
+}
+
+export function SectionBodyText({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <p className={cn("ju-section-body text-white/55", className)}>{children}</p>
   );
 }
 
@@ -82,6 +130,16 @@ export function SectionIcon({
   return <span className={cn("ju-section-icon text-ju-cyanGlow", className)}>{children}</span>;
 }
 
+export function SectionAccent({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <span className={cn("ju-section-accent", className)}>{children}</span>;
+}
+
 export function SectionCardIcon({
   children,
   className,
@@ -99,9 +157,11 @@ export function SectionCardIcon({
 export function SectionCard({
   children,
   className,
+  style,
 }: {
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
 }) {
   return (
     <div
@@ -109,6 +169,7 @@ export function SectionCard({
         "ju-section-card border border-white/10 bg-[#0a0a12]/80 backdrop-blur-md",
         className,
       )}
+      style={style}
     >
       {children}
     </div>

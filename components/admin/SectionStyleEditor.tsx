@@ -1,7 +1,30 @@
 "use client";
 
-import type { SectionStyle } from "@/types/section-styles";
+import type { SectionItemStyle, SectionStyle } from "@/types/section-styles";
 import { AdminCollapse } from "@/components/admin/AdminFields";
+import { AdminImageUpload } from "@/components/AdminImageUpload";
+import type { SectionItemDef } from "@/lib/section-style-registry";
+
+const LUCIDE_OPTIONS = [
+  "users",
+  "trophy",
+  "lock",
+  "gamepad",
+  "guide",
+  "target",
+  "run",
+  "coop",
+  "vs",
+  "brain",
+  "social",
+  "zap",
+  "music",
+  "party",
+  "building",
+  "grad",
+  "volleyball",
+  "heart",
+] as const;
 
 function ColorField({
   label,
@@ -82,6 +105,87 @@ function ButtonStyleFields({
   );
 }
 
+function ItemStyleEditor({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: SectionItemStyle;
+  onChange: (v: SectionItemStyle) => void;
+}) {
+  const item = value ?? {};
+  return (
+    <AdminCollapse title={label} defaultOpen={false}>
+      <div className="space-y-3">
+        <label className="flex items-center gap-2 text-xs text-white">
+          <input
+            type="checkbox"
+            checked={item.visible !== false}
+            onChange={(e) => onChange({ ...item, visible: e.target.checked })}
+            className="size-3.5 accent-ju-electric"
+          />
+          Show this item
+        </label>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <ColorField
+            label="Background"
+            value={item.background}
+            onChange={(v) => onChange({ ...item, background: v })}
+          />
+          <ColorField
+            label="Border"
+            value={item.borderColor}
+            onChange={(v) => onChange({ ...item, borderColor: v })}
+          />
+          <ColorField
+            label="Title / value color"
+            value={item.titleColor}
+            onChange={(v) => onChange({ ...item, titleColor: v })}
+          />
+          <ColorField
+            label="Text color"
+            value={item.textColor}
+            onChange={(v) => onChange({ ...item, textColor: v })}
+          />
+          <ColorField
+            label="Icon color"
+            value={item.iconColor}
+            onChange={(v) => onChange({ ...item, iconColor: v })}
+          />
+        </div>
+        <label className="block text-[10px] font-bold uppercase tracking-wider text-ju-soft">
+          Icon emoji
+          <input
+            className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-2 py-2 text-sm text-white"
+            value={item.iconEmoji ?? ""}
+            placeholder="e.g. 🏃"
+            onChange={(e) => onChange({ ...item, iconEmoji: e.target.value || undefined })}
+          />
+        </label>
+        <label className="block text-[10px] font-bold uppercase tracking-wider text-ju-soft">
+          Icon (Lucide key)
+          <select
+            className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-2 py-2 text-sm text-white"
+            value={item.iconLucide ?? ""}
+            onChange={(e) => onChange({ ...item, iconLucide: e.target.value || undefined })}
+          >
+            <option value="">— Content default —</option>
+            {LUCIDE_OPTIONS.map((k) => (
+              <option key={k} value={k}>{k}</option>
+            ))}
+          </select>
+        </label>
+        <AdminImageUpload
+          label="Icon image (overrides emoji/Lucide)"
+          value={item.iconImage ?? ""}
+          onChange={(v) => onChange({ ...item, iconImage: v || undefined })}
+        />
+      </div>
+    </AdminCollapse>
+  );
+}
+
 export function SectionStyleEditor({
   title,
   hint,
@@ -89,6 +193,10 @@ export function SectionStyleEditor({
   onChange,
   showCards,
   showButtons,
+  showHeroLines,
+  showLabelTitleBody,
+  items,
+  singleButton,
 }: {
   title: string;
   hint?: string;
@@ -96,8 +204,16 @@ export function SectionStyleEditor({
   onChange: (v: SectionStyle) => void;
   showCards?: boolean;
   showButtons?: boolean;
+  showHeroLines?: boolean;
+  showLabelTitleBody?: boolean;
+  items?: SectionItemDef[];
+  singleButton?: boolean;
 }) {
   const v = value ?? {};
+
+  function setItem(key: string, item: SectionItemStyle) {
+    onChange({ ...v, items: { ...v.items, [key]: item } });
+  }
 
   return (
     <AdminCollapse title={title} hint={hint} defaultOpen={false}>
@@ -118,7 +234,12 @@ export function SectionStyleEditor({
             value={v.background}
             onChange={(c) => onChange({ ...v, background: c })}
           />
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-ju-soft">
+          <ColorField
+            label="Border color"
+            value={v.borderColor}
+            onChange={(c) => onChange({ ...v, borderColor: c })}
+          />
+          <label className="block text-[10px] font-bold uppercase tracking-wider text-ju-soft sm:col-span-2">
             Font
             <select
               className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-2 py-2 text-sm text-white"
@@ -136,35 +257,89 @@ export function SectionStyleEditor({
               <option value="system">System</option>
             </select>
           </label>
-          <ColorField
-            label="Heading color"
-            value={v.headingColor}
-            onChange={(c) => onChange({ ...v, headingColor: c })}
-          />
-          <ColorField
-            label="Body text color"
-            value={v.textColor}
-            onChange={(c) => onChange({ ...v, textColor: c })}
-          />
-          <ColorField
-            label="Subtext color"
-            value={v.subtextColor}
-            onChange={(c) => onChange({ ...v, subtextColor: c })}
-          />
-          <ColorField
-            label="Icon color (section)"
-            value={v.iconColor}
-            onChange={(c) => onChange({ ...v, iconColor: c })}
-          />
         </div>
+
+        {showLabelTitleBody ? (
+          <div className="grid gap-3 sm:grid-cols-2 border-t border-white/10 pt-4">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-ju-yellow sm:col-span-2">
+              Text colors
+            </p>
+            <ColorField
+              label="Label (small caps)"
+              value={v.labelColor}
+              onChange={(c) => onChange({ ...v, labelColor: c })}
+            />
+            <ColorField
+              label="Title"
+              value={v.titleColor}
+              onChange={(c) => onChange({ ...v, titleColor: c })}
+            />
+            <ColorField
+              label="Body text"
+              value={v.bodyColor}
+              onChange={(c) => onChange({ ...v, bodyColor: c })}
+            />
+            <ColorField
+              label="Subtext / muted"
+              value={v.subtextColor}
+              onChange={(c) => onChange({ ...v, subtextColor: c })}
+            />
+            <ColorField
+              label="Accent"
+              value={v.accentColor}
+              onChange={(c) => onChange({ ...v, accentColor: c })}
+            />
+            <ColorField
+              label="Icon color"
+              value={v.iconColor}
+              onChange={(c) => onChange({ ...v, iconColor: c })}
+            />
+          </div>
+        ) : null}
+
+        {showHeroLines ? (
+          <div className="grid gap-3 sm:grid-cols-2 border-t border-white/10 pt-4">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-ju-yellow sm:col-span-2">
+              Hero headline lines
+            </p>
+            <ColorField
+              label="Line 1 (STEP IN)"
+              value={v.headingLine1Color}
+              onChange={(c) => onChange({ ...v, headingLine1Color: c })}
+            />
+            <ColorField
+              label="Line 2 (BECOME THE GAME)"
+              value={v.headingLine2Color}
+              onChange={(c) => onChange({ ...v, headingLine2Color: c })}
+            />
+            <ColorField
+              label="Heading fallback"
+              value={v.headingColor}
+              onChange={(c) => onChange({ ...v, headingColor: c })}
+            />
+          </div>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <ColorField
+              label="Heading color"
+              value={v.headingColor}
+              onChange={(c) => onChange({ ...v, headingColor: c })}
+            />
+            <ColorField
+              label="Body text color"
+              value={v.textColor}
+              onChange={(c) => onChange({ ...v, textColor: c })}
+            />
+          </div>
+        )}
 
         {showCards ? (
           <div className="grid gap-3 sm:grid-cols-2 border-t border-white/10 pt-4">
             <p className="text-[10px] font-bold uppercase tracking-wider text-ju-yellow sm:col-span-2">
-              Cards / boxes in this section
+              Cards / boxes / LED panel frame
             </p>
             <ColorField
-              label="Card background"
+              label="Card / panel background"
               value={v.cardBackground}
               onChange={(c) => onChange({ ...v, cardBackground: c })}
             />
@@ -189,15 +364,33 @@ export function SectionStyleEditor({
         {showButtons ? (
           <div className="space-y-3 border-t border-white/10 pt-4">
             <ButtonStyleFields
-              label="Primary button (e.g. Book Now)"
+              label="Primary button"
               value={v.primaryButton}
               onChange={(b) => onChange({ ...v, primaryButton: b })}
             />
-            <ButtonStyleFields
-              label="Secondary button (e.g. Check Availability)"
-              value={v.secondaryButton}
-              onChange={(b) => onChange({ ...v, secondaryButton: b })}
-            />
+            {showButtons && !singleButton ? (
+              <ButtonStyleFields
+                label="Secondary button"
+                value={v.secondaryButton}
+                onChange={(b) => onChange({ ...v, secondaryButton: b })}
+              />
+            ) : null}
+          </div>
+        ) : null}
+
+        {items && items.length > 0 ? (
+          <div className="space-y-2 border-t border-white/10 pt-4">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-ju-yellow">
+              Items in this section
+            </p>
+            {items.map((def) => (
+              <ItemStyleEditor
+                key={def.key}
+                label={def.label}
+                value={v.items?.[def.key] ?? {}}
+                onChange={(item) => setItem(def.key, item)}
+              />
+            ))}
           </div>
         ) : null}
       </div>

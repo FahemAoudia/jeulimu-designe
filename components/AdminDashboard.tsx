@@ -19,7 +19,7 @@ import { AdminImageUpload } from "@/components/AdminImageUpload";
 import { AdminVideoUpload } from "@/components/AdminVideoUpload";
 import { ThemeColorBoxes } from "@/components/admin/ThemeColorBoxes";
 import { SectionStyleEditor } from "@/components/admin/SectionStyleEditor";
-import { SECTION_PAGES, SECTION_STYLE_REGISTRY } from "@/lib/section-style-registry";
+import { SECTION_PAGES, SECTION_STYLE_REGISTRY, sectionItemDefs } from "@/lib/section-style-registry";
 import { SiteLogoMark } from "@/components/SiteLogoMark";
 
 const TABS = [
@@ -307,7 +307,7 @@ export function AdminDashboard() {
                   buttons off, then click Save at the top to publish.
                 </p>
                 {SECTION_PAGES.map((page) => (
-                  <AdminCollapse key={page} title={page} defaultOpen={page === "Birthdays"}>
+                  <AdminCollapse key={page} title={page} defaultOpen={page === "Home"}>
                     <div className="space-y-3">
                       {SECTION_STYLE_REGISTRY.filter((s) => s.page === page).map((entry) => (
                         <SectionStyleEditor
@@ -316,6 +316,10 @@ export function AdminDashboard() {
                           hint={entry.hint}
                           showCards={entry.showCards}
                           showButtons={entry.showButtons}
+                          showHeroLines={entry.showHeroLines}
+                          showLabelTitleBody={entry.showLabelTitleBody}
+                          singleButton={entry.singleButton}
+                          items={sectionItemDefs(entry, v2)}
                           value={content.sectionStyles?.[entry.id] ?? {}}
                           onChange={(v) =>
                             setContent((p) => ({

@@ -3,7 +3,7 @@ import { defaultTheme } from "@/lib/v2-content-defaults";
 import type { SiteContent } from "@/types/site-content";
 import type { SiteTheme } from "@/types/v2-site-content";
 
-export const SITE_CONTENT_SCHEMA_VERSION = 6;
+export const SITE_CONTENT_SCHEMA_VERSION = 7;
 
 function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);

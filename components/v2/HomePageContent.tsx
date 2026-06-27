@@ -3,6 +3,7 @@
 import {
   GlanceSection,
   HeroV2,
+  HomeMarqueeSection,
   WhatIsSection,
   HowWorksSection,
   GameModesSection,
@@ -18,6 +19,7 @@ export function HomePageContent() {
   return (
     <>
       {visibility.hero ? <HeroV2 /> : null}
+      {visibility.hero ? <HomeMarqueeSection /> : null}
       {visibility.glance ? <GlanceSection /> : null}
       {visibility.whatIs ? <WhatIsSection /> : null}
       {visibility.howWorks ? <HowWorksSection /> : null}

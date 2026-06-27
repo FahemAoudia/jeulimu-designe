@@ -6,10 +6,12 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { SiteLogoMark } from "@/components/SiteLogoMark";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { PrimaryBtn } from "@/components/v3/primitives";
+import { SectionPrimaryBtn } from "@/components/SectionButtons";
 import { useLocaleContext } from "@/providers/AppProviders";
 import { t } from "@/lib/site-v2-content";
 import { useV2Content } from "@/hooks/useV2Content";
+import { useSectionStyle } from "@/hooks/useSectionStyle";
+import { sectionShellInlineStyle } from "@/lib/section-style-css";
 import { cn } from "@/lib/cn";
 
 export function NavbarV2() {
@@ -19,6 +21,8 @@ export function NavbarV2() {
   const { locale, setLocale } = useLocaleContext();
   const { v2 } = useV2Content();
   const nav = v2.nav;
+  const linksBoxStyle = useSectionStyle("nav.linksBox");
+  const contactBtnStyle = useSectionStyle("nav.contactButton");
 
   const NAV_LINKS = [
     { href: "/birthdays", label: nav.birthdays },
@@ -26,6 +30,12 @@ export function NavbarV2() {
     { href: "/mobile-events", label: nav.mobileEvents },
     { href: "/faq", label: nav.faq },
   ];
+
+  const linksBoxInline = {
+    ...sectionShellInlineStyle(linksBoxStyle),
+    background: linksBoxStyle.cardBackground || linksBoxStyle.background || undefined,
+    borderColor: linksBoxStyle.borderColor || undefined,
+  };
 
   useEffect(() => {
     function onScroll() {
@@ -58,7 +68,10 @@ export function NavbarV2() {
           <SiteLogoMark variant="nav" />
         </Link>
 
-        <div className="hidden items-center gap-1 rounded-sm border border-white/10 bg-black/40 px-1 py-1 backdrop-blur-md lg:flex">
+        <div
+          className="ju-nav-links-box hidden items-center gap-1 rounded-sm border border-white/10 bg-black/40 px-1 py-1 backdrop-blur-md lg:flex"
+          style={linksBoxInline}
+        >
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
@@ -67,6 +80,12 @@ export function NavbarV2() {
                 "ju-nav-link px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em]",
                 pathname === l.href && "ju-nav-link-active",
               )}
+              style={{
+                color:
+                  pathname === l.href
+                    ? linksBoxStyle.accentColor || undefined
+                    : linksBoxStyle.textColor || linksBoxStyle.bodyColor || undefined,
+              }}
             >
               {t(l.label, locale)}
             </Link>
@@ -82,12 +101,13 @@ export function NavbarV2() {
           >
             {locale === "fr" ? "FR" : "EN"}
           </button>
-          <PrimaryBtn
+          <SectionPrimaryBtn
             href="/contact"
+            config={contactBtnStyle.primaryButton}
             className="hidden sm:inline-flex !py-2.5 !px-5 !text-[10px]"
           >
             {t(nav.contactUs, locale)}
-          </PrimaryBtn>
+          </SectionPrimaryBtn>
           <button
             type="button"
             className="ju-nav-icon-btn flex p-2.5 lg:hidden"
@@ -124,9 +144,13 @@ export function NavbarV2() {
             >
               {locale === "fr" ? "FR" : "EN"}
             </button>
-            <PrimaryBtn href="/contact" className="flex-1 !py-3 !text-[10px]">
+            <SectionPrimaryBtn
+              href="/contact"
+              config={contactBtnStyle.primaryButton}
+              className="flex-1 !py-3 !text-[10px]"
+            >
               {t(nav.contactUs, locale)}
-            </PrimaryBtn>
+            </SectionPrimaryBtn>
           </div>
         </div>
       ) : null}

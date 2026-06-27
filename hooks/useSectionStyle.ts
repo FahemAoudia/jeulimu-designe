@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useSiteContext } from "@/providers/AppProviders";
-import type { SectionStyle } from "@/types/section-styles";
+import type { SectionItemStyle, SectionStyle } from "@/types/section-styles";
 
 export function useSectionStyle(sectionId: string): SectionStyle {
   const { content } = useSiteContext();
@@ -10,6 +10,11 @@ export function useSectionStyle(sectionId: string): SectionStyle {
     () => content.sectionStyles?.[sectionId] ?? {},
     [content.sectionStyles, sectionId],
   );
+}
+
+export function useSectionItemStyle(sectionId: string, itemKey: string): SectionItemStyle {
+  const style = useSectionStyle(sectionId);
+  return useMemo(() => style.items?.[itemKey] ?? {}, [style.items, itemKey]);
 }
 
 export function sectionFontFamily(font?: SectionStyle["fontFamily"]): string | undefined {

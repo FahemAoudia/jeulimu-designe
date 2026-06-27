@@ -398,5 +398,5 @@ export const defaultSiteContent: SiteContent = {
   theme: structuredClone(defaultTheme),
   sectionVisibilityV2: structuredClone(defaultSectionVisibilityV2),
   sectionStyles: {},
-  schemaVersion: 6,
+  schemaVersion: 7,
 };

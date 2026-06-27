@@ -80,6 +80,9 @@ export function generateThemeCss(themeInput?: Partial<SiteTheme> | null): string
       --ju-footer-tagline: ${rgba(theme.footerTextMuted, 0.5, "rgba(255, 255, 255, 0.5)")};
       --ju-font-body: ${fontStack(theme.fontBody)};
       --ju-font-heading: ${headingStack(theme.fontHeading)};
+      --ju-body-gradient-start: ${theme.gradientStart};
+      --ju-body-gradient-mid: ${theme.gradientMid};
+      --ju-body-gradient-end: ${theme.gradientEnd};
     }
     html[data-theme="light"] {
       --ju-bg-deep: ${theme.lightBgDeep};
