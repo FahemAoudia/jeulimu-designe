@@ -111,7 +111,7 @@ export type SiteContent = {
     headline: LocalizedString;
     paragraphs: LocalizedString[];
   };
-  gallery: { alt: LocalizedString; caption?: LocalizedString; image: string }[];
+  gallery: { alt: LocalizedString; caption?: LocalizedString; image: string; video?: string }[];
   howItWorks: {
     title: LocalizedString;
     intro: LocalizedString;

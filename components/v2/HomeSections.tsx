@@ -28,6 +28,7 @@ import {
 } from "@/components/SectionShell";
 import { SectionItemIcon, SectionItemShell } from "@/lib/section-icons";
 import { GameModeMedia } from "@/components/v2/GameModeMedia";
+import { ExperienceSectionMedia } from "@/components/v2/ExperienceSectionMedia";
 import { useSectionStyle } from "@/hooks/useSectionStyle";
 import { useV2Content } from "@/hooks/useV2Content";
 import { cn } from "@/lib/cn";
@@ -166,7 +167,11 @@ export function GlanceSection() {
 export function WhatIsSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
-  const img = content.gallery?.[0]?.image?.trim() || content.hero.backgroundImage || "/hero-background.svg";
+  const item = content.gallery?.[0];
+  const rawImg =
+    item?.image?.trim() || content.hero.backgroundImage?.trim() || "/hero-background.png";
+  const img = rawImg === "/hero-background.svg" ? "/hero-background.png" : rawImg;
+  const vid = item?.video?.trim() || "";
   const { v2 } = useV2Content();
   const w = v2.home.whatIs;
 
@@ -174,29 +179,28 @@ export function WhatIsSection() {
     <section id="experience" className="relative px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
       <LumiGridBg className="opacity-40" />
       <div className="relative mx-auto max-w-[1400px]">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
-          <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[460px]">
-            <div className="absolute inset-0 overflow-hidden border border-white/10">
-              <Image src={img} alt="" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={/^https?:\/\//.test(img)} />
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#030308]/85 via-transparent to-[#7B2CFF]/15" />
-            </div>
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10">
+          <div className="flex items-center justify-center">
+            <ExperienceSectionMedia image={img} video={vid} />
           </div>
           <div>
-            <BentoCard accent="cyan" className="!p-5 sm:!p-8 lg:!p-10">
+            <BentoCard accent="cyan" className="!p-4 sm:!p-6 lg:!p-8">
               <SectionLabel>{t(w.sectionLabel, locale)}</SectionLabel>
-              <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">{t(w.title, locale)}</DisplayTitle>
-              <p className="mt-4 text-sm leading-relaxed text-white/55">{t(w.body, locale)}</p>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              <DisplayTitle className="mt-2 !text-xl sm:!mt-3 sm:!text-2xl lg:!text-3xl">
+                {t(w.title, locale)}
+              </DisplayTitle>
+              <p className="mt-3 text-sm leading-relaxed text-white/55">{t(w.body, locale)}</p>
+              <ul className="mt-5 grid gap-2.5 sm:grid-cols-2 sm:gap-3">
                 {w.features.map((f, i) => (
                   <li key={i} className="text-sm text-white/70">
                     <p className="font-bold uppercase tracking-wider text-white/85">{t(f.title, locale)}</p>
                     {f.sub ? (
-                      <p className="mt-1 text-xs leading-relaxed text-white/50 normal-case">{t(f.sub, locale)}</p>
+                      <p className="mt-0.5 text-xs leading-relaxed text-white/50 normal-case">{t(f.sub, locale)}</p>
                     ) : null}
                   </li>
                 ))}
               </ul>
-              <GhostBtn href="/faq" className="mt-8 !text-[10px]">{t(w.cta, locale)}</GhostBtn>
+              <GhostBtn href="/faq" className="mt-6 !text-[10px]">{t(w.cta, locale)}</GhostBtn>
             </BentoCard>
           </div>
         </div>

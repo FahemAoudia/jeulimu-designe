@@ -16,6 +16,7 @@ import {
 } from "@/components/admin/AdminFields";
 import { ReviewsAdminSection } from "@/components/admin/ReviewsAdminSection";
 import { GameModesAdminSection } from "@/components/admin/GameModesAdminSection";
+import { ExperienceMediaAdminSection } from "@/components/admin/ExperienceMediaAdminSection";
 import { AdminImageUpload } from "@/components/AdminImageUpload";
 import { AdminVideoUpload } from "@/components/AdminVideoUpload";
 import { ThemeColorBoxes } from "@/components/admin/ThemeColorBoxes";
@@ -533,11 +534,25 @@ export function AdminDashboard() {
                     onChange={(v) => setContent((p) => ({ ...p, eventsPromoImage: v }))}
                   />
                 </AdminCollapse>
-                <SectionPathEditor
-                  title="Gallery images"
-                  value={content.gallery}
-                  onChange={(v) => patch(["gallery"], v)}
-                />
+                <AdminCollapse title="The Experience (home page)" defaultOpen>
+                  <p className="mb-3 text-[11px] leading-relaxed text-ju-muted">
+                    Media beside &quot;Your Own Interactive Playground&quot; on the homepage — upload
+                    from your computer, then click <strong className="text-white/80">Save</strong> at
+                    the top.
+                  </p>
+                  <ExperienceMediaAdminSection
+                    content={content}
+                    onChange={(gallery) => patch(["gallery"], gallery)}
+                  />
+                </AdminCollapse>
+                <AdminCollapse title="Gallery images (other slots)">
+                  <SectionPathEditor
+                    title="Gallery list"
+                    hint="Item 1 is edited above. Use this for alt text, captions, and additional gallery slots."
+                    value={content.gallery}
+                    onChange={(v) => patch(["gallery"], v)}
+                  />
+                </AdminCollapse>
               </div>
             ) : null}
 
