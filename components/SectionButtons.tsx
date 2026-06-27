@@ -66,10 +66,12 @@ export function SectionSubmitBtn({
   children,
   config,
   className,
+  disabled,
 }: {
   children: React.ReactNode;
   config?: SectionButtonStyle;
   className?: string;
+  disabled?: boolean;
 }) {
   if (config?.visible === false) return null;
   const style = btnStyle(config);
@@ -79,7 +81,7 @@ export function SectionSubmitBtn({
     className,
   );
   return (
-    <button type="submit" className={cls} style={style}>
+    <button type="submit" className={cls} style={style} disabled={disabled}>
       {children}
     </button>
   );

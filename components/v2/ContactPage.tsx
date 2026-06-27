@@ -18,6 +18,7 @@ import { useSectionStyle } from "@/hooks/useSectionStyle";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { ui } from "@/lib/ui-strings";
 import { pickLocalized } from "@/types/site-content";
+import { postContactForm } from "@/lib/contact-form";
 
 function FormField({
   label,
@@ -50,7 +51,30 @@ export function ContactPageContent() {
   const t = ui(locale);
   const c = content.contact;
   const formStyle = useSectionStyle("contact.form");
-  const [status, setStatus] = useState<"idle" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    setStatus("sending");
+    try {
+      await postContactForm({
+        firstName: String(fd.get("firstName") ?? ""),
+        lastName: String(fd.get("lastName") ?? ""),
+        email: String(fd.get("email") ?? ""),
+        phone: String(fd.get("phone") ?? ""),
+        date: String(fd.get("date") ?? ""),
+        totalPlayers: String(fd.get("totalPlayers") ?? ""),
+        kidsUnder12: String(fd.get("kidsUnder12") ?? ""),
+        message: String(fd.get("message") ?? ""),
+        locale,
+      });
+      setStatus("sent");
+      e.currentTarget.reset();
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <div className="ju-v3-shell">
@@ -74,13 +98,7 @@ export function ContactPageContent() {
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-2">
           <SectionShell id="contact.form" as="div">
             <SectionCard className="!p-6 sm:!p-8">
-              <form
-                className="flex flex-col gap-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setStatus("sent");
-                }}
-              >
+              <form className="flex flex-col gap-4" onSubmit={onSubmit}>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <FormField label={t.form.firstName} hint={t.form.mandatory}>
                     <input required name="firstName" className={fieldClass} />
@@ -138,14 +156,26 @@ export function ContactPageContent() {
                 <SectionSubmitBtn
                   config={formStyle.primaryButton}
                   className="w-full sm:w-auto"
+                  disabled={status === "sending"}
                 >
-                  {t.form.submit}
+                  {status === "sending"
+                    ? locale === "fr"
+                      ? "Envoi…"
+                      : "Sending…"
+                    : t.form.submit}
                 </SectionSubmitBtn>
                 {status === "sent" ? (
                   <p className="text-sm text-emerald-300">
                     {locale === "fr"
                       ? "Merci — nous vous répondrons bientôt."
                       : "Thanks — we'll get back to you shortly."}
+                  </p>
+                ) : null}
+                {status === "error" ? (
+                  <p className="text-sm text-red-300">
+                    {locale === "fr"
+                      ? "Impossible d’envoyer le message. Réessayez ou appelez-nous."
+                      : "Could not send your message. Please try again or call us."}
                   </p>
                 ) : null}
               </form>

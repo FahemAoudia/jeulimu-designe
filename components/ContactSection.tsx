@@ -7,13 +7,37 @@ import { NeonButton } from "@/components/NeonButton";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { ui } from "@/lib/ui-strings";
 import { pickLocalized } from "@/types/site-content";
+import { postContactForm } from "@/lib/contact-form";
 
 export function ContactSection() {
   const { locale } = useLocaleContext();
   const { content } = useSiteContext();
   const t = ui(locale);
   const c = content.contact;
-  const [status, setStatus] = useState<"idle" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    setStatus("sending");
+    try {
+      await postContactForm({
+        firstName: String(fd.get("firstName") ?? ""),
+        lastName: String(fd.get("lastName") ?? ""),
+        email: String(fd.get("email") ?? ""),
+        phone: String(fd.get("phone") ?? ""),
+        date: String(fd.get("date") ?? ""),
+        totalPlayers: String(fd.get("players") ?? ""),
+        kidsUnder12: String(fd.get("kids") ?? ""),
+        message: String(fd.get("message") ?? ""),
+        locale,
+      });
+      setStatus("sent");
+      e.currentTarget.reset();
+    } catch {
+      setStatus("error");
+    }
+  }
 
   if (content.sectionVisibility?.contact === false) return null;
 
@@ -32,13 +56,7 @@ export function ContactSection() {
           </h2>
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-            <form
-              className="ju-contact-form ju-on-dark flex flex-col gap-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setStatus("sent");
-              }}
-            >
+            <form className="ju-contact-form ju-on-dark flex flex-col gap-4" onSubmit={onSubmit}>
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="flex flex-col gap-1.5 text-xs font-semibold uppercase tracking-wide text-ju-soft">
                   {t.form.firstName}{" "}
@@ -126,14 +144,25 @@ export function ContactSection() {
                   className="resize-y rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-sm font-normal normal-case text-white outline-none ring-ju-electric/30 placeholder:text-ju-muted focus:ring-2"
                 />
               </label>
-              <NeonButton type="submit" variant="gradient" className="!rounded-xl">
-                {t.form.submit}
+              <NeonButton type="submit" variant="gradient" className="!rounded-xl" disabled={status === "sending"}>
+                {status === "sending"
+                  ? locale === "fr"
+                    ? "Envoi…"
+                    : "Sending…"
+                  : t.form.submit}
               </NeonButton>
               {status === "sent" ? (
                 <p className="text-center text-sm text-ju-green">
                   {locale === "fr"
                     ? "Merci — nous vous répondrons bientôt."
                     : "Thanks — we’ll get back to you shortly."}
+                </p>
+              ) : null}
+              {status === "error" ? (
+                <p className="text-center text-sm text-red-300">
+                  {locale === "fr"
+                    ? "Impossible d’envoyer le message. Réessayez ou appelez-nous."
+                    : "Could not send your message. Please try again or call us."}
                 </p>
               ) : null}
             </form>
