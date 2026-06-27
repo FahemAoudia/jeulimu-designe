@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 import {
   BentoCard,
@@ -10,6 +10,31 @@ import {
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { ui } from "@/lib/ui-strings";
 import { pickLocalized } from "@/types/site-content";
+
+function FormField({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  children: ReactNode;
+}) {
+  return (
+    <label className="block text-xs font-bold uppercase tracking-wider text-ju-soft">
+      <span>
+        {label}
+        {hint ? (
+          <span className="font-semibold normal-case text-white/45"> ({hint})</span>
+        ) : null}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+const fieldClass =
+  "mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-3 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-ju-electric/30";
 
 export function ContactPageContent() {
   const { locale } = useLocaleContext();
@@ -39,36 +64,70 @@ export function ContactPageContent() {
               }}
             >
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-ju-soft">
-                  {t.form.firstName}
-                  <input required name="firstName" className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-3 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-ju-electric/30" />
-                </label>
-                <label className="block text-xs font-bold uppercase tracking-wider text-ju-soft">
-                  {t.form.lastName}
-                  <input required name="lastName" className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-3 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-ju-electric/30" />
-                </label>
+                <FormField label={t.form.firstName} hint={t.form.mandatory}>
+                  <input required name="firstName" className={fieldClass} />
+                </FormField>
+                <FormField label={t.form.lastName} hint={t.form.mandatory}>
+                  <input required name="lastName" className={fieldClass} />
+                </FormField>
               </div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ju-soft">
-                {t.form.email}
-                <input required type="email" name="email" className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-3 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-ju-electric/30" />
-              </label>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ju-soft">
-                {t.form.phone}
-                <input type="tel" name="phone" className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-3 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-ju-electric/30" />
-              </label>
-              <label className="block text-xs font-bold uppercase tracking-wider text-ju-soft">
-                {t.form.message}
-                <textarea name="message" rows={4} className="mt-1 w-full resize-y rounded-lg border border-white/10 bg-black/50 px-3 py-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-ju-electric/30" />
-              </label>
+
+              <FormField label={t.form.email} hint={t.form.required}>
+                <input required type="email" name="email" className={fieldClass} />
+              </FormField>
+
+              <FormField label={t.form.phone}>
+                <input type="tel" name="phone" className={fieldClass} />
+              </FormField>
+
+              <FormField label={t.form.date} hint={t.form.mandatory}>
+                <input
+                  required
+                  type="date"
+                  name="date"
+                  className={fieldClass}
+                  placeholder={t.form.datePlaceholder}
+                />
+              </FormField>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormField label={t.form.players} hint={t.form.required}>
+                  <input
+                    required
+                    type="number"
+                    name="totalPlayers"
+                    min={1}
+                    max={30}
+                    className={fieldClass}
+                  />
+                </FormField>
+                <FormField label={t.form.kids} hint={t.form.mandatory}>
+                  <input
+                    required
+                    type="number"
+                    name="kidsUnder12"
+                    min={0}
+                    max={30}
+                    className={fieldClass}
+                  />
+                </FormField>
+              </div>
+
+              <FormField label={t.form.message}>
+                <textarea name="message" rows={4} className={`${fieldClass} resize-y`} />
+              </FormField>
+
               <button
                 type="submit"
-                className="ju-btn-primary inline-flex items-center justify-center px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-white w-full sm:w-auto"
+                className="ju-btn-primary inline-flex w-full items-center justify-center px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-white sm:w-auto"
               >
                 {t.form.submit}
               </button>
               {status === "sent" ? (
                 <p className="text-sm text-emerald-300">
-                  {locale === "fr" ? "Merci — nous vous répondrons bientôt." : "Thanks — we'll get back to you shortly."}
+                  {locale === "fr"
+                    ? "Merci — nous vous répondrons bientôt."
+                    : "Thanks — we'll get back to you shortly."}
                 </p>
               ) : null}
             </form>
@@ -82,7 +141,9 @@ export function ContactPageContent() {
               <ul className="mt-4 space-y-3 text-sm text-white/65">
                 <li className="flex gap-3">
                   <Phone className="size-4 shrink-0 text-[#FF2D95]" />
-                  <a href={`tel:+1${c.phone.replace(/\D/g, "")}`} className="hover:text-white">{c.phone}</a>
+                  <a href={`tel:+1${c.phone.replace(/\D/g, "")}`} className="hover:text-white">
+                    {c.phone}
+                  </a>
                 </li>
                 <li className="flex gap-3">
                   <Mail className="size-4 shrink-0 text-[#FF2D95]" />
