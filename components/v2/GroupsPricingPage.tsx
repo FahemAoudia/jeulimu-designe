@@ -67,7 +67,7 @@ export function GroupsPricingPageContent() {
 
   return (
     <div className="ju-v3-shell">
-      <SectionShell id="groups.hero" className="ju-pt-nav px-4 pb-12 sm:px-6 sm:pb-16 lg:px-10">
+      <SectionShell id="groups.hero" className="ju-pt-nav ju-pt-nav-page px-4 pb-12 sm:px-6 sm:pb-16 lg:px-10">
         <div className="mx-auto max-w-[1400px]">
           <SectionIcon>
             <p className="font-display text-[11px] font-bold uppercase tracking-[0.35em]">

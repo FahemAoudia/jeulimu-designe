@@ -1099,6 +1099,12 @@ html[data-theme="light"] .glow-magenta-popular {
   padding-top: calc(var(--ju-nav-height) + 0.5rem);
 }
 
+@media (max-width: 639px) {
+  .ju-pt-nav.ju-pt-nav-page {
+    padding-top: calc(var(--ju-nav-height) + 1.25rem);
+  }
+}
+
 @media (min-width: 640px) {
   .ju-pt-nav {
     padding-top: max(6.5rem, calc(var(--ju-nav-height) + 1rem));

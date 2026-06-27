@@ -16,7 +16,7 @@ export function FaqPageContent() {
   }));
 
   return (
-    <div className="ju-v3-shell ju-pt-nav px-4 pb-20 sm:px-6 sm:pb-24 lg:px-10 lg:pb-28">
+    <div className="ju-v3-shell ju-pt-nav ju-pt-nav-page px-4 pb-20 sm:px-6 sm:pb-24 lg:px-10 lg:pb-28">
       <div className="mx-auto max-w-[900px]">
         <SectionLabel>FAQ</SectionLabel>
         <DisplayTitle className="mt-4">{t(faq.title, locale)}</DisplayTitle>

@@ -51,7 +51,7 @@ export function BirthdaysPageContent() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#030308]/90 to-[#030308]" />
         </div>
-        <div className="relative mx-auto max-w-[1400px] px-4 pb-28 ju-pt-nav sm:px-6 lg:px-10">
+        <div className="relative mx-auto max-w-[1400px] px-4 pb-28 ju-pt-nav ju-pt-nav-page sm:px-6 lg:px-10">
           <SectionIcon>
             <p className="font-display text-[11px] font-bold uppercase tracking-[0.35em]">
               {t(b.hero.sectionLabel, locale)}
