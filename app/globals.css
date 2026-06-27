@@ -1247,8 +1247,9 @@ html[data-theme="light"] .glow-magenta-popular {
 }
 
 .ju-section-heading-line2.ju-hero-outline {
-  color: var(--ju-section-heading-line2, var(--ju-cyan-glow, #00f5ff));
-  -webkit-text-stroke-color: var(--ju-section-heading-line2, var(--ju-cyan-glow, #00f5ff));
+  color: var(--ju-section-heading-line2, transparent);
+  -webkit-text-stroke: 1px var(--ju-section-heading-line2, rgba(0, 245, 255, 0.35));
+  -webkit-text-fill-color: transparent;
 }
 
 .ju-section-label {

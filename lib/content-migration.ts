@@ -3,7 +3,7 @@ import { defaultTheme } from "@/lib/v2-content-defaults";
 import type { SiteContent } from "@/types/site-content";
 import type { SiteTheme } from "@/types/v2-site-content";
 
-export const SITE_CONTENT_SCHEMA_VERSION = 7;
+export const SITE_CONTENT_SCHEMA_VERSION = 8;
 
 function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -65,6 +65,7 @@ export function migrateSiteContent(content: SiteContent): SiteContent {
     migrated.sectionStyles = savedSectionStyles;
   }
   if (isCustomHero) migrated.hero.backgroundImage = savedHeroBg;
+  else if (savedHeroBg === "/hero-background.svg") migrated.hero.backgroundImage = "/hero-background.png";
   if (savedHeroVid) migrated.hero.backgroundVideo = savedHeroVid;
   if (savedGallery.length) migrated.gallery = savedGallery;
   if (savedReviews.length) migrated.testimonialReviews = savedReviews;

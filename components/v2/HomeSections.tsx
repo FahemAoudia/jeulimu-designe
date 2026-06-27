@@ -2,7 +2,14 @@
 
 import Image from "next/image";
 import { ArrowRight, Star } from "lucide-react";
-import { LumiGridBg } from "@/components/v3/primitives";
+import {
+  BentoCard,
+  DisplayTitle,
+  GhostBtn,
+  LumiGridBg,
+  PrimaryBtn,
+  SectionLabel,
+} from "@/components/v3/primitives";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
 import { t } from "@/lib/site-v2-content";
 import { pickLocalized } from "@/types/site-content";
@@ -12,16 +19,11 @@ import { SectionStatPill } from "@/components/SectionStatPill";
 import {
   SectionBodyText,
   SectionCard,
-  SectionCardIcon,
   SectionCardText,
   SectionCardTitle,
-  SectionHeading,
-  SectionHeadingLine1,
-  SectionHeadingLine2,
-  SectionIcon,
-  SectionLabelText,
   SectionShell,
   SectionSubtext,
+  SectionLabelText,
   SectionTitleText,
 } from "@/components/SectionShell";
 import { SectionItemIcon, SectionItemShell } from "@/lib/section-icons";
@@ -37,14 +39,14 @@ export function HeroV2() {
   const { content } = useSiteContext();
   const { v2 } = useV2Content();
   const hero = content.hero;
-  const bgImg = hero.backgroundImage?.trim() || "/hero-background.svg";
+  const rawBg = hero.backgroundImage?.trim() || "/hero-background.png";
+  const bgImg = rawBg === "/hero-background.svg" ? "/hero-background.png" : rawBg;
   const bgVid = hero.backgroundVideo?.trim();
   const h = v2.home.hero;
-  const heroStyle = useSectionStyle("home.hero");
   const lines = t(h.headline, locale).split(". ").filter(Boolean);
 
   return (
-    <SectionShell id="home.hero" className="relative min-h-[100dvh] overflow-hidden">
+    <section className="relative min-h-[100dvh] overflow-hidden">
       <div className="absolute inset-0">
         {bgVid ? (
           <video className="h-full w-full object-cover scale-105" autoPlay muted loop playsInline poster={bgImg}>
@@ -61,28 +63,18 @@ export function HeroV2() {
       <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col justify-end px-4 pb-10 ju-pt-nav sm:px-6 sm:pb-10 lg:justify-center lg:pb-16 lg:px-10">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="ju-on-dark lg:col-span-7">
-            <SectionIcon>
-              <SectionLabelText>{t(h.locationLabel, locale)}</SectionLabelText>
-            </SectionIcon>
-            <SectionHeading className="mt-4">
-              <h1 className="font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight">
-                <SectionHeadingLine1>{lines[0] ?? t(h.headline, locale)}</SectionHeadingLine1>
-                {lines[1] ? (
-                  <SectionHeadingLine2 className="mt-1 block">{lines[1]}</SectionHeadingLine2>
-                ) : null}
-              </h1>
-            </SectionHeading>
-            <SectionBodyText className="mt-6 max-w-lg text-base sm:text-lg">
-              {t(h.support, locale)}
-            </SectionBodyText>
+            <SectionLabel>{t(h.locationLabel, locale)}</SectionLabel>
+            <h1 className="mt-4 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.88] tracking-tight text-white">
+              {lines[0] ?? t(h.headline, locale)}
+              {lines[1] ? (
+                <span className="block ju-hero-outline mt-1">{lines[1]}</span>
+              ) : null}
+            </h1>
+            <p className="mt-6 max-w-lg text-base text-white/60 sm:text-lg">{t(h.support, locale)}</p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <SectionPrimaryBtn href="/birthdays" config={heroStyle.primaryButton}>
-                {t(h.ctaBirthdays, locale)}
-              </SectionPrimaryBtn>
-              <SectionGhostBtn href="/groups-events" config={heroStyle.secondaryButton}>
-                {t(h.ctaGroups, locale)}
-              </SectionGhostBtn>
+            <div className="mt-8 hidden flex-wrap gap-4 lg:flex">
+              <PrimaryBtn href="/birthdays">{t(h.ctaBirthdays, locale)}</PrimaryBtn>
+              <GhostBtn href="/groups-events">{t(h.ctaGroups, locale)}</GhostBtn>
             </div>
           </div>
           <div className="hidden flex-col items-center gap-4 lg:col-span-5 lg:flex">
@@ -94,7 +86,7 @@ export function HeroV2() {
           <LumiFloor3D className="w-full max-w-[400px] mx-auto" showStage />
         </div>
       </div>
-    </SectionShell>
+    </section>
   );
 }
 
@@ -173,58 +165,39 @@ export function WhatIsSection() {
   const img = content.gallery?.[0]?.image?.trim() || content.hero.backgroundImage || "/hero-background.svg";
   const { v2 } = useV2Content();
   const w = v2.home.whatIs;
-  const style = useSectionStyle("home.whatIs");
 
   return (
-    <SectionShell id="home.whatIs" className="relative px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
+    <section id="experience" className="relative px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
       <LumiGridBg className="opacity-40" />
       <div className="relative mx-auto max-w-[1400px]">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[460px]">
-            <div className="ju-section-card absolute inset-0 overflow-hidden border border-white/10">
+            <div className="absolute inset-0 overflow-hidden border border-white/10">
               <Image src={img} alt="" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={/^https?:\/\//.test(img)} />
               <div className="absolute inset-0 bg-gradient-to-tr from-[#030308]/85 via-transparent to-[#7B2CFF]/15" />
             </div>
           </div>
-          <SectionCard className="!p-5 sm:!p-8 lg:!p-10">
-            <SectionLabelText>{t(w.sectionLabel, locale)}</SectionLabelText>
-            <SectionTitleText className="mt-3 font-display text-2xl font-extrabold uppercase sm:text-3xl lg:text-4xl">
-              {t(w.title, locale)}
-            </SectionTitleText>
-            <SectionBodyText className="mt-4 text-sm leading-relaxed">
-              {t(w.body, locale)}
-            </SectionBodyText>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {w.features.map((f, i) => {
-                const itemStyle = style.items?.[String(i)];
-                return (
-                  <SectionItemShell key={i} itemStyle={itemStyle} className="rounded-lg border border-white/5 p-3">
-                    <div className="flex gap-2">
-                      <SectionCardIcon>
-                        <SectionItemIcon itemStyle={itemStyle} contentIcon={f.icon} size="size-4" />
-                      </SectionCardIcon>
-                      <div>
-                        <SectionCardTitle className="!normal-case !tracking-wide">
-                          {t(f.title, locale)}
-                        </SectionCardTitle>
-                        {f.sub ? (
-                          <SectionCardText className="mt-1 !normal-case !text-xs leading-relaxed">
-                            {t(f.sub, locale)}
-                          </SectionCardText>
-                        ) : null}
-                      </div>
-                    </div>
-                  </SectionItemShell>
-                );
-              })}
-            </ul>
-            <SectionGhostBtn href="/faq" config={style.primaryButton} className="mt-8 !text-[10px]">
-              {t(w.cta, locale)}
-            </SectionGhostBtn>
-          </SectionCard>
+          <div>
+            <BentoCard accent="cyan" className="!p-5 sm:!p-8 lg:!p-10">
+              <SectionLabel>{t(w.sectionLabel, locale)}</SectionLabel>
+              <DisplayTitle className="mt-3 !text-2xl sm:!text-3xl lg:!text-4xl">{t(w.title, locale)}</DisplayTitle>
+              <p className="mt-4 text-sm leading-relaxed text-white/55">{t(w.body, locale)}</p>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {w.features.map((f, i) => (
+                  <li key={i} className="text-sm text-white/70">
+                    <p className="font-bold uppercase tracking-wider text-white/85">{t(f.title, locale)}</p>
+                    {f.sub ? (
+                      <p className="mt-1 text-xs leading-relaxed text-white/50 normal-case">{t(f.sub, locale)}</p>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+              <GhostBtn href="/faq" className="mt-8 !text-[10px]">{t(w.cta, locale)}</GhostBtn>
+            </BentoCard>
+          </div>
         </div>
       </div>
-    </SectionShell>
+    </section>
   );
 }
 

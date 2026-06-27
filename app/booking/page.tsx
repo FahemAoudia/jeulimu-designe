@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { NavbarV2 } from "@/components/v2/NavbarV2";
 import { FooterV2 } from "@/components/v2/FooterV2";
+import { PublicDarkTheme } from "@/components/v2/PublicDarkTheme";
 import { BookingEmbed } from "@/components/BookingEmbed";
 import { acuityIframeUrlForTier } from "@/lib/booking-tiers";
 
@@ -18,6 +19,7 @@ export default async function BookingPage({
   const iframeUrl = acuityIframeUrlForTier(sp.tier);
   return (
     <div className="ju-v3-shell">
+      <PublicDarkTheme />
       <NavbarV2 />
       <main
         id="main"

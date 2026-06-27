@@ -20,7 +20,7 @@ export const defaultSiteContent: SiteContent = {
       "Interactive LED Game Floor Experience",
       "Expérience de plancher lumineux LED interactif",
     ),
-    backgroundImage: "/hero-background.svg",
+    backgroundImage: "/hero-background.png",
     backgroundVideo: "",
     badges: [
       L("Physical Activity", "Activité physique"),

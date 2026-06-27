@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { CalendarDays, ChevronDown, Menu, X } from "lucide-react";
 import { NeonButton } from "@/components/NeonButton";
 import { SiteLogoMark } from "@/components/SiteLogoMark";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useLocaleContext, useSiteContext, type Locale } from "@/providers/AppProviders";
 import { ui } from "@/lib/ui-strings";
 
@@ -82,7 +81,6 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <ThemeToggle variant="nav" />
           <div className="relative" ref={langRef}>
             <button
               type="button"
@@ -162,9 +160,6 @@ export function Navbar() {
                 </Link>
               </li>
             ))}
-            <li className="flex justify-center py-2">
-              <ThemeToggle variant="nav" />
-            </li>
             <li className="mt-3 flex flex-col gap-2 border-t border-white/10 pt-4">
               <p className="px-1 text-[10px] font-bold uppercase tracking-wider text-ju-muted">
                 {locale === "fr" ? "Langue" : "Language"}
