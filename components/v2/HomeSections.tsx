@@ -132,22 +132,26 @@ export function GlanceSection() {
   if (!items.length) return null;
 
   return (
-    <SectionShell id="home.glance" className="border-b border-white/10 bg-black/50 px-4 py-8 sm:px-6 lg:px-10">
-      <div className="mx-auto grid max-w-[1400px] gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    <SectionShell id="home.glance" className="border-b border-white/10 bg-black/50 px-3 py-4 sm:px-6 sm:py-8 lg:px-10">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-3 gap-2 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-6">
         {items.map((item, i) => {
           const itemStyle = glanceStyle.items?.[String(i)];
           return (
             <SectionItemShell
               key={i}
               itemStyle={itemStyle}
-              className="border border-white/10 bg-[#0a0a12]/80 px-4 py-5 text-center"
+              className="border border-white/10 bg-[#0a0a12]/80 px-1.5 py-2.5 text-center sm:px-4 sm:py-5"
             >
-              <div className="flex flex-col items-center gap-2">
-                <SectionItemIcon itemStyle={itemStyle} contentIcon={item.icon} size="size-6" />
-                <p className="ju-item-title font-display text-2xl font-bold text-ju-cyanGlow">
+              <div className="flex flex-col items-center gap-1 sm:gap-2">
+                <SectionItemIcon
+                  itemStyle={itemStyle}
+                  contentIcon={item.icon}
+                  size="size-4 sm:size-6"
+                />
+                <p className="ju-item-title font-display text-sm font-bold leading-none text-ju-cyanGlow sm:text-2xl">
                   {t(item.title, locale)}
                 </p>
-                <p className="ju-item-text text-[10px] font-bold uppercase tracking-[0.2em] text-white/55">
+                <p className="ju-item-text text-[7px] font-bold uppercase leading-tight tracking-[0.1em] text-white/55 sm:text-[10px] sm:tracking-[0.2em]">
                   {item.sub ? t(item.sub, locale) : ""}
                 </p>
               </div>
