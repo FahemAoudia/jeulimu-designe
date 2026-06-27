@@ -1339,6 +1339,38 @@ html[data-theme="light"] .glow-magenta-popular {
   color: var(--ju-section-accent, var(--ju-nav-link-active, #00f5ff)) !important;
 }
 
+/* Game modes — image / video with dynamic landscape vs portrait layout */
+.ju-game-mode-media--landscape {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-height: min(52vh, 420px);
+}
+
+.ju-game-mode-media--portrait {
+  aspect-ratio: 9 / 16;
+  width: 100%;
+  max-width: min(100%, 300px);
+  max-height: min(72vh, 540px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ju-game-mode-media--square {
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: min(100%, 380px);
+  max-height: min(50vh, 400px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ju-game-mode-media-grid {
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
 .ju-section-btn-custom.ju-btn-primary,
 .ju-section-btn-custom.ju-btn-ghost {
   filter: none;

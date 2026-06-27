@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { X } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
-
 export default function AdminLoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
@@ -32,10 +30,7 @@ export default function AdminLoginPage() {
 
   return (
     <main className="ju-admin-login flex min-h-screen items-center justify-center bg-gradient-to-br from-[#050A30] via-[#0D0221] to-[#02020F] px-4">
-      <div className="ju-admin-login-card relative w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.04] p-8 pt-11 shadow-[0_0_60px_rgba(255,45,149,0.12)] backdrop-blur-xl">
-        <div className="absolute left-3 top-3 z-10">
-          <ThemeToggle variant="nav" />
-        </div>
+      <div className="ju-admin-login-card relative w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.04] p-8 shadow-[0_0_60px_rgba(255,45,149,0.12)] backdrop-blur-xl">
         <Link
           href="/"
           className="absolute right-3 top-3 flex size-9 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white/85 transition hover:border-ju-electric hover:bg-ju-electric/10 hover:text-ju-cyanGlow"

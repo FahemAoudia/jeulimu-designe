@@ -15,6 +15,7 @@ import {
   SectionPathEditor,
 } from "@/components/admin/AdminFields";
 import { ReviewsAdminSection } from "@/components/admin/ReviewsAdminSection";
+import { GameModesAdminSection } from "@/components/admin/GameModesAdminSection";
 import { AdminImageUpload } from "@/components/AdminImageUpload";
 import { AdminVideoUpload } from "@/components/AdminVideoUpload";
 import { ThemeColorBoxes } from "@/components/admin/ThemeColorBoxes";
@@ -541,10 +542,8 @@ export function AdminDashboard() {
             ) : null}
 
             {tab === "Game Modes" ? (
-              <SectionPathEditor
-                title="Game modes"
-                hint="Names, images, and descriptions — synced with homepage game mode cards."
-                value={content.gameModes}
+              <GameModesAdminSection
+                modes={content.gameModes}
                 onChange={(v) => patch(["gameModes"], v)}
               />
             ) : null}

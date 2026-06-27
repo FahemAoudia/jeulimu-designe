@@ -3,7 +3,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { sectionShellInlineStyle } from "@/lib/section-style-css";
-import { sectionShellInlineStyle } from "@/lib/section-style-css";
 import { useSectionStyle } from "@/hooks/useSectionStyle";
 
 export function SectionShell({

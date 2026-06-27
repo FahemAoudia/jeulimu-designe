@@ -7,6 +7,8 @@ export type GameModeContent = {
   lead: LocalizedString;
   description: LocalizedString;
   image?: string;
+  /** Optional loop video — overrides image on the public site when set */
+  video?: string;
 };
 
 export type PricingTier = {

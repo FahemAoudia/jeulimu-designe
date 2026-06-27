@@ -25,6 +25,7 @@ import {
   SectionTitleText,
 } from "@/components/SectionShell";
 import { SectionItemIcon, SectionItemShell } from "@/lib/section-icons";
+import { GameModeMedia } from "@/components/v2/GameModeMedia";
 import { useSectionStyle } from "@/hooks/useSectionStyle";
 import { useV2Content } from "@/hooks/useV2Content";
 import { cn } from "@/lib/cn";
@@ -298,7 +299,7 @@ export function GameModesSection() {
         <div className="mt-12 space-y-6">
           {(modes ?? []).map((m, i) => {
             const v2m = gm.modes[i];
-            const img = m.image?.trim() || `/images/${m.id === "lumivs" ? "lumivs" : m.id === "lumilogik" ? "lumilogik" : "lumiquest"}.svg`;
+            const fallback = `/images/${m.id === "lumivs" ? "lumivs" : m.id === "lumilogik" ? "lumilogik" : "lumiquest"}.svg`;
             const color = MODE_COLORS[i];
             return (
               <article
@@ -309,9 +310,15 @@ export function GameModesSection() {
                 )}
                 style={{ borderLeftColor: color, borderLeftWidth: 4 }}
               >
-                <div className="relative aspect-[16/9] lg:aspect-auto lg:min-h-[280px]">
-                  <Image src={img} alt="" fill className="object-cover transition duration-700 group-hover:scale-105" sizes="50vw" unoptimized={/^https?:\/\//.test(img)} />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#030308]/80 to-transparent" />
+                <div className="relative flex items-center justify-center bg-black/25 p-4 sm:p-6 lg:min-h-[300px]">
+                  <GameModeMedia
+                    image={m.image}
+                    video={m.video}
+                    alt={pickLocalized(m.name, locale)}
+                    accentColor={color}
+                    fallbackSrc={fallback}
+                    className="w-full"
+                  />
                 </div>
                 <div className="flex flex-col justify-center p-5 sm:p-8 lg:p-12">
                   <p className="font-display text-[10px] uppercase tracking-[0.3em]" style={{ color }}>
