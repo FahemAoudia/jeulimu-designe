@@ -5,6 +5,7 @@ import { AdminCollapse } from "@/components/admin/AdminFields";
 import { AdminImageUpload } from "@/components/AdminImageUpload";
 import { SITE_FONT_OPTIONS } from "@/lib/font-catalog";
 import { withVisibilityFlag } from "@/lib/section-visibility";
+import type { SectionButtonLabelSet } from "@/lib/section-button-labels";
 import type { SectionItemDef } from "@/lib/section-style-registry";
 
 const LUCIDE_OPTIONS = [
@@ -68,20 +69,27 @@ function ColorField({
 }
 
 function ButtonStyleFields({
-  label,
+  caption,
+  placement,
   value,
   onChange,
 }: {
-  label: string;
+  caption: string;
+  placement?: string;
   value?: SectionStyle["primaryButton"];
   onChange: (v: SectionStyle["primaryButton"]) => void;
 }) {
   const b = value ?? {};
   return (
     <div className="rounded-lg border border-white/10 bg-black/25 p-3">
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-white">{label}</span>
-        <label className="flex items-center gap-2 text-xs text-ju-soft">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <span className="text-sm font-semibold text-white">{caption}</span>
+          {placement ? (
+            <p className="mt-1 text-[11px] leading-relaxed text-ju-muted">{placement}</p>
+          ) : null}
+        </div>
+        <label className="flex shrink-0 items-center gap-2 text-xs text-ju-soft">
           <input
             type="checkbox"
             checked={b.visible !== false}
@@ -189,6 +197,7 @@ function ItemStyleEditor({
 }
 
 export function SectionStyleEditor({
+  sectionId,
   title,
   hint,
   value,
@@ -199,7 +208,9 @@ export function SectionStyleEditor({
   showLabelTitleBody,
   items,
   singleButton,
+  buttonLabels,
 }: {
+  sectionId?: string;
   title: string;
   hint?: string;
   value: SectionStyle;
@@ -210,6 +221,7 @@ export function SectionStyleEditor({
   showLabelTitleBody?: boolean;
   items?: SectionItemDef[];
   singleButton?: boolean;
+  buttonLabels?: SectionButtonLabelSet;
 }) {
   const v = value ?? {};
 
@@ -365,14 +377,22 @@ export function SectionStyleEditor({
 
         {showButtons ? (
           <div className="space-y-3 border-t border-white/10 pt-4">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-ju-yellow">
+              Buttons on the live site
+            </p>
             <ButtonStyleFields
-              label="Primary button"
+              caption={buttonLabels?.primary?.caption ?? "Primary button"}
+              placement={
+                buttonLabels?.primary?.placement ??
+                (sectionId ? `Section: ${sectionId}` : undefined)
+              }
               value={v.primaryButton}
               onChange={(b) => onChange({ ...v, primaryButton: b })}
             />
             {showButtons && !singleButton ? (
               <ButtonStyleFields
-                label="Secondary button"
+                caption={buttonLabels?.secondary?.caption ?? "Secondary button"}
+                placement={buttonLabels?.secondary?.placement}
                 value={v.secondaryButton}
                 onChange={(b) => onChange({ ...v, secondaryButton: b })}
               />

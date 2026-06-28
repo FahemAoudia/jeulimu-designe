@@ -22,6 +22,7 @@ import { AdminVideoUpload } from "@/components/AdminVideoUpload";
 import { ThemeColorBoxes } from "@/components/admin/ThemeColorBoxes";
 import { SectionStyleEditor } from "@/components/admin/SectionStyleEditor";
 import { SECTION_PAGES, SECTION_STYLE_REGISTRY, sectionItemDefs } from "@/lib/section-style-registry";
+import { sectionButtonLabels } from "@/lib/section-button-labels";
 import { SiteLogoMark } from "@/components/SiteLogoMark";
 
 const TABS = [
@@ -314,6 +315,7 @@ export function AdminDashboard() {
                       {SECTION_STYLE_REGISTRY.filter((s) => s.page === page).map((entry) => (
                         <SectionStyleEditor
                           key={entry.id}
+                          sectionId={entry.id}
                           title={entry.title}
                           hint={entry.hint}
                           showCards={entry.showCards}
@@ -321,6 +323,7 @@ export function AdminDashboard() {
                           showHeroLines={entry.showHeroLines}
                           showLabelTitleBody={entry.showLabelTitleBody}
                           singleButton={entry.singleButton}
+                          buttonLabels={sectionButtonLabels(entry.id, v2)}
                           items={sectionItemDefs(entry, v2)}
                           value={content.sectionStyles?.[entry.id] ?? {}}
                           onChange={(v) =>
