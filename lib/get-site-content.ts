@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { del, head, put } from "@vercel/blob";
+import { get, put } from "@vercel/blob";
 import { defaultSiteContent } from "@/lib/site-defaults";
 import {
   blobTokenMissingMessage,
@@ -43,27 +43,23 @@ async function readSiteContentFromBlob(): Promise<unknown | null> {
   const token = blobToken();
   if (!token) return null;
   try {
-    const meta = await head(BLOB_PATHNAME, { token });
-    const res = await fetch(meta.url, { cache: "no-store" });
-    if (!res.ok) return null;
-    return JSON.parse(await res.text()) as unknown;
+    const result = await get(BLOB_PATHNAME, { access: "public", token });
+    if (!result?.stream) return null;
+    const text = await new Response(result.stream).text();
+    return JSON.parse(text) as unknown;
   } catch {
     return null;
   }
 }
 
 async function writeSiteContentToBlob(content: SiteContent, token: string): Promise<void> {
-  try {
-    const existing = await head(BLOB_PATHNAME, { token });
-    await del(existing.url, { token });
-  } catch {
-    /* first save — no existing blob */
-  }
   await put(BLOB_PATHNAME, JSON.stringify(content, null, 2), {
     access: "public",
     token,
     contentType: "application/json",
     addRandomSuffix: false,
+    allowOverwrite: true,
+    cacheControlMaxAge: 60,
   });
 }
 

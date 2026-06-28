@@ -1,3 +1,4 @@
+import type { SiteFontKey } from "@/lib/font-catalog";
 import type { LocalizedString } from "@/types/site-content";
 
 export type SiteTheme = {
@@ -32,9 +33,9 @@ export type SiteTheme = {
   /** Footer icons (phone, map, mail). */
   footerIconAccent: string;
   /** Site-wide body font stack key */
-  fontBody: "outfit" | "syne" | "system";
+  fontBody: SiteFontKey;
   /** Site-wide heading font stack key */
-  fontHeading: "outfit" | "syne" | "system";
+  fontHeading: SiteFontKey;
   /** Light mode — page background deep */
   lightBgDeep: string;
   /** Light mode — mid background */

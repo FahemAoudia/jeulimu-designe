@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { contactFormFromBody } from "@/lib/contact-form";
 import { sendContactFormEmail } from "@/lib/send-contact-email";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   const body = (await req.json().catch(() => null)) as Record<string, unknown> | null;
   if (!body) {
@@ -18,10 +20,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[contact]", err);
+    const raw = err instanceof Error ? err.message : String(err);
     const message =
-      err instanceof Error && err.message.includes("not configured")
+      raw.includes("not configured")
         ? "Email is not configured"
-        : "Could not send message";
+        : raw.includes("Invalid login") || raw.includes("authentication")
+          ? "Email authentication failed — check SMTP user and app password"
+          : "Could not send message";
     return NextResponse.json({ error: message }, { status: 503 });
   }
 }

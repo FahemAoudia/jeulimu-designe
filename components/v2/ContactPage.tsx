@@ -52,11 +52,13 @@ export function ContactPageContent() {
   const c = content.contact;
   const formStyle = useSectionStyle("contact.form");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     setStatus("sending");
+    setErrorMsg("");
     try {
       await postContactForm({
         firstName: String(fd.get("firstName") ?? ""),
@@ -71,8 +73,9 @@ export function ContactPageContent() {
       });
       setStatus("sent");
       e.currentTarget.reset();
-    } catch {
+    } catch (err) {
       setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Failed to send");
     }
   }
 
@@ -173,9 +176,10 @@ export function ContactPageContent() {
                 ) : null}
                 {status === "error" ? (
                   <p className="text-sm text-red-300">
-                    {locale === "fr"
-                      ? "Impossible d’envoyer le message. Réessayez ou appelez-nous."
-                      : "Could not send your message. Please try again or call us."}
+                    {errorMsg ||
+                      (locale === "fr"
+                        ? "Impossible d’envoyer le message. Réessayez ou appelez-nous."
+                        : "Could not send your message. Please try again or call us.")}
                   </p>
                 ) : null}
               </form>

@@ -1,6 +1,7 @@
 "use client";
 
 import type { SiteTheme } from "@/types/v2-site-content";
+import { SITE_FONT_OPTIONS } from "@/lib/font-catalog";
 import { mergeTheme } from "@/lib/theme-css";
 import { defaultTheme } from "@/lib/v2-content-defaults";
 import { AdminCollapse } from "@/components/admin/AdminFields";
@@ -186,9 +187,9 @@ export function ThemeColorBoxes({
                 onChange({ ...t, fontBody: e.target.value as SiteTheme["fontBody"] })
               }
             >
-              <option value="outfit">Outfit</option>
-              <option value="syne">Syne</option>
-              <option value="system">System</option>
+              {SITE_FONT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
             </select>
           </label>
           <label className="block text-[10px] font-bold uppercase tracking-wider text-ju-soft">
@@ -200,9 +201,9 @@ export function ThemeColorBoxes({
                 onChange({ ...t, fontHeading: e.target.value as SiteTheme["fontHeading"] })
               }
             >
-              <option value="syne">Syne (display)</option>
-              <option value="outfit">Outfit</option>
-              <option value="system">System</option>
+              {SITE_FONT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
             </select>
           </label>
         </div>

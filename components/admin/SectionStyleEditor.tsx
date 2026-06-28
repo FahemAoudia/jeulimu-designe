@@ -3,6 +3,8 @@
 import type { SectionItemStyle, SectionStyle } from "@/types/section-styles";
 import { AdminCollapse } from "@/components/admin/AdminFields";
 import { AdminImageUpload } from "@/components/AdminImageUpload";
+import { SITE_FONT_OPTIONS } from "@/lib/font-catalog";
+import { withVisibilityFlag } from "@/lib/section-visibility";
 import type { SectionItemDef } from "@/lib/section-style-registry";
 
 const LUCIDE_OPTIONS = [
@@ -83,7 +85,7 @@ function ButtonStyleFields({
           <input
             type="checkbox"
             checked={b.visible !== false}
-            onChange={(e) => onChange({ ...b, visible: e.target.checked })}
+            onChange={(e) => onChange(withVisibilityFlag(b, e.target.checked))}
             className="size-3.5 accent-ju-electric"
           />
           Show
@@ -122,7 +124,7 @@ function ItemStyleEditor({
           <input
             type="checkbox"
             checked={item.visible !== false}
-            onChange={(e) => onChange({ ...item, visible: e.target.checked })}
+            onChange={(e) => onChange(withVisibilityFlag(item, e.target.checked))}
             className="size-3.5 accent-ju-electric"
           />
           Show this item
@@ -222,7 +224,7 @@ export function SectionStyleEditor({
           <input
             type="checkbox"
             checked={v.visible !== false}
-            onChange={(e) => onChange({ ...v, visible: e.target.checked })}
+            onChange={(e) => onChange(withVisibilityFlag(v, e.target.checked))}
             className="size-4 accent-ju-electric"
           />
           Section visible on site
@@ -244,17 +246,17 @@ export function SectionStyleEditor({
             <select
               className="mt-1 w-full rounded-lg border border-white/10 bg-black/50 px-2 py-2 text-sm text-white"
               value={v.fontFamily ?? "inherit"}
-              onChange={(e) =>
-                onChange({
-                  ...v,
-                  fontFamily: e.target.value as SectionStyle["fontFamily"],
-                })
-              }
+              onChange={(e) => {
+                const next = { ...v };
+                if (e.target.value === "inherit") delete next.fontFamily;
+                else next.fontFamily = e.target.value as SectionStyle["fontFamily"];
+                onChange(next);
+              }}
             >
               <option value="inherit">Site default</option>
-              <option value="outfit">Outfit (body)</option>
-              <option value="syne">Syne (display)</option>
-              <option value="system">System</option>
+              {SITE_FONT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
             </select>
           </label>
         </div>

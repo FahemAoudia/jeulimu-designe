@@ -5,9 +5,7 @@ import { ArrowRight, Star } from "lucide-react";
 import {
   BentoCard,
   DisplayTitle,
-  GhostBtn,
   LumiGridBg,
-  PrimaryBtn,
   SectionLabel,
 } from "@/components/v3/primitives";
 import { useLocaleContext, useSiteContext } from "@/providers/AppProviders";
@@ -44,6 +42,7 @@ export function HeroV2() {
   const bgImg = rawBg === "/hero-background.svg" ? "/hero-background.png" : rawBg;
   const bgVid = hero.backgroundVideo?.trim();
   const h = v2.home.hero;
+  const heroStyle = useSectionStyle("home.hero");
   const lines = t(h.headline, locale).split(". ").filter(Boolean);
 
   return (
@@ -74,8 +73,12 @@ export function HeroV2() {
             <p className="mt-6 max-w-lg text-base text-white/60 sm:text-lg">{t(h.support, locale)}</p>
 
             <div className="mt-8 hidden flex-wrap gap-4 lg:flex">
-              <PrimaryBtn href="/birthdays">{t(h.ctaBirthdays, locale)}</PrimaryBtn>
-              <GhostBtn href="/groups-events">{t(h.ctaGroups, locale)}</GhostBtn>
+              <SectionPrimaryBtn href="/birthdays" config={heroStyle.primaryButton}>
+                {t(h.ctaBirthdays, locale)}
+              </SectionPrimaryBtn>
+              <SectionGhostBtn href="/groups-events" config={heroStyle.secondaryButton}>
+                {t(h.ctaGroups, locale)}
+              </SectionGhostBtn>
             </div>
           </div>
           <div className="hidden flex-col items-center gap-4 lg:col-span-5 lg:flex">
@@ -174,9 +177,10 @@ export function WhatIsSection() {
   const vid = item?.video?.trim() || "";
   const { v2 } = useV2Content();
   const w = v2.home.whatIs;
+  const style = useSectionStyle("home.whatIs");
 
   return (
-    <section id="experience" className="relative px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
+    <SectionShell id="home.whatIs" className="relative px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-28">
       <LumiGridBg className="opacity-40" />
       <div className="relative mx-auto max-w-[1400px]">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10">
@@ -200,12 +204,14 @@ export function WhatIsSection() {
                   </li>
                 ))}
               </ul>
-              <GhostBtn href="/faq" className="mt-6 !text-[10px]">{t(w.cta, locale)}</GhostBtn>
+              <SectionGhostBtn href="/faq" config={style.primaryButton} className="mt-6 !text-[10px]">
+                {t(w.cta, locale)}
+              </SectionGhostBtn>
             </BentoCard>
           </div>
         </div>
       </div>
-    </section>
+    </SectionShell>
   );
 }
 

@@ -1,4 +1,7 @@
-/** Per-section visual overrides (colors, fonts, buttons) — edited in Admin → Page styles. */
+import type { SiteFontKey } from "@/lib/font-catalog";
+
+export type SectionFontKey = SiteFontKey | "inherit";
+
 export type SectionButtonStyle = {
   visible?: boolean;
   background?: string;
@@ -12,7 +15,7 @@ export type SectionItemStyle = {
   textColor?: string;
   iconColor?: string;
   borderColor?: string;
-  fontFamily?: "inherit" | "outfit" | "syne" | "system";
+  fontFamily?: SectionFontKey;
   /** Emoji override (e.g. 🏃) */
   iconEmoji?: string;
   /** Lucide key (run, coop, gamepad, users, …) */
@@ -26,7 +29,7 @@ export type SectionStyle = {
   visible?: boolean;
   background?: string;
   borderColor?: string;
-  fontFamily?: "inherit" | "outfit" | "syne" | "system";
+  fontFamily?: SectionFontKey;
   /** Generic heading (fallback) */
   headingColor?: string;
   /** Hero line 1 e.g. STEP IN */

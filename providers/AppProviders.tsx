@@ -72,9 +72,10 @@ export function AppProviders({
     });
     if (res.ok) {
       try {
-        const fresh = (await fetch("/api/site", { cache: "no-store" }).then((r) =>
-          r.json(),
-        )) as SiteContent;
+        const fresh = (await fetch("/api/site", {
+          cache: "no-store",
+          credentials: "include",
+        }).then((r) => r.json())) as SiteContent;
         setContent(fresh);
       } catch {
         setContent(payload);

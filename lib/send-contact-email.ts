@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import type { ContactFormPayload } from "@/lib/contact-form";
+import { readEnv, readEnvBool } from "@/lib/env-smtp";
 
 type SmtpConfig = {
   host: string;
@@ -10,14 +11,13 @@ type SmtpConfig = {
 };
 
 export function getSmtpConfig(): SmtpConfig | null {
-  const host = process.env.SMTP_HOST?.trim();
-  const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS?.trim();
+  const host = readEnv("SMTP_HOST");
+  const user = readEnv("SMTP_USER");
+  const pass = readEnv("SMTP_PASS");
   if (!host || !user || !pass) return null;
 
-  const port = Number(process.env.SMTP_PORT ?? 587);
-  const secure =
-    process.env.SMTP_SECURE === "true" || process.env.SMTP_SECURE === "1";
+  const port = Number(readEnv("SMTP_PORT") ?? 587);
+  const secure = readEnvBool("SMTP_SECURE", false);
 
   return { host, port, secure, user, pass };
 }
@@ -37,15 +37,26 @@ export async function sendContactFormEmail(payload: ContactFormPayload) {
   }
 
   const to =
-    process.env.CONTACT_FORM_TO?.trim() ||
-    process.env.CONTACT_TO_EMAIL?.trim() ||
+    readEnv("CONTACT_FORM_TO") ||
+    readEnv("CONTACT_TO_EMAIL") ||
     smtp.user;
+
   const transporter = nodemailer.createTransport({
     host: smtp.host,
     port: smtp.port,
     secure: smtp.secure,
+    requireTLS: !smtp.secure && smtp.port === 587,
     auth: { user: smtp.user, pass: smtp.pass },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
   });
+
+  try {
+    await transporter.verify();
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : String(err);
+    throw new Error(`SMTP connection failed: ${detail}`);
+  }
 
   const name = `${payload.firstName} ${payload.lastName}`;
   const subject = `jeuLumi contact — ${name}`;

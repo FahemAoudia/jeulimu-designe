@@ -28,6 +28,7 @@ export function GroupsPricingPageContent() {
   const g = v2.groups;
   const heroStyle = useSectionStyle("groups.hero");
   const pricingStyle = useSectionStyle("groups.pricing");
+  const contactCtaStyle = useSectionStyle("groups.contactCta");
 
   const pricingCards = [
     {
@@ -206,7 +207,7 @@ export function GroupsPricingPageContent() {
         <div className="mx-auto max-w-[1400px] border border-white/10 bg-gradient-to-r from-cyan-500/10 to-purple-600/10 px-8 py-14 text-center">
           <DisplayTitle className="!text-2xl">{t(g.contact.title, locale)}</DisplayTitle>
           <p className="mt-2 text-white/50">{t(g.contact.sub, locale)}</p>
-          <SectionPrimaryBtn href="/contact" className="mt-6">
+          <SectionPrimaryBtn href="/contact" config={contactCtaStyle.primaryButton} className="mt-6">
             {t(g.contact.cta, locale)}
           </SectionPrimaryBtn>
         </div>

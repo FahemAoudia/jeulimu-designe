@@ -1,5 +1,6 @@
 import type { SiteTheme } from "@/types/v2-site-content";
 import { defaultTheme } from "@/lib/v2-content-defaults";
+import { normalizeSiteFontKey, siteFontFamilyCss } from "@/lib/font-catalog";
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const h = hex.replace("#", "").trim();
@@ -23,25 +24,11 @@ function rgba(hex: string, alpha: number, fallback: string): string {
 }
 
 function fontStack(key: SiteTheme["fontBody"]): string {
-  switch (key) {
-    case "syne":
-      return "var(--font-syne), system-ui, sans-serif";
-    case "system":
-      return "system-ui, sans-serif";
-    default:
-      return "var(--font-outfit), system-ui, sans-serif";
-  }
+  return siteFontFamilyCss(normalizeSiteFontKey(key));
 }
 
 function headingStack(key: SiteTheme["fontHeading"]): string {
-  switch (key) {
-    case "outfit":
-      return "var(--font-outfit), system-ui, sans-serif";
-    case "system":
-      return "system-ui, sans-serif";
-    default:
-      return "var(--font-syne), system-ui, sans-serif";
-  }
+  return siteFontFamilyCss(normalizeSiteFontKey(key));
 }
 
 export function mergeTheme(theme?: Partial<SiteTheme> | null): SiteTheme {

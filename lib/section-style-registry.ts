@@ -170,6 +170,14 @@ export const SECTION_STYLE_REGISTRY: SectionRegistryEntry[] = [
     showLabelTitleBody: true,
   },
   {
+    id: "groups.contactCta",
+    page: "Groups & Events",
+    title: "Bottom contact CTA",
+    showButtons: true,
+    showLabelTitleBody: true,
+    singleButton: true,
+  },
+  {
     id: "contact.form",
     page: "Contact",
     title: "Contact form",
