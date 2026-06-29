@@ -48,6 +48,19 @@ export function GameModeMedia({
           : undefined,
       };
 
+  const portraitOverlay = (
+    <>
+      <div
+        className="pointer-events-none absolute inset-0 z-[2] rounded-[inherit] shadow-[inset_0_0_20px_rgba(0,0,0,0.2)]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-x-3 top-0 z-[3] h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
+        aria-hidden
+      />
+    </>
+  );
+
   const overlay = (
     <>
       <div
@@ -77,12 +90,12 @@ export function GameModeMedia({
       dims={dims}
       size="compact"
       className={cn(
-        "group/media shadow-[0_0_48px_rgba(0,0,0,0.45)]",
-        isPortrait ? "rounded-2xl" : "rounded-lg",
+        "group/media",
+        isPortrait ? "ju-game-mode-portrait-frame rounded-[1.1rem]" : "shadow-[0_0_48px_rgba(0,0,0,0.45)] rounded-lg",
         className,
       )}
       style={frameStyle}
-      overlay={overlay}
+      overlay={isPortrait ? portraitOverlay : overlay}
     >
       <video
         className={cn(mediaFitVideoClass, "relative z-0 transition duration-700 group-hover/media:scale-[1.01]")}
@@ -101,10 +114,15 @@ export function GameModeMedia({
     <MediaFitFrame
       dims={dims}
       size="compact"
-      className={cn(isPortrait ? "rounded-2xl" : "rounded-lg", className)}
+      className={cn(
+        isPortrait ? "ju-game-mode-portrait-frame rounded-[1.1rem]" : "rounded-lg",
+        className,
+      )}
       style={{ borderColor: borderGlow }}
       overlay={
-        <div className="absolute inset-0 bg-gradient-to-r from-[#030308]/80 to-transparent" aria-hidden />
+        isPortrait ? portraitOverlay : (
+          <div className="absolute inset-0 bg-gradient-to-r from-[#030308]/80 to-transparent" aria-hidden />
+        )
       }
     >
       <Image
@@ -129,7 +147,7 @@ export function GameModeMedia({
 
   if (isPortrait) {
     return (
-      <div className="ju-media-fit-portrait-wrap" style={frameStyle}>
+      <div className="ju-game-mode-portrait-card ju-media-fit-portrait-wrap" style={frameStyle}>
         {frame}
       </div>
     );
