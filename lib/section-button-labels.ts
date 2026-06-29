@@ -72,7 +72,7 @@ export function sectionButtonLabels(sectionId: string, v2: V2SiteContent): Secti
       return {
         primary: {
           caption: caption(home.gameModes.cta),
-          placement: "Game modes — on each mode card (same style for all)",
+          placement: "Game modes — on LumiQuest, LumiVS & LumiLogik cards (same button on all three)",
         },
       };
     case "home.reviews":

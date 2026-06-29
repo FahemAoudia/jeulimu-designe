@@ -77,8 +77,10 @@ export const SECTION_STYLE_REGISTRY: SectionRegistryEntry[] = [
     id: "home.gameModes",
     page: "Home",
     title: "Game modes — LumiQuest / LumiVS / LumiLogik",
+    hint: "Title, cards, and the CTA button on each mode (Show More / Learn More)",
     showLabelTitleBody: true,
     showCards: true,
+    showButtons: true,
   },
   {
     id: "home.experiences",
