@@ -18,7 +18,10 @@ export function mediaOrient(d: MediaDims | null): "landscape" | "portrait" | "sq
   return "square";
 }
 
-/** Wrapper sized to the media's exact aspect ratio — no crop. */
+/**
+ * Video wrapper — frame shrink-wraps the video; video scales with object-contain (never cropped).
+ * Do NOT set aspect-ratio on the box; intrinsic video dimensions define the border.
+ */
 export function MediaFitFrame({
   dims,
   size = "default",
@@ -39,18 +42,16 @@ export function MediaFitFrame({
   return (
     <div
       className={cn(
-        "ju-media-fit relative overflow-hidden border bg-[#060610]",
-        o === "portrait" && "ju-media-fit--portrait mx-auto w-auto",
-        o === "landscape" && "ju-media-fit--landscape w-full",
-        o === "square" && "ju-media-fit--square mx-auto w-auto",
-        size === "compact" && o === "portrait" && "ju-media-fit--compact",
+        "ju-media-fit-intrinsic relative inline-flex max-w-full overflow-hidden border bg-[#060610]",
+        o === "portrait" && "ju-media-fit-intrinsic--portrait mx-auto",
+        o === "landscape" && "ju-media-fit-intrinsic--landscape",
+        o === "square" && "ju-media-fit-intrinsic--square mx-auto",
+        size === "compact" && o === "portrait" && "ju-media-fit-intrinsic--compact",
         className,
       )}
-      style={{
-        ...style,
-        aspectRatio: dims ? `${dims.w} / ${dims.h}` : "16 / 9",
-      }}
+      style={style}
       data-orient={o}
+      data-ready={dims ? "true" : "false"}
     >
       {children}
       {overlay}
@@ -58,4 +59,13 @@ export function MediaFitFrame({
   );
 }
 
-export const mediaFitVideoClass = "absolute inset-0 h-full w-full object-cover";
+/** Intrinsic sizing — full video visible, frame hugs content. */
+export const mediaFitVideoClass =
+  "ju-media-fit-video block h-auto w-auto max-w-full object-contain";
+
+/** Read video dimensions once decoded (metadata alone can be wrong on some encodes). */
+export function readVideoDims(el: HTMLVideoElement): MediaDims | null {
+  const w = el.videoWidth;
+  const h = el.videoHeight;
+  return mediaDimsFromRatio(w, h);
+}

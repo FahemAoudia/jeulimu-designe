@@ -1346,33 +1346,61 @@ html[data-theme="light"] .glow-magenta-popular {
   color: var(--ju-section-accent, var(--ju-nav-link-active, #00f5ff)) !important;
 }
 
-/* Media frame — exact aspect ratio from uploaded file (no crop) */
-.ju-media-fit {
+/* Media frame — intrinsic video/image sizing (no crop) */
+.ju-media-fit-intrinsic {
   max-width: 100%;
+  vertical-align: middle;
 }
 
-.ju-media-fit--landscape {
+.ju-media-fit-intrinsic[data-ready="false"] {
+  min-width: 120px;
+  min-height: 68px;
+}
+
+.ju-media-fit-intrinsic--landscape .ju-media-fit-video {
   max-height: min(52vh, 420px);
 }
 
-.ju-media-fit--portrait {
+.ju-media-fit-intrinsic--portrait .ju-media-fit-video {
   max-width: min(100%, 300px);
   max-height: min(68vh, 440px);
 }
 
-.ju-media-fit--portrait.ju-media-fit--compact {
+.ju-media-fit-intrinsic--portrait.ju-media-fit-intrinsic--compact .ju-media-fit-video {
   max-width: min(100%, 228px);
   max-height: min(58vh, 380px);
 }
 
 @media (min-width: 640px) {
-  .ju-media-fit--portrait.ju-media-fit--compact {
+  .ju-media-fit-intrinsic--portrait.ju-media-fit-intrinsic--compact .ju-media-fit-video {
     max-width: min(100%, 252px);
     max-height: min(62vh, 400px);
   }
 }
 
+.ju-media-fit-intrinsic--square .ju-media-fit-video {
+  max-width: min(100%, 360px);
+  max-height: min(48vh, 360px);
+}
+
+/* Legacy aliases (images) */
+.ju-media-fit {
+  max-width: 100%;
+}
+
+.ju-media-fit--landscape {
+  width: 100%;
+  max-height: min(52vh, 420px);
+}
+
+.ju-media-fit--portrait {
+  width: auto;
+  max-width: min(100%, 300px);
+  max-height: min(68vh, 440px);
+}
+
 .ju-media-fit--square {
+  width: auto;
   max-width: min(100%, 360px);
   max-height: min(48vh, 360px);
 }

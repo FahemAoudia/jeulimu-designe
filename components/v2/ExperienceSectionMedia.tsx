@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useState, type CSSProperties, type SyntheticEvent } from "react";
 import Image from "next/image";
 import {
   MediaFitFrame,
   mediaDimsFromRatio,
   mediaFitVideoClass,
   mediaOrient,
+  readVideoDims,
   type MediaDims,
 } from "@/components/v2/MediaFitFrame";
 
@@ -33,11 +34,16 @@ export function ExperienceSectionMedia({
     ? { ["--portrait-glow" as string]: "#00f5ff" }
     : {};
 
+  function onVideoReady(e: SyntheticEvent<HTMLVideoElement>) {
+    const next = readVideoDims(e.currentTarget);
+    if (next) setDims(next);
+  }
+
   const frame = vid ? (
     <MediaFitFrame
       dims={dims}
       size={isPortrait ? "compact" : "default"}
-      className={isPortrait ? "rounded-2xl border-white/15" : "border-white/10 w-full"}
+      className={isPortrait ? "rounded-2xl border-white/15" : "rounded-lg border-white/10"}
       style={frameStyle}
       overlay={overlay}
     >
@@ -47,12 +53,10 @@ export function ExperienceSectionMedia({
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         poster={imgSrc}
-        onLoadedMetadata={(e) => {
-          const el = e.currentTarget;
-          setDims(mediaDimsFromRatio(el.videoWidth, el.videoHeight));
-        }}
+        onLoadedMetadata={onVideoReady}
+        onLoadedData={onVideoReady}
       >
         <source src={vid} />
       </video>
@@ -61,20 +65,23 @@ export function ExperienceSectionMedia({
     <MediaFitFrame
       dims={dims}
       size={isPortrait ? "compact" : "default"}
-      className={isPortrait ? "rounded-2xl border-white/15" : "border-white/10 w-full"}
+      className={isPortrait ? "rounded-2xl border-white/15" : "rounded-lg border-white/10"}
       style={frameStyle}
       overlay={overlay}
     >
       <Image
         src={imgSrc}
         alt=""
-        fill
-        className="object-cover"
+        width={dims?.w ?? 1200}
+        height={dims?.h ?? 800}
+        className="ju-media-fit-video object-contain"
         sizes="(max-width: 1024px) 100vw, 50vw"
         unoptimized={/^https?:\/\//.test(imgSrc)}
         onLoad={(e) => {
           const img = e.currentTarget;
-          setDims(mediaDimsFromRatio(img.naturalWidth, img.naturalHeight));
+          if (img.naturalWidth && img.naturalHeight) {
+            setDims(mediaDimsFromRatio(img.naturalWidth, img.naturalHeight));
+          }
         }}
       />
     </MediaFitFrame>
