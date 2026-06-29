@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import Image from "next/image";
 import {
   MediaFitFrame,
   mediaDimsFromRatio,
   mediaFitVideoClass,
+  mediaOrient,
   type MediaDims,
 } from "@/components/v2/MediaFitFrame";
 
@@ -19,6 +20,7 @@ export function ExperienceSectionMedia({
   const vid = video?.trim();
   const imgSrc = image?.trim() || "/hero-background.png";
   const [dims, setDims] = useState<MediaDims | null>(null);
+  const isPortrait = mediaOrient(dims) === "portrait";
 
   const overlay = (
     <div
@@ -27,39 +29,47 @@ export function ExperienceSectionMedia({
     />
   );
 
-  if (vid) {
-    return (
-      <MediaFitFrame
-        dims={dims}
-        className="border-white/10"
-        overlay={overlay}
-      >
-        <video
-          className={mediaFitVideoClass}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={imgSrc}
-          onLoadedMetadata={(e) => {
-            const el = e.currentTarget;
-            setDims(mediaDimsFromRatio(el.videoWidth, el.videoHeight));
-          }}
-        >
-          <source src={vid} />
-        </video>
-      </MediaFitFrame>
-    );
-  }
+  const frameStyle: CSSProperties = isPortrait
+    ? { ["--portrait-glow" as string]: "#00f5ff" }
+    : {};
 
-  return (
-    <MediaFitFrame dims={dims} className="border-white/10" overlay={overlay}>
+  const frame = vid ? (
+    <MediaFitFrame
+      dims={dims}
+      size={isPortrait ? "compact" : "default"}
+      className={isPortrait ? "rounded-2xl border-white/15" : "border-white/10 w-full"}
+      style={frameStyle}
+      overlay={overlay}
+    >
+      <video
+        className={mediaFitVideoClass}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={imgSrc}
+        onLoadedMetadata={(e) => {
+          const el = e.currentTarget;
+          setDims(mediaDimsFromRatio(el.videoWidth, el.videoHeight));
+        }}
+      >
+        <source src={vid} />
+      </video>
+    </MediaFitFrame>
+  ) : (
+    <MediaFitFrame
+      dims={dims}
+      size={isPortrait ? "compact" : "default"}
+      className={isPortrait ? "rounded-2xl border-white/15" : "border-white/10 w-full"}
+      style={frameStyle}
+      overlay={overlay}
+    >
       <Image
         src={imgSrc}
         alt=""
         fill
-        className="object-contain"
+        className="object-cover"
         sizes="(max-width: 1024px) 100vw, 50vw"
         unoptimized={/^https?:\/\//.test(imgSrc)}
         onLoad={(e) => {
@@ -69,4 +79,10 @@ export function ExperienceSectionMedia({
       />
     </MediaFitFrame>
   );
+
+  if (isPortrait) {
+    return <div className="ju-media-fit-portrait-wrap">{frame}</div>;
+  }
+
+  return frame;
 }

@@ -297,14 +297,13 @@ export function GameModesSection() {
                 )}
                 style={{ borderLeftColor: color, borderLeftWidth: 4 }}
               >
-                <div className="relative flex items-center justify-center bg-black/25 p-4 sm:p-6 lg:min-h-[300px]">
+                <div className="relative flex items-center justify-center bg-black/25 p-4 sm:p-6 lg:py-10">
                   <GameModeMedia
                     image={m.image}
                     video={m.video}
                     alt={pickLocalized(m.name, locale)}
                     accentColor={color}
                     fallbackSrc={fallback}
-                    className="w-full"
                   />
                 </div>
                 <div className="flex flex-col justify-center p-5 sm:p-8 lg:p-12">

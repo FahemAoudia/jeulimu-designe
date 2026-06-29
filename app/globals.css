@@ -1348,7 +1348,6 @@ html[data-theme="light"] .glow-magenta-popular {
 
 /* Media frame — exact aspect ratio from uploaded file (no crop) */
 .ju-media-fit {
-  width: 100%;
   max-width: 100%;
 }
 
@@ -1357,13 +1356,55 @@ html[data-theme="light"] .glow-magenta-popular {
 }
 
 .ju-media-fit--portrait {
-  max-width: min(100%, 320px);
-  max-height: min(72vh, 540px);
+  max-width: min(100%, 300px);
+  max-height: min(68vh, 440px);
+}
+
+.ju-media-fit--portrait.ju-media-fit--compact {
+  max-width: min(100%, 228px);
+  max-height: min(58vh, 380px);
+}
+
+@media (min-width: 640px) {
+  .ju-media-fit--portrait.ju-media-fit--compact {
+    max-width: min(100%, 252px);
+    max-height: min(62vh, 400px);
+  }
 }
 
 .ju-media-fit--square {
-  max-width: min(100%, 400px);
-  max-height: min(50vh, 400px);
+  max-width: min(100%, 360px);
+  max-height: min(48vh, 360px);
+}
+
+/* Portrait phone-style glow in game mode cards */
+.ju-media-fit-portrait-wrap {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.ju-media-fit-portrait-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 1.25rem;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--portrait-glow, #00f5ff) 28%, transparent),
+    color-mix(in srgb, var(--portrait-glow, #7b2cff) 12%, transparent)
+  );
+  opacity: 0.55;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.ju-media-fit-portrait-wrap .ju-media-fit--portrait {
+  border-radius: 1rem;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--portrait-glow, #00f5ff) 35%, transparent),
+    0 16px 48px rgba(0, 0, 0, 0.55);
 }
 
 /* Legacy alias — game mode grid overlay */
